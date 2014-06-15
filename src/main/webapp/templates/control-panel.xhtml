@@ -1,0 +1,26 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="main.xhtml">
+		<ui:define name="title">
+			<ui:insert name="subtitle"/> | Control Panel
+		</ui:define>
+		<ui:define name="body">
+			<div class="container">
+				<h1>Control Panel - <ui:insert name="subtitle"/></h1>
+				<div class="row">
+					<div class="col-md-4">
+						<ul class="list-group">
+							<h:link value="${msg.pages}" outcome="/pages/admin/pages" styleClass="list-group-item"/>
+						</ul>
+					</div>
+					<div class="col-md-8">
+						<ui:insert name="main-content"/>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>
