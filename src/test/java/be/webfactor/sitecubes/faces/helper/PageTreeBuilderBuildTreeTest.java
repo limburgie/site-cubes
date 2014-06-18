@@ -47,7 +47,7 @@ public class PageTreeBuilderBuildTreeTest {
 
 	@Test
 	public void rootIsEmptyAndHasParentNull() {
-		TreeNode root = pageTreeBuilder.buildTree(pages);
+		TreeNode root = pageTreeBuilder.buildTree(pages, null);
 
 		assertEquals("Root", root.getData());
 		assertNull(root.getParent());
@@ -55,7 +55,7 @@ public class PageTreeBuilderBuildTreeTest {
 
 	@Test
 	public void rootHasTwoNodesWhichHaveRootAsParent() {
-		TreeNode root = pageTreeBuilder.buildTree(pages);
+		TreeNode root = pageTreeBuilder.buildTree(pages, null);
 
 		assertEquals(2, root.getChildCount());
 
@@ -70,7 +70,7 @@ public class PageTreeBuilderBuildTreeTest {
 
 	@Test
 	public void firstNodeHasOneChild() {
-		TreeNode root = pageTreeBuilder.buildTree(pages);
+		TreeNode root = pageTreeBuilder.buildTree(pages, null);
 		TreeNode parentNode = root.getChildren().get(0);
 
 		assertEquals(1, parentNode.getChildCount());
@@ -82,7 +82,7 @@ public class PageTreeBuilderBuildTreeTest {
 
 	@Test
 	public void allNodesAreExpanded() {
-		TreeNode root = pageTreeBuilder.buildTree(pages);
+		TreeNode root = pageTreeBuilder.buildTree(pages, null);
 
 		assertTrue(root.isExpanded());
 		assertTrue(root.getChildren().get(0).isExpanded());

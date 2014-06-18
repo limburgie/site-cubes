@@ -10,17 +10,20 @@ import java.util.List;
 @Named
 public class PageTreeBuilder {
 
-	public TreeNode buildTree(List<Page> pages) {
+	public TreeNode buildTree(List<Page> pages, Page active) {
 		TreeNode root = new DefaultTreeNode("Root", null);
-		buildSubtree(pages, root);
+		buildSubtree(pages, root, active);
 		return root;
 	}
 
-	private void buildSubtree(List<Page> pages, TreeNode parent) {
+	private void buildSubtree(List<Page> pages, TreeNode parent, Page active) {
 		parent.setExpanded(true);
 		for (Page page : pages) {
 			TreeNode child = new DefaultTreeNode(page, parent);
-			buildSubtree(page.getChildren(), child);
+			if (page.equals(active)) {
+				child.setSelected(true);
+			}
+			buildSubtree(page.getChildren(), child, active);
 		}
 	}
 

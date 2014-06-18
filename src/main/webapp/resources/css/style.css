@@ -8,6 +8,7 @@
 
 .ui-tree.ui-widget-content {
 	border: 0;
+	width: auto;
 }
 
 .btn-group .btn+.btn,

@@ -30,8 +30,7 @@ public class PagesBean implements Serializable {
 	@PostConstruct
 	public void initTree() {
 		List<Page> rootPages = pageService.getPages();
-		root = pageTreeBuilder.buildTree(rootPages);
-		page = null;
+		root = pageTreeBuilder.buildTree(rootPages, page);
 	}
 
 	public void initRootPage() {
@@ -62,6 +61,7 @@ public class PagesBean implements Serializable {
 	public void delete() {
 		pageService.delete(page);
 		initTree();
+		page = null;
 		facesUtil.info("page-deleted-successfully");
 	}
 
