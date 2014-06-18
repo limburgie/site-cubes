@@ -9,3 +9,8 @@
 .ui-tree.ui-widget-content {
 	border: 0;
 }
+
+.btn-group .btn+.btn, .btn-group .btn+.btn-group, .btn-group .btn-group+.btn, .btn-group .btn-group+.btn-group {
+	margin-left: -2px;
+	margin-right: 1px;
+}
