@@ -13,7 +13,7 @@ public class Page {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "friendly_url", nullable = false)
+	@Column(name = "friendly_url", nullable = false, unique = true)
 	private String friendlyUrl;
 
 	@ManyToOne(fetch = FetchType.EAGER)

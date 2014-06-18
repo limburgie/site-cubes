@@ -12,4 +12,7 @@
 			<var>msg</var>
 		</resource-bundle>
 	</application>
+	<factory>
+		<exception-handler-factory>be.webfactor.sitecubes.faces.helper.exception.ExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 </faces-config>

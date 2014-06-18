@@ -12,4 +12,6 @@ public interface PageService {
 
 	void delete(Page page);
 
+	Page getPageById(long id);
+
 }

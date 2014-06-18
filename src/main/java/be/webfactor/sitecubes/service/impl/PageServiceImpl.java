@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.repository.PageRepository;
 import be.webfactor.sitecubes.service.PageService;
+import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -21,6 +22,10 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public Page save(Page page) {
+		Page friendlyUrlPage = getPageByFriendlyUrl(page.getFriendlyUrl());
+		if (friendlyUrlPage != null && !friendlyUrlPage.equals(page)) {
+			throw new DuplicateFriendlyUrlException();
+		}
 		return pageRepository.save(page);
 	}
 
@@ -32,6 +37,14 @@ public class PageServiceImpl implements PageService, Serializable {
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
+	}
+
+	public Page getPageById(long id) {
+		return pageRepository.findOne(id);
+	}
+
+	public Page getPageByFriendlyUrl(String friendlyUrl) {
+		return pageRepository.findByFriendlyUrl(friendlyUrl);
 	}
 
 }

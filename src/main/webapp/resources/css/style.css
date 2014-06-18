@@ -10,7 +10,27 @@
 	border: 0;
 }
 
-.btn-group .btn+.btn, .btn-group .btn+.btn-group, .btn-group .btn-group+.btn, .btn-group .btn-group+.btn-group {
+.btn-group .btn+.btn,
+.btn-group .btn+.btn-group,
+.btn-group .btn-group+.btn,
+.btn-group .btn-group+.btn-group {
 	margin-left: -2px;
 	margin-right: 1px;
+}
+
+/* UI Messages */
+
+div.ui-messages ul {
+	margin: 0 5px;
+}
+
+.ui-messages .ui-messages-error-icon,
+.ui-messages .ui-messages-info-icon {
+	display: none;
+}
+
+.ui-messages .ui-messages-error-summary,
+.ui-messages .ui-messages-info-summary {
+	font-weight: normal;
+	margin: 0;
 }

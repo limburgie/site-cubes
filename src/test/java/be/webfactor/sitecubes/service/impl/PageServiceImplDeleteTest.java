@@ -2,6 +2,7 @@ package be.webfactor.sitecubes.service.impl;
 
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.service.PageService;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,8 +66,13 @@ public class PageServiceImplDeleteTest extends ServiceTestCase {
 		assertEquals(1, pages.size());
 		assertEquals("Home", pages.get(0).getName());
 		assertTrue(pages.get(0).getChildren().isEmpty());
+	}
 
-		pageService.delete(pages.get(0));
+	@After
+	public void tearDown() {
+		for (Page page : pageService.getPages()) {
+			pageService.delete(page);
+		}
 	}
 
 }
