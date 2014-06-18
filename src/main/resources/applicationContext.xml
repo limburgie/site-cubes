@@ -10,4 +10,38 @@
 		http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/data/jpa  http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+
+	<context:component-scan base-package="be.webfactor.sitecubes" />
+
+	<jpa:repositories base-package="be.webfactor.sitecubes.repository" />
+
+	<tx:annotation-driven />
+
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/sitecubes" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="pum" />
+		<property name="packagesToScan" value="be.webfactor.sitecubes.domain"/>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
+					</bean>
+		</property>
+	</bean>
+
+	<bean id="pum" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="view">
+					<bean class="be.webfactor.sitecubes.faces.helper.ViewScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>
 </beans>

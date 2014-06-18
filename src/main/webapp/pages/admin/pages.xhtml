@@ -4,9 +4,52 @@
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="../../templates/control-panel.xhtml">
-		<ui:define name="subtitle">Pages</ui:define>
+		<ui:define name="subtitle">#{msg.pages}</ui:define>
 		<ui:define name="main-content">
-			Page Management!
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-root-page']}" action="#{pagesBean.initRootPage}" update=":detail-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg['add-child-page']}" action="#{pagesBean.initChildPage}" update=":detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page}"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pagesBean.delete}" update=":tree-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page}"/>
+				</div>
+			</h:form>
+			<div class="row">
+				<div class="col-md-4">
+					<h:form id="tree-form">
+						<h3>#{msg['page-tree']}</h3>
+						<p:tree value="#{pagesBean.root}" var="page" selectionMode="single">
+							<p:ajax event="select" listener="#{pagesBean.onNodeSelect}" update=":detail-form :button-form"/>
+							<p:treeNode>
+								<h:outputText value="#{page.name}"/>
+							</p:treeNode>
+						</p:tree>
+					</h:form>
+				</div>
+				<div class="col-md-8">
+					<h:form id="detail-form">
+						<h:panelGroup layout="block" rendered="#{!empty pagesBean.page}">
+							<h3>
+								<h:outputText value="#{msg['edit-page']}" rendered="#{!empty pagesBean.page.id}"/>
+								<h:outputText value="#{msg['new-page']}" rendered="#{empty pagesBean.page.id}"/>
+							</h3>
+							<div class="form-group">
+								<p:focus for="name"/>
+								<p:outputLabel for="name" value="#{msg['name']}"/>
+								<p:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control"/>
+							</div>
+							<div class="form-group">
+								<p:outputLabel for="friendly-url" value="#{msg['friendly-url']}"/>
+								<div class="input-group">
+									<span class="input-group-addon">/</span>
+									<p:inputText id="friendly-url" value="#{pagesBean.page.friendlyUrl}" styleClass="form-control"/>
+								</div>
+							</div>
+							<p:commandButton value="#{msg.save}" action="#{pagesBean.save}" update="@form :tree-form" styleClass="btn btn-primary"/>
+						</h:panelGroup>
+					</h:form>
+				</div>
+			</div>
 		</ui:define>
 	</ui:composition>
 </f:view>

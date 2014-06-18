@@ -1,0 +1,11 @@
+.ui-widget {
+	font-size: 1em;
+}
+
+.ui-tree .ui-icon.ui-tree-toggler {
+	vertical-align: middle;
+}
+
+.ui-tree.ui-widget-content {
+	border: 0;
+}
