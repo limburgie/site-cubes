@@ -7,7 +7,7 @@ import org.primefaces.context.RequestContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ResourceBundle;
 
 @Named
@@ -28,6 +28,10 @@ public class FacesUtil {
 		LOGGER.error(t);
 	}
 
+	public String getParam(String key) {
+		return ((HttpServletRequest) fc().getExternalContext().getRequest()).getParameter(key);
+	}
+
 	private void msg(FacesMessage.Severity severity, String key) {
 		fc().addMessage(null, new FacesMessage(severity, translate(key), null));
 	}
@@ -36,10 +40,6 @@ public class FacesUtil {
 		String baseName = fc().getApplication().getMessageBundle();
 		ResourceBundle rb = ResourceBundle.getBundle(baseName);
 		return rb.getString(key);
-	}
-
-	private Locale getLocale() {
-		return fc().getViewRoot().getLocale();
 	}
 
 	private FacesContext fc() {

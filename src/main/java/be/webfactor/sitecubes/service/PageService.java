@@ -14,4 +14,6 @@ public interface PageService {
 
 	Page getPageById(long id);
 
+	Page getPageByFriendlyUrl(String friendlyUrl);
+
 }
