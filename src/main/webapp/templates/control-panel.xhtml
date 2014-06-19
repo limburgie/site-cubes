@@ -13,7 +13,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						<ul class="list-group">
-							<h:link value="${msg.pages}" outcome="/pages/admin/pages" styleClass="list-group-item"/>
+							<h:link value="#{msg.pages}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
 						</ul>
 					</div>
 					<div class="col-md-8">
