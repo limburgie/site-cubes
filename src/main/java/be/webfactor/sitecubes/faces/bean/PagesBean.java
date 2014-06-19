@@ -5,7 +5,6 @@ import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.helper.PageTreeBuilder;
 import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.context.annotation.Scope;
@@ -53,7 +52,7 @@ public class PagesBean implements Serializable {
 			initTree();
 			facesUtil.info("page-saved-successfully");
 		} catch(DuplicateFriendlyUrlException e) {
-			RequestContext.getCurrentInstance().execute("jQuery(\".page-friendly-url-field\").addClass(\"has-error\")");
+			facesUtil.addErrorStyling(e.getFieldWrapperClass());
 			throw e;
 		}
 	}
@@ -63,10 +62,6 @@ public class PagesBean implements Serializable {
 		initTree();
 		page = null;
 		facesUtil.info("page-deleted-successfully");
-	}
-
-	public boolean isDetail() {
-		return page != null;
 	}
 
 	public TreeNode getRoot() {

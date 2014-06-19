@@ -1,8 +1,8 @@
 package be.webfactor.sitecubes.faces.helper;
 
-import be.webfactor.sitecubes.service.exception.MessagedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.context.RequestContext;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -23,6 +23,11 @@ public class FacesUtil {
 		msg(FacesMessage.SEVERITY_ERROR, key);
 	}
 
+	public void error(String key, Throwable t) {
+		error(key);
+		LOGGER.error(t);
+	}
+
 	private void msg(FacesMessage.Severity severity, String key) {
 		fc().addMessage(null, new FacesMessage(severity, translate(key), null));
 	}
@@ -41,13 +46,17 @@ public class FacesUtil {
 		return FacesContext.getCurrentInstance();
 	}
 
+	public void addErrorStyling(String className) {
+		js("jQuery(\"." + className + "\").addClass(\"has-error\")");
+	}
+
+	public void js(String script) {
+		RequestContext.getCurrentInstance().execute(script);
+	}
+
 	public void unexpectedError(Throwable t) {
 		error("unexpected-error");
 		LOGGER.error(t);
-	}
-
-	public void recoverableError(MessagedException e) {
-		error(e.getResourceKey());
 	}
 
 }

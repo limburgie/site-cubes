@@ -30,8 +30,8 @@ public class FacesExceptionHandler {
 
 	private void handleException(Throwable actual) {
 		if (actual instanceof MessagedException) {
-			MessagedException exception = (MessagedException) actual;
-			facesUtil.recoverableError(exception);
+			MessagedException e = (MessagedException) actual;
+			facesUtil.error(e.getResourceKey(), e);
 		} else {
 			facesUtil.unexpectedError(actual);
 		}

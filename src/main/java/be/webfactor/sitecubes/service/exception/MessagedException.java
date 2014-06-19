@@ -11,4 +11,5 @@ public abstract class MessagedException extends RuntimeException {
 	public String getResourceKey() {
 		return resourceKey;
 	}
+
 }
