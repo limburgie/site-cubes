@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
+import be.webfactor.sitecubes.service.exception.InvalidFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
 import org.junit.After;
 import org.junit.Before;
@@ -55,6 +56,23 @@ public class PageServiceImplSaveTest extends ServiceTestCase {
 	public void pageWithEmptyNameThrowsInvalidPageNameException() {
 		Page page = new Page();
 		page.setFriendlyUrl("home");
+
+		pageService.save(page);
+	}
+
+	@Test(expected = InvalidFriendlyUrlException.class)
+	public void pageWithEmptyFriendlyUrlThrowsInvalidFriendlyUrlException() {
+		Page page = new Page();
+		page.setName("Home");
+
+		pageService.save(page);
+	}
+
+	@Test(expected = InvalidFriendlyUrlException.class)
+	public void pageWithInvalidFriendlyUrlThrowsInvalidFriendlyUrlException() {
+		Page page = new Page();
+		page.setName("Home");
+		page.setFriendlyUrl("/%asd");
 
 		pageService.save(page);
 	}

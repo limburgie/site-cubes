@@ -54,9 +54,14 @@ public class PagesBean implements Serializable {
 
 	public void delete() {
 		pageService.delete(page);
-		initTree();
 		page = null;
+		initTree();
 		facesUtil.info("page-deleted-successfully");
+	}
+
+	public void cancel() {
+		page = null;
+		initTree();
 	}
 
 	public TreeNode getRoot() {

@@ -9,9 +9,9 @@
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
 				<div class="btn-group">
-					<p:commandButton value="#{msg['add-root-page']}" action="#{pagesBean.initRootPage}" update=":detail-form" styleClass="btn btn-default"/>
-					<p:commandButton value="#{msg['add-child-page']}" action="#{pagesBean.initChildPage}" update=":detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page}"/>
-					<p:commandButton value="#{msg['delete']}" action="#{pagesBean.delete}" update=":tree-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page}"/>
+					<p:commandButton value="#{msg['add-root-page']}" action="#{pagesBean.initRootPage}" update="@form :detail-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg['add-child-page']}" action="#{pagesBean.initChildPage}" update="@form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page.id}"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pagesBean.delete}" update="@form :tree-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page.id}"/>
 				</div>
 			</h:form>
 			<div class="row">
@@ -45,6 +45,7 @@
 								</div>
 							</div>
 							<p:commandButton value="#{msg.save}" action="#{pagesBean.save}" update="@form :button-form :tree-form" styleClass="btn btn-primary"/>
+							<p:commandButton value="#{msg.cancel}" action="#{pagesBean.cancel}" update="@form :button-form :tree-form" styleClass="btn btn-default"/>
 						</h:panelGroup>
 					</h:form>
 				</div>
