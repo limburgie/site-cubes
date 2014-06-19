@@ -4,7 +4,6 @@ import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.helper.PageTreeBuilder;
 import be.webfactor.sitecubes.service.PageService;
-import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.context.annotation.Scope;
@@ -43,18 +42,14 @@ public class PagesBean implements Serializable {
 	}
 
 	public void onNodeSelect(NodeSelectEvent event) {
-		page = (Page) event.getTreeNode().getData();
+		long selectedPageId = ((Page) event.getTreeNode().getData()).getId();
+		page = pageService.getPageById(selectedPageId);
 	}
 
 	public void save() {
-		try {
-			pageService.save(page);
-			initTree();
-			facesUtil.info("page-saved-successfully");
-		} catch(DuplicateFriendlyUrlException e) {
-			facesUtil.addErrorStyling(e.getFieldWrapperClass());
-			throw e;
-		}
+		pageService.save(page);
+		initTree();
+		facesUtil.info("page-saved-successfully");
 	}
 
 	public void delete() {

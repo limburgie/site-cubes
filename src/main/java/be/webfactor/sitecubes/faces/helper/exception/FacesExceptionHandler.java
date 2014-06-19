@@ -1,6 +1,7 @@
 package be.webfactor.sitecubes.faces.helper.exception;
 
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
+import be.webfactor.sitecubes.service.exception.FieldValidationException;
 import be.webfactor.sitecubes.service.exception.MessagedException;
 
 import javax.faces.FacesException;
@@ -32,6 +33,10 @@ public class FacesExceptionHandler {
 		if (actual instanceof MessagedException) {
 			MessagedException e = (MessagedException) actual;
 			facesUtil.error(e.getResourceKey(), e);
+			if (actual instanceof FieldValidationException) {
+				FieldValidationException fve = (FieldValidationException) actual;
+				facesUtil.addErrorStyling(fve.getFieldWrapperClass());
+			}
 		} else {
 			facesUtil.unexpectedError(actual);
 		}
