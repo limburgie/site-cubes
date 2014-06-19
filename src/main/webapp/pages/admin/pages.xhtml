@@ -35,7 +35,9 @@
 							</h3>
 							<div class="form-group page-name-field">
 								<p:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
-								<p:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control" maxlength="255"/>
+								<p:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control" maxlength="255">
+									<p:ajax event="keyup" listener="#{pagesBean.updateFriendlyUrl}" update="friendly-url"/>
+								</p:inputText>
 							</div>
 							<div class="form-group page-friendly-url-field">
 								<p:outputLabel for="friendly-url" value="#{msg['friendly-url']}" styleClass="control-label"/>

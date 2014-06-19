@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.bean;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.helper.PageTreeBuilder;
+import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -21,6 +22,7 @@ public class PagesBean implements Serializable {
 	@Inject private PageService pageService;
 	@Inject private PageTreeBuilder pageTreeBuilder;
 	@Inject private FacesUtil facesUtil;
+	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
 	private TreeNode root;
 	private Page page;
@@ -62,6 +64,12 @@ public class PagesBean implements Serializable {
 	public void cancel() {
 		page = null;
 		initTree();
+	}
+
+	public void updateFriendlyUrl() {
+		if (page.getId() == null) {
+			page.setFriendlyUrl(friendlyUrlHandler.normalize(page.getName()));
+		}
 	}
 
 	public TreeNode getRoot() {
