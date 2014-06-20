@@ -8,9 +8,10 @@ import org.springframework.context.annotation.Scope;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 @Named @Scope("view")
-public class PageViewBean {
+public class PageViewBean implements Serializable {
 
 	@Inject private PageService pageService;
 	@Inject private FacesUtil facesUtil;

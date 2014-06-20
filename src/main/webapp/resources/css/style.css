@@ -69,3 +69,9 @@ div.ui-messages ul {
 	border-top: 1px solid #ddd;
 	background: #fff;
 }
+
+/* Editor */
+
+.ui-editor {
+	border: 1px solid #ccc;
+}

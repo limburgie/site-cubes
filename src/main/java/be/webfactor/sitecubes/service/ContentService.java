@@ -8,4 +8,6 @@ public interface ContentService {
 
 	List<ContentItem> getItems();
 
+	ContentItem save(ContentItem item);
+
 }
