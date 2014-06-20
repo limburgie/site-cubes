@@ -1,15 +1,25 @@
+/* General */
+
 .ui-widget {
 	font-size: 1em;
 }
+
+.ui-widget-content {
+	border: 0;
+	width: auto;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	box-shadow: none !important;
+}
+
+/* Tree */
 
 .ui-tree .ui-icon.ui-tree-toggler {
 	vertical-align: middle;
 }
 
-.ui-tree.ui-widget-content {
-	border: 0;
-	width: auto;
-}
+/* Button groups */
 
 .btn-group .btn+.btn,
 .btn-group .btn+.btn-group,
@@ -34,4 +44,28 @@ div.ui-messages ul {
 .ui-messages .ui-messages-info-summary {
 	font-weight: normal;
 	margin: 0;
+}
+
+/* Datatable */
+
+.ui-datatable table th.ui-state-default,
+.ui-datatable table th.ui-state-hover,
+.ui-datatable table th.ui-state-active {
+	background: none;
+}
+
+.ui-datatable table thead th {
+	text-align: left;
+	border-right-width: 0;
+	border-left-width: 0;
+}
+
+.ui-datatable table tr.ui-widget-content {
+	border: 0;
+}
+
+.ui-datatable table tbody td {
+	border: none;
+	border-top: 1px solid #ddd;
+	background: #fff;
 }

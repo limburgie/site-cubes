@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../../templates/control-panel.xhtml">
+		<ui:define name="subtitle">#{msg.content}</ui:define>
+		<ui:define name="main-content">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-content']}" styleClass="btn btn-default"/>
+				</div>
+			</h:form>
+			<h:form class="data-form">
+				<p:dataTable value="#{contentBean.items}" var="item" tableStyleClass="table table-striped">
+					<p:column headerText="#{msg['title']}" sortBy="#{item.title}">
+						#{item.title}
+					</p:column>
+					<p:column headerText="#{msg['modified-date']}" sortBy="#{item.modifiedDate}">
+						<h:outputText value="#{item.modifiedDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

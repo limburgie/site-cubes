@@ -23,7 +23,7 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 	@Override
 	public Configuration getConfiguration(ServletContext servletContext) {
 		return ConfigurationBuilder.begin()
-				.addRule(Join.path("/admin/pages").to("/pages/admin/pages.jsf"))
+				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.jsf"))
 				.addRule().when(Path.matches("/{friendlyUrl}")).perform(Forward.to("/pages/view.jsf?u={friendlyUrl}")).where("friendlyUrl").matches(".*").constrainedBy(new Constraint<String>() {
 					public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value) {
 						// Check if there is a page with this friendly URL
