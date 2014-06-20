@@ -83,3 +83,10 @@ div.ui-messages ul {
 .ui-editor {
 	border: 1px solid #ccc;
 }
+
+/* Dashboard */
+
+.ui-dashboard .ui-dashboard-column {
+	float: inherit;
+	padding-bottom: 0;
+}

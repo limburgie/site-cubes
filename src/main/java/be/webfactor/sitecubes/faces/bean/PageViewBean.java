@@ -3,13 +3,12 @@ package be.webfactor.sitecubes.faces.bean;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
+import be.webfactor.sitecubes.faces.renderer.CustomDashboardColumn;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
-import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 import org.springframework.context.annotation.Scope;
 
@@ -51,10 +50,26 @@ public class PageViewBean implements Serializable {
 		dashboardComponent = (Dashboard) facesUtil.createComponent("org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
 		dashboard = new DefaultDashboardModel();
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 1; i <= 3; i++) {
 			String columnId = String.valueOf(i);
 
-			DashboardColumn column = new DefaultDashboardColumn();
+			CustomDashboardColumn column = new CustomDashboardColumn();
+			column.setRowIndex(1);
+			column.setBootstrapClass("col-md-4");
+			for (ContentLocation location : locations) {
+				if (columnId.equals(location.getColumnId())) {
+					column.addWidget(PANEL_PREFIX + location.getId());
+				}
+			}
+			dashboard.addColumn(column);
+		}
+
+		for (int i = 4; i<= 5; i++) {
+			String columnId = String.valueOf(i);
+
+			CustomDashboardColumn column = new CustomDashboardColumn();
+			column.setRowIndex(2);
+			column.setBootstrapClass("col-md-6");
 			for (ContentLocation location : locations) {
 				if (columnId.equals(location.getColumnId())) {
 					column.addWidget(PANEL_PREFIX + location.getId());

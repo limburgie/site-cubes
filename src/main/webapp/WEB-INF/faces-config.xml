@@ -15,4 +15,11 @@
 	<factory>
 		<exception-handler-factory>be.webfactor.sitecubes.faces.helper.exception.ExceptionHandlerFactory</exception-handler-factory>
 	</factory>
+	<render-kit>
+		<renderer>
+			<component-family>org.primefaces.component</component-family>
+			<renderer-type>org.primefaces.component.DashboardRenderer</renderer-type>
+			<renderer-class>be.webfactor.sitecubes.faces.renderer.CustomDashboardRenderer</renderer-class>
+		</renderer>
+	</render-kit>
 </faces-config>
