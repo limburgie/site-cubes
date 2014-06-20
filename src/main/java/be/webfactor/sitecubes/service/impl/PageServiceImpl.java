@@ -41,6 +41,7 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public void delete(Page page) {
+		//TODO: Delete content locations
 		Page parent = page.getParent();
 		if (parent != null) {
 			parent.removePage(page);

@@ -133,6 +133,12 @@
 			<artifactId>rewrite-config-prettyfaces</artifactId>
 			<version>2.0.12.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Database -->
 		<dependency>

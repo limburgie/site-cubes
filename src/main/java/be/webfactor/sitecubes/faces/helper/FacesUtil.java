@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,10 @@ public class FacesUtil {
 		return FacesContext.getCurrentInstance();
 	}
 
+	public UIComponent createComponent(String componentClassName, String rendererClassName) {
+		return fc().getApplication().createComponent(fc(), componentClassName, rendererClassName);
+	}
+
 	public void addErrorStyling(String className) {
 		js("jQuery(\"." + className + "\").addClass(\"has-error\")");
 	}
@@ -56,7 +61,7 @@ public class FacesUtil {
 
 	public void unexpectedError(Throwable t) {
 		error("unexpected-error");
-		LOGGER.error(t);
+		LOGGER.error("An unexpected error occurred", t);
 	}
 
 }

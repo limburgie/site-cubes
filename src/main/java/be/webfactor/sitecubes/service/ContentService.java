@@ -10,4 +10,6 @@ public interface ContentService {
 
 	ContentItem save(ContentItem item);
 
+	void delete(ContentItem item);
+
 }

@@ -28,4 +28,10 @@ public class ContentServiceImpl implements ContentService {
 		return contentItemRepository.save(item);
 	}
 
+	@Transactional
+	public void delete(ContentItem item) {
+		//TODO: Delete content locations
+		contentItemRepository.delete(item);
+	}
+
 }
