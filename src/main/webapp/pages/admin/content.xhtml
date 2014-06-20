@@ -16,7 +16,8 @@
 			<h:form id="data-form">
 				<h:panelGroup layout="block" rendered="#{empty contentBean.item}">
 					<h3>#{msg['content-overview']}</h3>
-					<p:dataTable value="#{contentBean.items}" var="item" tableStyleClass="table table-striped">
+					<p:dataTable value="#{contentBean.items}" var="item" tableStyleClass="table table-striped" selectionMode="single" selection="#{contentBean.item}" rowKey="#{item.id}" sortBy="#{item.modifiedDate}" sortOrder="descending">
+						<p:ajax event="rowSelect" listener="#{contentBean.onRowSelect}" update="@form :button-form :detail-form"/>
 						<p:column headerText="#{msg['title']}" sortBy="#{item.title}">
 							#{item.title}
 						</p:column>

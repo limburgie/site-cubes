@@ -70,6 +70,14 @@ div.ui-messages ul {
 	background: #fff;
 }
 
+.ui-datatable table tbody tr.ui-state-hover td,
+.ui-datatable table tbody tr.ui-state-highlight td {
+	background-image: -webkit-linear-gradient(top,#428bca 0,#3278b3 100%);
+	background-image: linear-gradient(to bottom,#428bca 0,#3278b3 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff3278b3', GradientType=0);
+	color: white;
+}
+
 /* Editor */
 
 .ui-editor {

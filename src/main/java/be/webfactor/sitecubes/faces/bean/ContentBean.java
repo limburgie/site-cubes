@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.bean;
 import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.ContentService;
+import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -29,9 +30,14 @@ public class ContentBean implements Serializable {
 		item = new ContentItem();
 	}
 
+	public void onRowSelect(SelectEvent event) {
+		item = (ContentItem) event.getObject();
+	}
+
 	public void save() {
 		contentService.save(item);
 		initData();
+		item = null;
 		facesUtil.info("content-saved-successfully");
 	}
 
@@ -47,4 +53,7 @@ public class ContentBean implements Serializable {
 		return item;
 	}
 
+	public void setItem(ContentItem item) {
+		this.item = item;
+	}
 }
