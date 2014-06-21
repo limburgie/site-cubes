@@ -1,9 +1,11 @@
 package be.webfactor.sitecubes.service.exception;
 
+import be.webfactor.sitecubes.service.exception.type.FieldValidationException;
+
 public class DuplicateFriendlyUrlException extends FieldValidationException {
 
 	public DuplicateFriendlyUrlException() {
-		super("that-friendly-url-is-already-taken", "page-friendly-url-field");
+		super("page-with-that-friendly-url-already-exists", "page-friendly-url-field");
 	}
 
 }

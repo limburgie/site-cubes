@@ -1,4 +1,4 @@
-package be.webfactor.sitecubes.service.exception;
+package be.webfactor.sitecubes.service.exception.type;
 
 public abstract class MessagedException extends RuntimeException {
 

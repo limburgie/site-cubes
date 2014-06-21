@@ -23,6 +23,7 @@ public class ContentBean implements Serializable {
 
 	@PostConstruct
 	public void initData() {
+		item = null;
 		items = contentService.getItems();
 	}
 
@@ -36,13 +37,11 @@ public class ContentBean implements Serializable {
 
 	public void save() {
 		contentService.save(item);
-		initData();
-		item = null;
 		facesUtil.info("content-saved-successfully");
 	}
 
 	public void cancel() {
-		item = null;
+		initData();
 	}
 
 	public List<ContentItem> getItems() {

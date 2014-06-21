@@ -1,8 +1,8 @@
 package be.webfactor.sitecubes.faces.helper.exception;
 
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
-import be.webfactor.sitecubes.service.exception.FieldValidationException;
-import be.webfactor.sitecubes.service.exception.MessagedException;
+import be.webfactor.sitecubes.service.exception.type.FieldValidationException;
+import be.webfactor.sitecubes.service.exception.type.MessagedException;
 
 import javax.faces.FacesException;
 import javax.faces.event.ExceptionQueuedEvent;

@@ -31,7 +31,6 @@ public class PageLayoutsBean implements Serializable {
 
 	public void save() {
 		pageLayoutService.save(layout);
-		initLayouts();
 		facesUtil.info("layout-saved-successfully");
 	}
 
@@ -44,6 +43,7 @@ public class PageLayoutsBean implements Serializable {
 
 	public void cancel() {
 		layout = null;
+		initLayouts();
 	}
 
 	public void setLayout(PageLayout layout) {

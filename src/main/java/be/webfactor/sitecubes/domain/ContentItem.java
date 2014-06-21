@@ -1,13 +1,11 @@
 package be.webfactor.sitecubes.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class ContentItem {
-
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class ContentItem extends BaseEntity {
 
 	@Column(name = "title", nullable = false)
 	private String title;
@@ -20,14 +18,6 @@ public class ContentItem {
 
 	@Column(name = "modified_date")
 	private Date modifiedDate;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;

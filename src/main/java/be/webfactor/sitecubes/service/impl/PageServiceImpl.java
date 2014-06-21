@@ -7,6 +7,7 @@ import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -26,17 +27,29 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public Page save(Page page) {
-		if (page.getName() == null || page.getName().trim().isEmpty()) {
-			throw new InvalidPageNameException();
-		}
+		checkForInvalidName(page);
+		checkForInvalidFriendlyUrl(page);
+		checkForDuplicateFriendlyUrl(page);
+		return pageRepository.save(page);
+	}
+
+	private void checkForInvalidFriendlyUrl(Page page) {
 		if (!friendlyUrlHandler.isValid(page.getFriendlyUrl())) {
 			throw new InvalidFriendlyUrlException();
 		}
+	}
+
+	private void checkForInvalidName(Page page) {
+		if (StringUtils.isBlank(page.getName())) {
+			throw new InvalidPageNameException();
+		}
+	}
+
+	private void checkForDuplicateFriendlyUrl(Page page) {
 		Page friendlyUrlPage = getPageByFriendlyUrl(page.getFriendlyUrl());
 		if (friendlyUrlPage != null && !friendlyUrlPage.equals(page)) {
 			throw new DuplicateFriendlyUrlException();
 		}
-		return pageRepository.save(page);
 	}
 
 	@Transactional

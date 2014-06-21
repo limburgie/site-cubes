@@ -1,5 +1,7 @@
 package be.webfactor.sitecubes.service.exception;
 
+import be.webfactor.sitecubes.service.exception.type.FieldValidationException;
+
 public class InvalidPageNameException extends FieldValidationException {
 
 	public InvalidPageNameException() {

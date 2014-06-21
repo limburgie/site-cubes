@@ -3,10 +3,7 @@ package be.webfactor.sitecubes.domain;
 import javax.persistence.*;
 
 @Entity
-public class ContentLocation {
-
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class ContentLocation extends BaseEntity {
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "content_item_id")
@@ -21,14 +18,6 @@ public class ContentLocation {
 
 	@Column(name = "position")
 	private int position;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public ContentItem getItem() {
 		return item;

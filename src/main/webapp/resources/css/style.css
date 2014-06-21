@@ -112,6 +112,10 @@ div.CodeMirror-scroll {
 	border-radius: 4px;
 }
 
+.has-error div.CodeMirror-scroll {
+	border-color: #a94442;
+}
+
 /* Layout samples */
 
 .layout-sample {

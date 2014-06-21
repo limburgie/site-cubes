@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Page {
-
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class Page extends BaseEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -22,14 +19,6 @@ public class Page {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Page> children = new ArrayList<Page>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -75,20 +64,4 @@ public class Page {
 		page.setParent(null);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Page page = (Page) o;
-
-		if (id != null ? !id.equals(page.id) : page.id != null) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
-	}
 }
