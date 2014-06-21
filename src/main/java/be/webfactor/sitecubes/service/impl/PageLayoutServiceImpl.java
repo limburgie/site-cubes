@@ -18,4 +18,14 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		return pageLayoutRepository.findAll();
 	}
 
+	@Transactional
+	public PageLayout save(PageLayout layout) {
+		return pageLayoutRepository.save(layout);
+	}
+
+	@Transactional
+	public void delete(PageLayout layout) {
+		pageLayoutRepository.delete(layout);
+	}
+
 }

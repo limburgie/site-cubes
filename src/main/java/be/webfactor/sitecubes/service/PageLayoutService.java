@@ -8,4 +8,8 @@ public interface PageLayoutService {
 
 	List<PageLayout> getLayouts();
 
+	PageLayout save(PageLayout layout);
+
+	void delete(PageLayout layout);
+
 }

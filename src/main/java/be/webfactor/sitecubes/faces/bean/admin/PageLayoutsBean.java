@@ -1,6 +1,7 @@
 package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.PageLayout;
+import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import org.springframework.context.annotation.Scope;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class PageLayoutsBean implements Serializable {
 
 	@Inject private PageLayoutService pageLayoutService;
+	@Inject private FacesUtil facesUtil;
 
 	private List<PageLayout> layouts;
 	private PageLayout layout;
@@ -25,6 +27,19 @@ public class PageLayoutsBean implements Serializable {
 
 	public void initNewLayout() {
 		layout = new PageLayout();
+	}
+
+	public void save() {
+		pageLayoutService.save(layout);
+		initLayouts();
+		facesUtil.info("layout-saved-successfully");
+	}
+
+	public void delete() {
+		pageLayoutService.delete(layout);
+		layout = null;
+		initLayouts();
+		facesUtil.info("layout-deleted-successfully");
 	}
 
 	public void cancel() {

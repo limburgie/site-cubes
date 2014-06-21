@@ -2,7 +2,8 @@
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:p="http://primefaces.org/ui">
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:composition template="../../templates/control-panel.xhtml">
 		<ui:define name="subtitle">#{msg['page-layouts']}</ui:define>
 		<ui:define name="main-content">
@@ -11,13 +12,14 @@
 				<div class="btn-group">
 					<p:commandButton value="#{msg['add-layout']}" action="#{pageLayoutsBean.initNewLayout}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty pageLayoutsBean.layout}"/>
 					<p:commandButton value="#{msg['back-to-overview']}" action="#{pageLayoutsBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout}"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pageLayoutsBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout.id}"/>
 				</div>
 			</h:form>
 			<h:form id="data-form">
 				<h:panelGroup layout="block" rendered="#{empty pageLayoutsBean.layout}">
 					<h3>#{msg['layouts-overview']}</h3>
 
-					<div class="row">
+					<div class="row layouts-table">
 						<ui:repeat value="#{pageLayoutsBean.layouts}" var="layout" varStatus="loop">
 							<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 								<p:panel>
@@ -37,24 +39,22 @@
 				</h:panelGroup>
 			</h:form>
 			<h:form id="detail-form">
-				<!--
-				<h:panelGroup layout="block" rendered="#{!empty contentBean.item}">
+				<h:panelGroup layout="block" rendered="#{!empty pageLayoutsBean.layout}">
 					<h3>
-						<h:outputText value="#{msg['edit-content-item']}" rendered="#{!empty contentBean.item.id}"/>
-						<h:outputText value="#{msg['new-content-item']}" rendered="#{empty contentBean.item.id}"/>
+						<h:outputText value="#{msg['edit-layout']}" rendered="#{!empty pageLayoutsBean.layout.id}"/>
+						<h:outputText value="#{msg['new-layout']}" rendered="#{empty pageLayoutsBean.layout.id}"/>
 					</h3>
-					<div class="form-group content-title-field">
-						<p:outputLabel for="title" value="#{msg['title']}" styleClass="control-label"/>
-						<p:inputText id="title" value="#{contentBean.item.title}" styleClass="form-control" maxlength="255"/>
+					<div class="form-group layout-name-field">
+						<p:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
+						<p:inputText id="name" value="#{pageLayoutsBean.layout.name}" styleClass="form-control" maxlength="255"/>
 					</div>
-					<div class="form-group">
-						<p:outputLabel for="content" value="#{msg['content']}" styleClass="control-label"/>
-						<p:editor id="content" value="#{contentBean.item.content}" controls="bold italic underline strikethrough subscript superscript style bullets numbering alignleft center alignright justify rule image link unlink cut copy paste pastetext source outdent indent"/>
+					<div class="form-group layout-structure-field">
+						<p:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
+						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3"/>
 					</div>
-					<p:commandButton value="#{msg.save}" action="#{contentBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>
-					<p:commandButton value="#{msg.cancel}" action="#{contentBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>
+					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-default"/>
 				</h:panelGroup>
-				-->
 			</h:form>
 		</ui:define>
 	</ui:composition>

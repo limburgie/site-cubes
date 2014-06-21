@@ -98,6 +98,20 @@ div.ui-messages ul {
 	margin-bottom: 15px;
 }
 
+.ui-panel div.ui-panel-titlebar {
+	padding: 0.3em 1em;
+	text-align: center;
+}
+
+/* Code mirror */
+
+div.CodeMirror-scroll {
+	height: 200px;
+	color: #555;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
 /* Layout samples */
 
 .layout-sample {
@@ -109,5 +123,6 @@ div.ui-messages ul {
 	border: 1px solid #ddd;
 	color: #eee;
 	font-size: 0;
-	height: 25px;
+	height: 35px;
+	padding: 0;
 }
