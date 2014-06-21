@@ -1,4 +1,4 @@
-package be.webfactor.sitecubes.faces.bean;
+package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;

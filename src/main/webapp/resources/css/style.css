@@ -87,6 +87,27 @@ div.ui-messages ul {
 /* Dashboard */
 
 .ui-dashboard .ui-dashboard-column {
-	float: inherit;
 	padding-bottom: 0;
+	min-height: 50px;
+}
+
+/* Panel */
+
+.ui-panel {
+	border: 1px solid #eee;
+	margin-bottom: 15px;
+}
+
+/* Layout samples */
+
+.layout-sample {
+	padding: 0 5px;
+}
+
+.layout-sample .row > div {
+	background: #eee;
+	border: 1px solid #ddd;
+	color: #eee;
+	font-size: 0;
+	height: 25px;
 }

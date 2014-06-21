@@ -13,8 +13,9 @@
 				<div class="row">
 					<div class="col-md-4">
 						<ul class="list-group">
-							<h:link value="#{msg.pages}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
-							<h:link value="#{msg.content}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
+							<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
+							<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
+							<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
 						</ul>
 					</div>
 					<div class="col-md-8">
