@@ -20,6 +20,10 @@ public class Page extends BaseEntity {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Page> children = new ArrayList<Page>();
 
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "page_layout_id")
+	private PageLayout layout;
+
 	public String getName() {
 		return name;
 	}
@@ -50,6 +54,14 @@ public class Page extends BaseEntity {
 
 	public void setChildren(List<Page> children) {
 		this.children = children;
+	}
+
+	public PageLayout getLayout() {
+		return layout;
+	}
+
+	public void setLayout(PageLayout layout) {
+		this.layout = layout;
 	}
 
 	public void addPage(Page page) {

@@ -6,17 +6,17 @@ import javax.persistence.*;
 public class ContentLocation extends BaseEntity {
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "content_item_id")
+	@JoinColumn(name = "content_item_id", nullable = false)
 	private ContentItem item;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "page_id")
+	@JoinColumn(name = "page_id", nullable = false)
 	private Page page;
 
-	@Column(name = "column_id")
+	@Column(name = "column_id", nullable = false)
 	private String columnId;
 
-	@Column(name = "position")
+	@Column(name = "position", nullable = false)
 	private int position;
 
 	public ContentItem getItem() {

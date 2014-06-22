@@ -1,9 +1,11 @@
 package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.Page;
+import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.helper.PageTreeBuilder;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
+import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -20,27 +22,45 @@ import java.util.List;
 public class PagesBean implements Serializable {
 
 	@Inject private PageService pageService;
+	@Inject private PageLayoutService pageLayoutService;
 	@Inject private PageTreeBuilder pageTreeBuilder;
 	@Inject private FacesUtil facesUtil;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
+	private List<PageLayout> layouts;
+	private PageLayout defaultLayout;
 	private TreeNode root;
 	private Page page;
 
 	@PostConstruct
+	public void init() {
+		initTree();
+		initLayouts();
+	}
+
+	private void initLayouts() {
+		layouts = pageLayoutService.getLayouts();
+		defaultLayout = pageLayoutService.getDefaultLayout();
+	}
+
 	public void initTree() {
 		List<Page> rootPages = pageService.getPages();
 		root = pageTreeBuilder.buildTree(rootPages, page);
 	}
 
 	public void initRootPage() {
-		page = new Page();
+		createPage();
 	}
 
 	public void initChildPage() {
 		Page parent = page;
-		page = new Page();
+		createPage();
 		page.setParent(parent);
+	}
+
+	private void createPage() {
+		page = new Page();
+		page.setLayout(defaultLayout);
 	}
 
 	public void onNodeSelect(NodeSelectEvent event) {

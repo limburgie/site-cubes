@@ -11,6 +11,9 @@ public class PageLayout extends BaseEntity {
 	@Column(name = "structure", nullable = false) @Lob
 	private String structure;
 
+	@Column(name = "default_layout")
+	private boolean defaultLayout;
+
 	public String getName() {
 		return name;
 	}
@@ -25,6 +28,14 @@ public class PageLayout extends BaseEntity {
 
 	public void setStructure(String structure) {
 		this.structure = structure;
+	}
+
+	public boolean isDefaultLayout() {
+		return defaultLayout;
+	}
+
+	public void setDefaultLayout(boolean defaultLayout) {
+		this.defaultLayout = defaultLayout;
 	}
 
 }

@@ -24,14 +24,18 @@
 							<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 								<p:panel>
 									<f:facet name="header">
-										<p:commandLink value="#{layout.name}" action="#{pageLayoutsBean.setLayout(layout)}" update="@form :button-form :detail-form"/>
+										<p:commandLink action="#{pageLayoutsBean.setLayout(layout)}" update="@form :button-form :detail-form">
+											<h:outputText value="#{layout.name}"/>
+											<h:outputText value=" (#{msg['default']})" rendered="#{layout.defaultLayout}"/>
+										</p:commandLink>
 									</f:facet>
 									<div class="layout-sample">
 										<h:outputText value="#{layout.structure}" escape="false"/>
 									</div>
 								</p:panel>
 							</div>
-							<h:panelGroup layout="block" styleClass="clearfix visible-md" rendered="#{(loop.index+1) % 4 == 0}"/>
+							<h:panelGroup layout="block" styleClass="clearfix visible-lg" rendered="#{(loop.index+1) % 4 == 0}"/>
+							<h:panelGroup layout="block" styleClass="clearfix visible-md" rendered="#{(loop.index+1) % 3 == 0}"/>
 							<h:panelGroup layout="block" styleClass="clearfix visible-sm" rendered="#{(loop.index+1) % 3 == 0}"/>
 							<h:panelGroup layout="block" styleClass="clearfix visible-xs" rendered="#{(loop.index+1) % 2 == 0}"/>
 						</ui:repeat>
@@ -45,11 +49,15 @@
 						<h:outputText value="#{msg['new-layout']}" rendered="#{empty pageLayoutsBean.layout.id}"/>
 					</h3>
 					<div class="form-group layout-name-field">
-						<p:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
-						<p:inputText id="name" value="#{pageLayoutsBean.layout.name}" styleClass="form-control" maxlength="255"/>
+						<h:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
+						<h:inputText id="name" value="#{pageLayoutsBean.layout.name}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="checkbox">
+						<h:outputLabel for="default" value="#{msg['is-default-layout']}"/>
+						<h:selectBooleanCheckbox id="default" value="#{pageLayoutsBean.layout.defaultLayout}" disabled="#{pageLayoutsBean.layout.defaultLayout}"/>
 					</div>
 					<div class="form-group layout-structure-field">
-						<p:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
+						<h:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
 						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3"/>
 					</div>
 					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>

@@ -12,4 +12,7 @@ public interface PageLayoutService {
 
 	void delete(PageLayout layout);
 
+	PageLayout getLayout(long id);
+
+	PageLayout getDefaultLayout();
 }

@@ -34,17 +34,24 @@
 								<h:outputText value="#{msg['new-page']}" rendered="#{empty pagesBean.page.id}"/>
 							</h3>
 							<div class="form-group page-name-field">
-								<p:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
-								<p:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control" maxlength="255">
+								<h:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
+								<h:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control" maxlength="255">
 									<p:ajax event="keyup" listener="#{pagesBean.updateFriendlyUrl}" update="friendly-url"/>
-								</p:inputText>
+								</h:inputText>
 							</div>
 							<div class="form-group page-friendly-url-field">
-								<p:outputLabel for="friendly-url" value="#{msg['friendly-url']}" styleClass="control-label"/>
+								<h:outputLabel for="friendly-url" value="#{msg['friendly-url']}" styleClass="control-label"/>
 								<div class="input-group">
 									<span class="input-group-addon">/</span>
-									<p:inputText id="friendly-url" value="#{pagesBean.page.friendlyUrl}" styleClass="form-control" maxlength="255"/>
+									<h:inputText id="friendly-url" value="#{pagesBean.page.friendlyUrl}" styleClass="form-control" maxlength="255"/>
 								</div>
+							</div>
+							<div class="form-group">
+								<h:outputLabel for="page-layout" value="#{msg['page-layout']}"/>
+								<h:selectOneMenu id="page-layout" value="#{pagesBean.page.layout}" styleClass="form-control">
+									<f:converter binding="#{pageLayoutConverter}"/>
+									<f:selectItems value="#{pageLayoutsBean.layouts}" var="layout" itemLabel="#{layout.name}" itemValue="#{layout}"/>
+								</h:selectOneMenu>
 							</div>
 							<p:commandButton value="#{msg.save}" action="#{pagesBean.save}" update="@form :button-form :tree-form" styleClass="btn btn-primary"/>
 							<p:commandButton value="#{msg.cancel}" action="#{pagesBean.cancel}" update="@form :button-form :tree-form" styleClass="btn btn-default"/>

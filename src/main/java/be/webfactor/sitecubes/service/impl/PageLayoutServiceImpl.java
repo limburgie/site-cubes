@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageLayoutRepository;
 import be.webfactor.sitecubes.service.PageLayoutService;
+import be.webfactor.sitecubes.service.exception.DefaultLayoutCannotBeDeletedException;
 import be.webfactor.sitecubes.service.exception.DuplicatePageLayoutNameException;
 import be.webfactor.sitecubes.service.exception.InvalidPageLayoutNameException;
 import be.webfactor.sitecubes.service.exception.InvalidPageLayoutStructureException;
@@ -27,7 +28,16 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		checkForValidName(layout);
 		checkForDuplicateName(layout);
 		checkForValidStructure(layout);
+		if (layout.isDefaultLayout() || pageLayoutRepository.count() == 0) {
+			setDefault(layout);
+		}
+		setDefault(layout);
 		return pageLayoutRepository.save(layout);
+	}
+
+	private void setDefault(PageLayout layout) {
+		pageLayoutRepository.undefaultAll();
+		pageLayoutRepository.setDefault(layout.getId());
 	}
 
 	private void checkForValidStructure(PageLayout layout) {
@@ -51,7 +61,22 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 
 	@Transactional
 	public void delete(PageLayout layout) {
+		if (layout.isDefaultLayout()) {
+			throw new DefaultLayoutCannotBeDeletedException();
+		}
 		pageLayoutRepository.delete(layout);
+	}
+
+	public PageLayout getLayout(long id) {
+		return pageLayoutRepository.findOne(id);
+	}
+
+	public PageLayout getDefaultLayout() {
+		List<PageLayout> defaultLayouts = pageLayoutRepository.getDefault();
+		if (defaultLayouts.size() > 0) {
+			return defaultLayouts.get(0);
+		}
+		return null;
 	}
 
 }

@@ -103,6 +103,10 @@ div.ui-messages ul {
 	text-align: center;
 }
 
+.ui-panel div.ui-panel-titlebar .ui-panel-title {
+	margin: 0;
+}
+
 /* Code mirror */
 
 div.CodeMirror-scroll {
@@ -129,4 +133,9 @@ div.CodeMirror-scroll {
 	font-size: 0;
 	height: 35px;
 	padding: 0;
+}
+
+/* Select */
+select.form-control {
+	height: 34px;
 }
