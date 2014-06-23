@@ -30,11 +30,11 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		checkForValidName(layout);
 		checkForDuplicateName(layout);
 		checkForValidStructure(layout);
+		PageLayout persisted = pageLayoutRepository.save(layout);
 		if (layout.isDefaultLayout() || pageLayoutRepository.count() == 0) {
-			setDefault(layout);
+			setDefault(persisted);
 		}
-		setDefault(layout);
-		return pageLayoutRepository.save(layout);
+		return persisted;
 	}
 
 	private void setDefault(PageLayout layout) {

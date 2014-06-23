@@ -30,7 +30,7 @@ public class PageLayoutsBean implements Serializable {
 	}
 
 	public void save() {
-		pageLayoutService.save(layout);
+		layout = pageLayoutService.save(layout);
 		facesUtil.info("layout-saved-successfully");
 	}
 
