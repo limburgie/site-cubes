@@ -27,6 +27,11 @@
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
 							</h:outputText>
 						</p:column>
+						<p:column headerText="#{msg['creation-date']}" sortBy="#{item.createDate}">
+							<h:outputText value="#{item.createDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+							</h:outputText>
+						</p:column>
 					</p:dataTable>
 				</h:panelGroup>
 			</h:form>
