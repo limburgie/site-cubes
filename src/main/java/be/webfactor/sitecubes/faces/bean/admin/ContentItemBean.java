@@ -2,7 +2,7 @@ package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
-import be.webfactor.sitecubes.service.ContentService;
+import be.webfactor.sitecubes.service.ContentItemService;
 import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
 
@@ -13,9 +13,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named @Scope("view")
-public class ContentBean implements Serializable {
+public class ContentItemBean implements Serializable {
 
-	@Inject private ContentService contentService;
+	@Inject private ContentItemService contentItemService;
 	@Inject private FacesUtil facesUtil;
 
 	private List<ContentItem> items;
@@ -24,7 +24,7 @@ public class ContentBean implements Serializable {
 	@PostConstruct
 	public void initData() {
 		item = null;
-		items = contentService.getItems();
+		items = contentItemService.getItems();
 	}
 
 	public void initNewItem() {
@@ -36,8 +36,14 @@ public class ContentBean implements Serializable {
 	}
 
 	public void save() {
-		contentService.save(item);
+		contentItemService.save(item);
 		facesUtil.info("content-saved-successfully");
+	}
+
+	public void delete() {
+		contentItemService.delete(item);
+		initData();
+		facesUtil.info("content-deleted-successfully");
 	}
 
 	public void cancel() {
@@ -55,4 +61,5 @@ public class ContentBean implements Serializable {
 	public void setItem(ContentItem item) {
 		this.item = item;
 	}
+
 }

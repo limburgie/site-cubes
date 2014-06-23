@@ -1,5 +1,6 @@
 package be.webfactor.sitecubes.service.impl;
 
+import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.repository.ContentLocationRepository;
@@ -17,6 +18,11 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 
 	public List<ContentLocation> getLocationsOnPage(Page page) {
 		return contentLocationRepository.findByPage(page);
+	}
+
+	@Transactional
+	public void deleteItemLocations(ContentItem item) {
+		contentLocationRepository.deleteItemLocations(item);
 	}
 
 }

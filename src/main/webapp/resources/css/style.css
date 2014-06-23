@@ -76,6 +76,7 @@ div.ui-messages ul {
 	background-image: linear-gradient(to bottom,#428bca 0,#3278b3 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff3278b3', GradientType=0);
 	color: white;
+	border-color: transparent;
 }
 
 /* Editor */

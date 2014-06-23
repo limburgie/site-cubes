@@ -4,7 +4,7 @@ import be.webfactor.sitecubes.domain.ContentItem;
 
 import java.util.List;
 
-public interface ContentService {
+public interface ContentItemService {
 
 	List<ContentItem> getItems();
 
