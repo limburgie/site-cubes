@@ -1,8 +1,10 @@
 package be.webfactor.sitecubes.service.impl;
 
 import be.webfactor.sitecubes.domain.Page;
+import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageRepository;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
+import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidFriendlyUrlException;
@@ -18,6 +20,7 @@ import java.util.List;
 @Named @Transactional(readOnly = true)
 public class PageServiceImpl implements PageService, Serializable {
 
+	@Inject private PageLayoutService pageLayoutService;
 	@Inject private PageRepository pageRepository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
@@ -69,6 +72,12 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	public Page getPageByFriendlyUrl(String friendlyUrl) {
 		return pageRepository.findByFriendlyUrl(friendlyUrl);
+	}
+
+	@Transactional
+	public void resetPageLayouts(PageLayout layout) {
+		PageLayout defaultLayout = pageLayoutService.getDefaultLayout();
+		pageRepository.updatePageLayout(layout, defaultLayout);
 	}
 
 }

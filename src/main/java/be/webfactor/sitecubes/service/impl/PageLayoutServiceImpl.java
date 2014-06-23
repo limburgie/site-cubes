@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageLayoutRepository;
 import be.webfactor.sitecubes.service.PageLayoutService;
+import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.exception.DefaultLayoutCannotBeDeletedException;
 import be.webfactor.sitecubes.service.exception.DuplicatePageLayoutNameException;
 import be.webfactor.sitecubes.service.exception.InvalidPageLayoutNameException;
@@ -17,6 +18,7 @@ import java.util.List;
 @Named @Transactional(readOnly = true)
 public class PageLayoutServiceImpl implements PageLayoutService {
 
+	@Inject private PageService pageService;
 	@Inject private PageLayoutRepository pageLayoutRepository;
 
 	public List<PageLayout> getLayouts() {
@@ -64,6 +66,7 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		if (layout.isDefaultLayout()) {
 			throw new DefaultLayoutCannotBeDeletedException();
 		}
+		pageService.resetPageLayouts(layout);
 		pageLayoutRepository.delete(layout);
 	}
 

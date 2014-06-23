@@ -83,6 +83,7 @@ public class PagesBean implements Serializable {
 
 	public void cancel() {
 		page = null;
+		initTree();
 	}
 
 	public void updateFriendlyUrl() {
