@@ -11,6 +11,10 @@
 			<base-name>content.Language</base-name>
 			<var>msg</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>build</base-name>
+			<var>build</var>
+		</resource-bundle>
 	</application>
 	<factory>
 		<exception-handler-factory>be.webfactor.sitecubes.faces.helper.exception.ExceptionHandlerFactory</exception-handler-factory>

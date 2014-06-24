@@ -13,6 +13,7 @@
 		<version.jsf>2.2.7</version.jsf>
 		<version.spring>4.0.5.RELEASE</version.spring>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 	</properties>
 
 	<build>

@@ -8,20 +8,36 @@
 			<ui:insert name="subtitle"/> | #{msg['control-panel']}
 		</ui:define>
 		<ui:define name="body">
-			<div class="container">
-				<h1>#{msg['control-panel']}</h1>
-				<div class="row">
-					<div class="col-md-4 col-sm-4">
-						<ul class="list-group">
-							<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
-							<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
-							<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
-						</ul>
+			<div id="control-panel">
+				<div class="container">
+					<h1>#{msg['control-panel']}</h1>
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<ul class="list-group">
+								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
+								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
+								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
+							</ul>
+						</div>
+						<div class="col-md-8 col-sm-8">
+							<h2><ui:insert name="subtitle"/></h2>
+							<ui:insert name="main-content"/>
+						</div>
 					</div>
-					<div class="col-md-8 col-sm-8">
-						<h2><ui:insert name="subtitle"/></h2>
-						<ui:insert name="main-content"/>
-					</div>
+				</div>
+				<div id="push-footer"></div>
+			</div>
+			<div id="version-info">
+				<div class="container">
+					<p class="text-muted text-center">
+						<small>
+							<strong>
+								#{msg['site-cubes']} #{build.version}
+							</strong>
+							&#160;&#160;&#160;|&#160;&#160;&#160;
+							#{msg['last-update-on']} #{build.date}
+						</small>
+					</p>
 				</div>
 			</div>
 		</ui:define>
