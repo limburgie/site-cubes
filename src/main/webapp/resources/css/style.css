@@ -140,3 +140,8 @@ div.CodeMirror-scroll {
 select.form-control {
 	height: 34px;
 }
+
+/* Custom */
+body {
+	padding-top: 50px;
+}
