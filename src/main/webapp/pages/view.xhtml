@@ -8,10 +8,12 @@
 			#{pageViewBean.page.name}
 		</ui:define>
 		<ui:define name="body">
-			<h2>#{pageViewBean.page.name}</h2>
-			<h:form>
-				<p:dashboard binding="#{pageViewBean.dashboardComponent}"/>
-			</h:form>
+			<div class="container">
+				<h2>#{pageViewBean.page.name}</h2>
+				<h:form>
+					<p:dashboard binding="#{pageViewBean.dashboardComponent}"/>
+				</h:form>
+			</div>
 		</ui:define>
 	</ui:composition>
 </f:view>
