@@ -1,10 +1,14 @@
 package be.webfactor.sitecubes.domain;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity @Cacheable @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Page extends BaseEntity {
 
 	@Column(name = "name", nullable = false)
