@@ -74,6 +74,14 @@ public class PageServiceImpl implements PageService, Serializable {
 		return pageRepository.findByFriendlyUrl(friendlyUrl);
 	}
 
+	public Page getFirstPage() {
+		List<Page> pages = getPages();
+		if (pages.isEmpty()) {
+			return null;
+		}
+		return pages.get(0);
+	}
+
 	@Transactional
 	public void resetPageLayouts(PageLayout layout) {
 		PageLayout defaultLayout = pageLayoutService.getDefaultLayout();

@@ -17,6 +17,8 @@ public interface PageService {
 
 	Page getPageByFriendlyUrl(String friendlyUrl);
 
+	Page getFirstPage();
+
 	/**
 	 * Resets the page layout of all pages with the given layout to the default layout.
 	 */
