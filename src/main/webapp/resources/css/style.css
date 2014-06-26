@@ -151,6 +151,10 @@ body {
 	padding-top: 50px;
 }
 
+.btn:focus {
+	outline: none !important;
+}
+
 #control-panel {
 	min-height: 100%;
 	height: auto !important;
@@ -167,4 +171,9 @@ body {
 
 #version-info p {
 	margin:	20px 0;
+}
+
+.ui-icon.fa {
+	text-indent: 0;
+	background-image: none;
 }

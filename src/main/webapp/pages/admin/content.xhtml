@@ -9,9 +9,9 @@
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
 				<div class="btn-group">
-					<p:commandButton value="#{msg['add-content']}" action="#{contentItemBean.initNewItem}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty contentItemBean.item}"/>
-					<p:commandButton value="#{msg['back-to-overview']}" action="#{contentItemBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item}"/>
-					<p:commandButton value="#{msg['delete']}" action="#{contentItemBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item.id}"/>
+					<p:commandButton value="#{msg['add-content']}" action="#{contentItemBean.initNewItem}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty contentItemBean.item}" icon="fa fa-plus"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{contentItemBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item}" icon="fa fa-reply"/>
+					<p:commandButton value="#{msg['delete']}" action="#{contentItemBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item.id}" icon="fa fa-trash-o"/>
 				</div>
 			</h:form>
 			<h:form id="data-form">
@@ -49,8 +49,8 @@
 						<h:outputLabel for="content" value="#{msg['content']}" styleClass="control-label"/>
 						<p:editor id="content" value="#{contentItemBean.item.content}" controls="bold italic underline strikethrough subscript superscript style bullets numbering alignleft center alignright justify rule image link unlink cut copy paste pastetext source outdent indent"/>
 					</div>
-					<p:commandButton value="#{msg.save}" action="#{contentItemBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>
-					<p:commandButton value="#{msg.cancel}" action="#{contentItemBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg.save}" action="#{contentItemBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o"/>
+					<p:commandButton value="#{msg.cancel}" action="#{contentItemBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link"/>
 				</h:panelGroup>
 			</h:form>
 		</ui:define>

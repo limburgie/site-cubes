@@ -10,9 +10,9 @@
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
 				<div class="btn-group">
-					<p:commandButton value="#{msg['add-layout']}" action="#{pageLayoutsBean.initNewLayout}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty pageLayoutsBean.layout}"/>
-					<p:commandButton value="#{msg['back-to-overview']}" action="#{pageLayoutsBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout}"/>
-					<p:commandButton value="#{msg['delete']}" action="#{pageLayoutsBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout.id}"/>
+					<p:commandButton value="#{msg['add-layout']}" action="#{pageLayoutsBean.initNewLayout}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty pageLayoutsBean.layout}" icon="fa fa-plus"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{pageLayoutsBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout}" icon="fa fa-reply"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pageLayoutsBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout.id}" icon="fa fa-trash-o"/>
 				</div>
 			</h:form>
 			<h:form id="data-form">
@@ -60,8 +60,8 @@
 						<h:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
 						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3"/>
 					</div>
-					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>
-					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o"/>
+					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link"/>
 				</h:panelGroup>
 			</h:form>
 		</ui:define>
