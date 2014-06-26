@@ -4,10 +4,8 @@ import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageLayoutRepository;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
-import be.webfactor.sitecubes.service.exception.DefaultLayoutCannotBeDeletedException;
-import be.webfactor.sitecubes.service.exception.DuplicatePageLayoutNameException;
-import be.webfactor.sitecubes.service.exception.InvalidPageLayoutNameException;
-import be.webfactor.sitecubes.service.exception.InvalidPageLayoutStructureException;
+import be.webfactor.sitecubes.service.TemplateParser;
+import be.webfactor.sitecubes.service.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +18,7 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 
 	@Inject private PageService pageService;
 	@Inject private PageLayoutRepository pageLayoutRepository;
+	@Inject private TemplateParser templateParser;
 
 	public List<PageLayout> getLayouts() {
 		return pageLayoutRepository.findAll();
@@ -44,6 +43,11 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 
 	private void checkForValidStructure(PageLayout layout) {
 		if (StringUtils.isBlank(layout.getStructure())) {
+			throw new InvalidPageLayoutStructureException();
+		}
+		try {
+			templateParser.validate(layout.getStructure());
+		} catch(TemplateParsingException e) {
 			throw new InvalidPageLayoutStructureException();
 		}
 	}
