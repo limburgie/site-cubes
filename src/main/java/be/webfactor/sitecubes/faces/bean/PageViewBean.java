@@ -3,13 +3,13 @@ package be.webfactor.sitecubes.faces.bean;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
-import be.webfactor.sitecubes.faces.renderer.CustomDashboardColumn;
+import be.webfactor.sitecubes.faces.renderer.CustomDashboardModel;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
-import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardModel;
+import org.primefaces.model.DashboardColumn;
+import org.primefaces.model.DefaultDashboardColumn;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +17,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Named
@@ -29,7 +30,6 @@ public class PageViewBean implements Serializable {
 	@Inject private FacesUtil facesUtil;
 
 	private Page page;
-	private DashboardModel dashboard;
 	private List<ContentLocation> locations;
 
 	private Dashboard dashboardComponent;
@@ -48,34 +48,18 @@ public class PageViewBean implements Serializable {
 
 	private void initDashboard() {
 		dashboardComponent = (Dashboard) facesUtil.createComponent("org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
-		dashboard = new DefaultDashboardModel();
+		CustomDashboardModel dashboardModel = new CustomDashboardModel(page.getLayout().getStructure());
 
-		for (int i = 1; i <= 3; i++) {
-			String columnId = String.valueOf(i);
+		List<String> columnIds = Arrays.asList("$1", "$2", "$3");
 
-			CustomDashboardColumn column = new CustomDashboardColumn();
-			column.setRowIndex(1);
-			column.setBootstrapClass("col-md-4");
+		for (String columnId : columnIds) {
+			DashboardColumn column = new DefaultDashboardColumn();
 			for (ContentLocation location : locations) {
 				if (columnId.equals(location.getColumnId())) {
 					column.addWidget(PANEL_PREFIX + location.getId());
 				}
 			}
-			dashboard.addColumn(column);
-		}
-
-		for (int i = 4; i<= 5; i++) {
-			String columnId = String.valueOf(i);
-
-			CustomDashboardColumn column = new CustomDashboardColumn();
-			column.setRowIndex(2);
-			column.setBootstrapClass("col-md-6");
-			for (ContentLocation location : locations) {
-				if (columnId.equals(location.getColumnId())) {
-					column.addWidget(PANEL_PREFIX + location.getId());
-				}
-			}
-			dashboard.addColumn(column);
+			dashboardModel.addColumn(columnId, column);
 		}
 
 		for (ContentLocation location : locations) {
@@ -90,7 +74,7 @@ public class PageViewBean implements Serializable {
 			dashboardComponent.getChildren().add(panel);
 		}
 
-		dashboardComponent.setModel(dashboard);
+		dashboardComponent.setModel(dashboardModel);
 	}
 
 	public Dashboard getDashboardComponent() {

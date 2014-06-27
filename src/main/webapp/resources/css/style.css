@@ -90,6 +90,7 @@ div.ui-messages ul {
 .ui-dashboard .ui-dashboard-column {
 	padding-bottom: 0;
 	min-height: 50px;
+	float: none;
 }
 
 /* Panel */
