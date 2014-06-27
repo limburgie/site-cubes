@@ -18,8 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomDashboardRenderer extends DashboardRenderer {
+
+	private static final Pattern VAR_PATTERN = Pattern.compile("\\{(.*?)\\}");
 
 	@Override
 	protected void encodeMarkup(FacesContext fc, Dashboard dashboard) throws IOException {
@@ -42,32 +46,6 @@ public class CustomDashboardRenderer extends DashboardRenderer {
 			} catch (DocumentException e) {
 				e.printStackTrace();
 			}
-
-			/*
-			List<DashboardColumn> columns = model.getColumns();
-			for (int rowIndex : getRowIds(columns)) {
-				writer.startElement("div", null);
-				writer.writeAttribute("class", "row", null);
-
-				for (DashboardColumn column : columns) {
-					CustomDashboardColumn cdc = (CustomDashboardColumn) column;
-					if (cdc.getRowIndex() == rowIndex) {
-						writer.startElement("div", null);
-						writer.writeAttribute("class", cdc.getBootstrapClass() + " " + Dashboard.COLUMN_CLASS, null);
-
-						for (String widgetId : column.getWidgets()) {
-							Panel widget = findWidget(widgetId, dashboard);
-
-							if (widget != null)
-								renderChild(fc, widget);
-						}
-
-						writer.endElement("div");
-					}
-				}
-				writer.endElement("div");
-			}
-			*/
 		}
 
 		writer.endElement("div");
@@ -85,8 +63,10 @@ public class CustomDashboardRenderer extends DashboardRenderer {
 		}
 		String value = element.getText();
 		if (StringUtils.isNotBlank(value)) {
-			if(value.startsWith("$")) {
-				writeDashboardColumn(writer, value, fc, dashboard);
+			Matcher m = VAR_PATTERN.matcher(value);
+			if (m.find()) {
+				String columnId = m.group(1);
+				writeDashboardColumn(writer, columnId, fc, dashboard);
 			} else {
 				writer.write(value);
 			}
@@ -101,16 +81,17 @@ public class CustomDashboardRenderer extends DashboardRenderer {
 
 	private void writeDashboardColumn(ResponseWriter writer, String columnId, FacesContext fc, Dashboard dashboard) throws IOException {
 		DashboardColumn column = ((CustomDashboardModel) dashboard.getModel()).getColumn(columnId);
-		writer.startElement("div", null);
-		writer.writeAttribute("class", Dashboard.COLUMN_CLASS, null);
-		for (String widgetId : column.getWidgets()) {
-			Panel widget = findWidget(widgetId, dashboard);
-
-			if (widget != null) {
-				renderChild(fc, widget);
+		if (column != null) {
+			writer.startElement("div", null);
+			writer.writeAttribute("class", Dashboard.COLUMN_CLASS, null);
+			for (String widgetId : column.getWidgets()) {
+				Panel widget = findWidget(widgetId, dashboard);
+				if (widget != null) {
+					renderChild(fc, widget);
+				}
 			}
+			writer.endElement("div");
 		}
-		writer.endElement("div");
 	}
 
 	private Document getDocument(String template) throws DocumentException {

@@ -25,4 +25,19 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		contentLocationRepository.deleteItemLocations(item);
 	}
 
+	@Transactional
+	public void moveLocation(long locationId, String toColumnId, int toPosition) {
+		ContentLocation location = contentLocationRepository.findOne(locationId);
+		String fromColumnId = location.getColumnId();
+		int fromPosition = location.getPosition();
+
+		contentLocationRepository.moveItemsInColumnDownFromPosition(toColumnId, toPosition);
+
+		location.setColumnId(toColumnId);
+		location.setPosition(toPosition);
+		contentLocationRepository.saveAndFlush(location);
+
+		contentLocationRepository.moveItemsInColumnUpFromPosition(fromColumnId, fromPosition);
+	}
+
 }

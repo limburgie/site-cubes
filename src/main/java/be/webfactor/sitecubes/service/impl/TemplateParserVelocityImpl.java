@@ -7,6 +7,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.NullLogChute;
 
 import javax.inject.Named;
 import java.io.StringWriter;
@@ -20,6 +22,7 @@ public class TemplateParserVelocityImpl implements TemplateParser {
 
 	public TemplateParserVelocityImpl() {
 		velocityEngine = new VelocityEngine();
+		velocityEngine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
 		velocityEngine.init();
 	}
 

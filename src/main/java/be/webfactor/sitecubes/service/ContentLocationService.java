@@ -12,4 +12,6 @@ public interface ContentLocationService {
 
 	void deleteItemLocations(ContentItem item);
 
+	void moveLocation(long locationId, String toColumnId, int position);
+
 }

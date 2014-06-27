@@ -3,14 +3,11 @@ package be.webfactor.sitecubes.faces.renderer;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CustomDashboardModel extends DefaultDashboardModel {
 
-	private Map<String, DashboardColumn> columns = new HashMap<String, DashboardColumn>();
+	private Map<String, DashboardColumn> columns = new LinkedHashMap<String, DashboardColumn>();
 	private String template;
 
 	public CustomDashboardModel(String template) {
@@ -38,11 +35,14 @@ public class CustomDashboardModel extends DefaultDashboardModel {
 	}
 
 	public DashboardColumn getColumn(int index) {
-		throw new UnsupportedOperationException();
+		return getColumns().get(index);
 	}
 
 	public List<DashboardColumn> getColumns() {
 		return new ArrayList<DashboardColumn>(columns.values());
 	}
 
+	public void transferWidget(DashboardColumn fromColumn, DashboardColumn toColumn, String widgetId, int index) {
+		super.transferWidget(fromColumn, toColumn, widgetId, index);
+	}
 }
