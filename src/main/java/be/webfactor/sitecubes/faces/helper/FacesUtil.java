@@ -33,6 +33,10 @@ public class FacesUtil {
 		return ((HttpServletRequest) fc().getExternalContext().getRequest()).getParameter(key);
 	}
 
+	public boolean isAdminView() {
+		return fc().getViewRoot().getViewId().startsWith("/pages/admin");
+	}
+
 	private void msg(FacesMessage.Severity severity, String key) {
 		fc().addMessage(null, new FacesMessage(severity, translate(key), null));
 	}

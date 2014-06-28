@@ -88,8 +88,6 @@ div.ui-messages ul {
 /* Dashboard */
 
 .ui-dashboard .ui-dashboard-column {
-	padding-bottom: 0;
-	min-height: 50px;
 	float: none;
 }
 
@@ -103,6 +101,7 @@ div.ui-messages ul {
 .ui-panel div.ui-panel-titlebar {
 	padding: 0.3em 1em;
 	text-align: center;
+	cursor: pointer;
 }
 
 .ui-panel div.ui-panel-titlebar .ui-panel-title {
@@ -177,4 +176,34 @@ body {
 .ui-icon.fa {
 	text-indent: 0;
 	background-image: none;
+}
+
+.controls-toggler {
+	margin: 5px;
+	color: #777;
+}
+
+/* Controls hidden */
+
+.controls-hidden .portlet > .ui-panel-titlebar {
+	display: none;
+}
+
+.controls-hidden .portlet,
+.controls-hidden .portlet > .ui-panel-content {
+	padding: 0;
+	border: none;
+}
+
+body.dragging .ui-dashboard-column {
+	background: #fcf8e3;
+	padding: 5px;
+	border-radius: 6px;
+}
+
+body.dragging .portlet-placeholder {
+	background: #eee;
+	border-radius: 4px;
+	height: 50px !important;
+	margin-bottom: 10px;
 }

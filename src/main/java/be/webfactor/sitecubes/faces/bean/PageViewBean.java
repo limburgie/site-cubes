@@ -77,8 +77,10 @@ public class PageViewBean implements Serializable {
 			Panel panel = (Panel) facesUtil.createComponent("org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
 			panel.setId(PANEL_PREFIX + location.getId());
 			panel.setHeader(location.getItem().getTitle());
+			panel.setStyleClass("portlet");
 
 			HtmlOutputText panelContent = new HtmlOutputText();
+			panelContent.setEscape(false);
 			panelContent.setValue(location.getItem().getContent());
 			panel.getChildren().add(panelContent);
 

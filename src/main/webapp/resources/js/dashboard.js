@@ -7,7 +7,7 @@ PrimeFaces.widget.Dashboard = PrimeFaces.widget.BaseWidget.extend({
         this._super(cfg);
 
         this.cfg.connectWith = '.ui-dashboard-column';
-        this.cfg.placeholder = 'ui-state-hover';
+        this.cfg.placeholder = 'portlet-placeholder';
         this.cfg.forcePlaceholderSize = true;
         this.cfg.revert=true;
         this.cfg.handle='.ui-panel-titlebar';
@@ -23,7 +23,6 @@ PrimeFaces.widget.Dashboard = PrimeFaces.widget.BaseWidget.extend({
                     if(this === ui.item.parent()[0]) {
                         var panelEl = ui.item;
                         var fromColumnEl = ui.sender;
-                        var fromDashboardEl = ui.sender.closest(".ui-dashboard");
                         var toColumnEl = panelEl.closest(".ui-dashboard-column");
                         var toDashboardEl = toColumnEl.closest(".ui-dashboard");
 
@@ -41,6 +40,7 @@ PrimeFaces.widget.Dashboard = PrimeFaces.widget.BaseWidget.extend({
                         }
 
                         if(fromColumnEl) {
+                            var fromDashboardEl = fromColumnEl.closest(".ui-dashboard");
                             ext.params.push({name: _self.id + '_senderColumnIndex', value: fromDashboardEl.find(".ui-dashboard-column").index(fromColumnEl)});
                         }
 
@@ -48,6 +48,17 @@ PrimeFaces.widget.Dashboard = PrimeFaces.widget.BaseWidget.extend({
                     }
 
                 };
+
+                this.cfg.start = function(e, ui) {
+                    var height = Math.floor(ui.item.height()) + 25;
+                    $(".ui-dashboard-column").css("padding-bottom", height+"px !important");
+                    $("body").addClass("dragging");
+                }
+
+                this.cfg.stop = function(e, ui) {
+                    $(".ui-dashboard-column").css("padding-bottom", "5px !important");
+                    $("body").removeClass("dragging");
+                }
             }
         }
 

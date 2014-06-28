@@ -16,7 +16,7 @@
 	<h:outputScript name="webjars/bootstrap/3.1.1/js/bootstrap.min.js"/>
 	<h:outputScript name="js/dashboard.js"/>
 </h:head>
-<h:body>
+<h:body styleClass="#{!facesUtil.adminView and !sessionDataBean.controlsActive ? 'controls-hidden' : ''}">
 	<f:view>
 		<ui:include src="dockbar.xhtml"/>
 		<ui:insert name="body"/>

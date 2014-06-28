@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ContentLocationRepository extends JpaRepository<ContentLocation, Long> {
 
-	@Query("FROM ContentLocation WHERE page=?1")
+	@Query("FROM ContentLocation WHERE page=?1 ORDER BY position ASC")
 	List<ContentLocation> findByPage(Page page);
 
 	@Modifying @Query("DELETE FROM ContentLocation WHERE item=?1")

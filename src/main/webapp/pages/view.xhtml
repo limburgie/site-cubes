@@ -10,11 +10,9 @@
 		<ui:define name="body">
 			<div class="container">
 				<h2>#{pageViewBean.page.name}</h2>
-				<h:form>
-					<p:dashboard binding="#{pageViewBean.dashboardComponent}">
-						<p:ajax event="reorder" listener="#{pageViewBean.reorder}"/>
-					</p:dashboard>
-				</h:form>
+				<p:dashboard binding="#{pageViewBean.dashboardComponent}">
+					<p:ajax event="reorder" listener="#{pageViewBean.reorder}"/>
+				</p:dashboard>
 			</div>
 		</ui:define>
 	</ui:composition>
