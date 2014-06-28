@@ -19,7 +19,7 @@
 				<h:panelGroup layout="block" rendered="#{empty contentItemBean.item}">
 					<h3>#{msg['content-overview']}</h3>
 					<p:dataTable value="#{contentItemBean.items}" var="item" tableStyleClass="table table-striped" selectionMode="single" selection="#{contentItemBean.item}" rowKey="#{item.id}" sortBy="#{item.modifiedDate}" sortOrder="descending">
-						<p:ajax event="rowSelect" listener="#{contentItemBean.onRowSelect}" update="@form :button-form :detail-form"/>
+						<p:ajax event="rowSelect" listener="#{contentItemBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 						<p:column headerText="#{msg['title']}" sortBy="#{item.title}">
 							#{item.title}
 						</p:column>

@@ -74,7 +74,11 @@ div.ui-messages ul {
 	background: #fff;
 }
 
-.ui-datatable table tbody tr.ui-state-hover td,
+.ui-datatable table tbody tr.ui-state-hover td {
+	background: #f5f5f5;
+	border-color: transparent;
+}
+
 .ui-datatable table tbody tr.ui-state-highlight td {
 	background-image: -webkit-linear-gradient(top,#428bca 0,#3278b3 100%);
 	background-image: linear-gradient(to bottom,#428bca 0,#3278b3 100%);
