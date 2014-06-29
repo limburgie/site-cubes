@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PageService {
 
-	List<Page> getPages();
+	List<Page> getRootPages();
 
 	Page save(Page page);
 
@@ -23,4 +23,7 @@ public interface PageService {
 	 * Resets the page layout of all pages with the given layout to the default layout.
 	 */
 	void resetPageLayouts(PageLayout layout);
+
+	void move(Page movedPage, Page targetParentPage, int position);
+
 }

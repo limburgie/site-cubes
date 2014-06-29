@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageRepository;
+import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
@@ -20,12 +21,17 @@ import java.util.List;
 @Named @Transactional(readOnly = true)
 public class PageServiceImpl implements PageService, Serializable {
 
+	@Inject private ContentLocationService contentLocationService;
 	@Inject private PageLayoutService pageLayoutService;
 	@Inject private PageRepository pageRepository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
-	public List<Page> getPages() {
+	public List<Page> getRootPages() {
 		return pageRepository.getRootPages();
+	}
+
+	public int getRootPageCount() {
+		return pageRepository.countRootPages();
 	}
 
 	@Transactional
@@ -33,6 +39,15 @@ public class PageServiceImpl implements PageService, Serializable {
 		checkForInvalidName(page);
 		checkForInvalidFriendlyUrl(page);
 		checkForDuplicateFriendlyUrl(page);
+		if (page.getId() == null) {
+			int position;
+			if (page.getParent() == null) {
+				position = getRootPageCount();
+			} else {
+				position = page.getParent().getChildren().size();
+			}
+			page.setPosition(position);
+		}
 		return pageRepository.save(page);
 	}
 
@@ -57,13 +72,18 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public void delete(Page page) {
-		//TODO: Delete content locations
+		contentLocationService.deletePageLocations(page);
 		Page parent = page.getParent();
 		if (parent != null) {
 			parent.removePage(page);
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
+		if (parent == null) {
+			pageRepository.moveRootPagesUpFromPosition(page.getPosition());
+		} else {
+			pageRepository.movePagesUpFromPosition(parent, page.getPosition());
+		}
 	}
 
 	public Page getPageById(long id) {
@@ -75,7 +95,7 @@ public class PageServiceImpl implements PageService, Serializable {
 	}
 
 	public Page getFirstPage() {
-		List<Page> pages = getPages();
+		List<Page> pages = getRootPages();
 		if (pages.isEmpty()) {
 			return null;
 		}
@@ -86,6 +106,11 @@ public class PageServiceImpl implements PageService, Serializable {
 	public void resetPageLayouts(PageLayout layout) {
 		PageLayout defaultLayout = pageLayoutService.getDefaultLayout();
 		pageRepository.updatePageLayout(layout, defaultLayout);
+	}
+
+	@Transactional
+	public void move(Page movedPage, Page targetParentPage, int position) {
+
 	}
 
 }

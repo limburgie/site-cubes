@@ -8,6 +8,7 @@ import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.TreeDragDropEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.context.annotation.Scope;
 
@@ -44,7 +45,7 @@ public class PagesBean implements Serializable {
 	}
 
 	public void initTree() {
-		List<Page> rootPages = pageService.getPages();
+		List<Page> rootPages = pageService.getRootPages();
 		root = pageTreeBuilder.buildTree(rootPages, page);
 	}
 
@@ -66,6 +67,13 @@ public class PagesBean implements Serializable {
 	public void onNodeSelect(NodeSelectEvent event) {
 		long selectedPageId = ((Page) event.getTreeNode().getData()).getId();
 		page = pageService.getPageById(selectedPageId);
+	}
+
+	public void onDragDrop(TreeDragDropEvent event) {
+		Page movedPage = (Page) event.getDragNode().getData();
+		Page targetParentPage = (Page) event.getDropNode().getData();
+		int position = event.getDropIndex();
+		pageService.move(movedPage, targetParentPage, position);
 	}
 
 	public void save() {

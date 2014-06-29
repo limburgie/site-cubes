@@ -40,4 +40,9 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		contentLocationRepository.moveItemsInColumnUpFromPosition(fromColumnId, fromPosition);
 	}
 
+	@Transactional
+	public void deletePageLocations(Page page) {
+		contentLocationRepository.deletePageLocations(page);
+	}
+
 }

@@ -31,16 +31,16 @@ public class PageServiceImplSaveTest extends ServiceTestCase {
 
 	@Test
 	public void pageCanBeCreated() {
-		assertEquals(1, pageService.getPages().size());
+		assertEquals(1, pageService.getRootPages().size());
 	}
 
 	@Test
 	public void pageCanBeUpdated() {
-		Page persisted = pageService.getPages().get(0);
+		Page persisted = pageService.getRootPages().get(0);
 		persisted.setName("Test");
 		pageService.save(persisted);
 
-		assertEquals("Test", pageService.getPages().get(0).getName());
+		assertEquals("Test", pageService.getRootPages().get(0).getName());
 	}
 
 	@Test(expected = DuplicateFriendlyUrlException.class)
@@ -79,7 +79,7 @@ public class PageServiceImplSaveTest extends ServiceTestCase {
 
 	@After
 	public void tearDown() {
-		for (Page page : pageService.getPages()) {
+		for (Page page : pageService.getRootPages()) {
 			pageService.delete(page);
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"})})
 public class Page extends BaseEntity {
 
 	@Column(name = "name", nullable = false)
@@ -17,7 +18,11 @@ public class Page extends BaseEntity {
 	@JoinColumn(name = "parent_id", nullable = true)
 	private Page parent;
 
+	@Column(name = "position", nullable = false)
+	private int position;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderBy("position ASC")
 	private List<Page> children = new ArrayList<Page>();
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -46,6 +51,14 @@ public class Page extends BaseEntity {
 
 	public void setParent(Page parent) {
 		this.parent = parent;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	public List<Page> getChildren() {

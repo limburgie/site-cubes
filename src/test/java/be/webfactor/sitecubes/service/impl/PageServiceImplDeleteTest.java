@@ -42,7 +42,7 @@ public class PageServiceImplDeleteTest extends ServiceTestCase {
 
 		pageService.delete(news);
 
-		List<Page> pages = pageService.getPages();
+		List<Page> pages = pageService.getRootPages();
 		assertTrue(pages.isEmpty());
 	}
 
@@ -52,7 +52,7 @@ public class PageServiceImplDeleteTest extends ServiceTestCase {
 
 		pageService.delete(home);
 
-		List<Page> pages = pageService.getPages();
+		List<Page> pages = pageService.getRootPages();
 		assertTrue(pages.isEmpty());
 	}
 
@@ -62,7 +62,7 @@ public class PageServiceImplDeleteTest extends ServiceTestCase {
 
 		pageService.delete(contact);
 
-		List<Page> pages = pageService.getPages();
+		List<Page> pages = pageService.getRootPages();
 		assertEquals(1, pages.size());
 		assertEquals("Home", pages.get(0).getName());
 		assertTrue(pages.get(0).getChildren().isEmpty());
@@ -70,7 +70,7 @@ public class PageServiceImplDeleteTest extends ServiceTestCase {
 
 	@After
 	public void tearDown() {
-		for (Page page : pageService.getPages()) {
+		for (Page page : pageService.getRootPages()) {
 			pageService.delete(page);
 		}
 	}
