@@ -110,7 +110,7 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public void move(Page movedPage, Page targetParentPage, int position) {
-
+		
 	}
 
 }
