@@ -169,6 +169,10 @@ body {
 	margin: 0 auto -60px;
 }
 
+#control-panel .list-group {
+	margin-top: 20px;
+}
+
 #push-footer {
 	height: 60px;
 }

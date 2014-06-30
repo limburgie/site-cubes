@@ -13,6 +13,8 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.rootContext}" rendered="#{!facesUtil.adminView}">#{msg['homepage']}</h:outputLink>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext('admin')}" rendered="#{facesUtil.adminView}">#{msg['control-panel']}</h:outputLink>
 				</div>
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
@@ -41,8 +43,8 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#{empty request.contextPath ? '/' : request.contextPath}">#{msg['homepage']}</a></li>
-								<li><h:link outcome="/pages/admin/pages" value="#{msg['control-panel']}"/></li>
+								<li><a href="#{facesUtil.rootContext}">#{msg['homepage']}</a></li>
+								<li><a href="#{facesUtil.prefixWithContext('admin')}">#{msg['control-panel']}</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
