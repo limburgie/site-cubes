@@ -27,12 +27,13 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 	public Configuration getConfiguration(ServletContext servletContext) {
 		final PageService pageService = BeanLocator.getBean(PageService.class);
 		return ConfigurationBuilder.begin()
+				.addRule(Join.path("/admin").to("/admin/pages").withChaining())
 				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"))
 				.addRule().when(Path.matches("/")).perform(new InboundOperation() {
 					public void performInbound(InboundRewrite event, EvaluationContext context) {
 						Page first = pageService.getFirstPage();
 						if (first != null) {
-							((InboundServletRewrite) event).forward("/pages/view.xhtml?u="+first.getFriendlyUrl());
+							((InboundServletRewrite) event).forward("/"+first.getFriendlyUrl());
 						}
 					}
 				})
