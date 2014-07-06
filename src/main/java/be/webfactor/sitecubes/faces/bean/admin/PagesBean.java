@@ -71,8 +71,14 @@ public class PagesBean implements Serializable {
 
 	public void onDragDrop(TreeDragDropEvent event) {
 		Page movedPage = (Page) event.getDragNode().getData();
-		Page targetParentPage = (Page) event.getDropNode().getData();
+		Page targetParentPage;
+		Object targetNodeData = event.getDropNode().getData();
 		int position = event.getDropIndex();
+		if (targetNodeData instanceof String && PageTreeBuilder.ROOT_NAME.equals(targetNodeData)) {
+			targetParentPage = null;
+		} else {
+			targetParentPage = (Page) targetNodeData;
+		}
 		pageService.move(movedPage, targetParentPage, position);
 	}
 

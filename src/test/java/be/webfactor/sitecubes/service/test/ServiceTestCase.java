@@ -1,4 +1,4 @@
-package be.webfactor.sitecubes.service.impl;
+package be.webfactor.sitecubes.service.test;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

@@ -89,4 +89,9 @@ public class Page extends BaseEntity {
 		page.setParent(null);
 	}
 
+	@Override
+	public String toString() {
+		return friendlyUrl;
+	}
+
 }

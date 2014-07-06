@@ -13,9 +13,6 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@Query("FROM Page WHERE parent IS NULL ORDER BY position ASC")
 	List<Page> getRootPages();
 
-	@Query("SELECT COUNT(*) FROM Page WHERE parent IS NULL")
-	int countRootPages();
-
 	@Query("FROM Page WHERE friendlyUrl=?1")
 	Page findByFriendlyUrl(String friendlyUrl);
 
