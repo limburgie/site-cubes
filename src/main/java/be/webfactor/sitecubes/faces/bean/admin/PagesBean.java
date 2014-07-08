@@ -30,8 +30,9 @@ public class PagesBean implements Serializable {
 
 	private List<PageLayout> layouts;
 	private PageLayout defaultLayout;
-	private TreeNode root;
+	private TreeNode rootNode;
 	private Page page;
+	private Page rootPage;
 
 	@PostConstruct
 	public void init() {
@@ -45,12 +46,13 @@ public class PagesBean implements Serializable {
 	}
 
 	public void initTree() {
-		List<Page> rootPages = pageService.getRootPages();
-		root = pageTreeBuilder.buildTree(rootPages, page);
+		rootPage = pageService.getRoot();
+		rootNode = pageTreeBuilder.buildTree(rootPage, page);
 	}
 
 	public void initRootPage() {
 		createPage();
+		page.setParent(rootPage);
 	}
 
 	public void initChildPage() {
@@ -71,15 +73,10 @@ public class PagesBean implements Serializable {
 
 	public void onDragDrop(TreeDragDropEvent event) {
 		Page movedPage = (Page) event.getDragNode().getData();
-		Page targetParentPage;
-		Object targetNodeData = event.getDropNode().getData();
+		Page targetParent = (Page) event.getDropNode().getData();
 		int position = event.getDropIndex();
-		if (targetNodeData instanceof String && PageTreeBuilder.ROOT_NAME.equals(targetNodeData)) {
-			targetParentPage = null;
-		} else {
-			targetParentPage = (Page) targetNodeData;
-		}
-		pageService.move(movedPage, targetParentPage, position);
+		pageService.move(movedPage, targetParent, position);
+		initTree();
 	}
 
 	public void save() {
@@ -107,7 +104,7 @@ public class PagesBean implements Serializable {
 	}
 
 	public TreeNode getRoot() {
-		return root;
+		return rootNode;
 	}
 
 	public Page getPage() {

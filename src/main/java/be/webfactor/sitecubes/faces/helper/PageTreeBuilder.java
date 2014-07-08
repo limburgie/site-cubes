@@ -10,12 +10,10 @@ import java.util.List;
 @Named
 public class PageTreeBuilder {
 
-	public static final String ROOT_NAME = "Root";
-
-	public TreeNode buildTree(List<Page> pages, Page active) {
-		TreeNode root = new DefaultTreeNode(ROOT_NAME, null);
-		buildSubtree(pages, root, active);
-		return root;
+	public TreeNode buildTree(Page root, Page active) {
+		TreeNode rootNode = new DefaultTreeNode(root, null);
+		buildSubtree(root.getChildren(), rootNode, active);
+		return rootNode;
 	}
 
 	private void buildSubtree(List<Page> pages, TreeNode parent, Page active) {

@@ -8,6 +8,16 @@ import java.util.List;
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"})})
 public class Page extends BaseEntity {
 
+	public static final Page ROOT;
+	public static final String ROOT_NAME = "Root";
+	public static final String ROOT_FRIENDLY_URL = "/";
+
+	static {
+		ROOT = new Page();
+		ROOT.setName(ROOT_NAME);
+		ROOT.setFriendlyUrl(ROOT_FRIENDLY_URL);
+	}
+
 	@Column(name = "name", nullable = false)
 	private String name;
 

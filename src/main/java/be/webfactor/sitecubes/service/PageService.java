@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface PageService {
 
+	Page getRoot();
+
 	List<Page> getRootPages();
+
+	List<Page> getPages(Page parent);
 
 	Page save(Page page);
 

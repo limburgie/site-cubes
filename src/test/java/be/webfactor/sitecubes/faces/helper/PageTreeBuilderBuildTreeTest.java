@@ -5,33 +5,37 @@ import org.junit.Before;
 import org.junit.Test;
 import org.primefaces.model.TreeNode;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PageTreeBuilderBuildTreeTest {
 
+	private Page root;
 	private Page parent1;
 	private Page parent2;
 	private Page child;
-	private List<Page> pages;
 
 	private PageTreeBuilder pageTreeBuilder;
 
 	@Before
 	public void setup() {
+		root = new Page();
+		root.setId(9L);
+		root.setName("Root");
+		root.setFriendlyUrl("/");
+
 		parent1 = new Page();
 		parent1.setId(1L);
 		parent1.setName("Home");
 		parent1.setFriendlyUrl("/home");
+		parent1.setParent(root);
+		root.getChildren().add(parent1);
 
 		parent2 = new Page();
 		parent2.setId(2L);
 		parent2.setName("News");
 		parent2.setFriendlyUrl("/news");
+		parent2.setParent(root);
+		root.getChildren().add(parent2);
 
 		child = new Page();
 		child.setId(3L);
@@ -40,38 +44,38 @@ public class PageTreeBuilderBuildTreeTest {
 		child.setParent(parent1);
 		parent1.getChildren().add(child);
 
-		pages = Arrays.asList(parent1, parent2);
-
 		pageTreeBuilder = new PageTreeBuilder();
 	}
 
 	@Test
 	public void rootIsEmptyAndHasParentNull() {
-		TreeNode root = pageTreeBuilder.buildTree(pages, null);
+		TreeNode rootNode = pageTreeBuilder.buildTree(root, null);
 
-		assertEquals("Root", root.getData());
+		Page rootPage = (Page) rootNode.getData();
+		assertEquals(Page.ROOT_NAME, rootPage.getName());
+		assertEquals(Page.ROOT_FRIENDLY_URL, rootPage.getFriendlyUrl());
 		assertNull(root.getParent());
 	}
 
 	@Test
 	public void rootHasTwoNodesWhichHaveRootAsParent() {
-		TreeNode root = pageTreeBuilder.buildTree(pages, null);
+		TreeNode rootNode = pageTreeBuilder.buildTree(root, null);
 
-		assertEquals(2, root.getChildCount());
+		assertEquals(2, rootNode.getChildCount());
 
-		TreeNode node1 = root.getChildren().get(0);
-		assertEquals(root, node1.getParent());
+		TreeNode node1 = rootNode.getChildren().get(0);
+		assertEquals(rootNode, node1.getParent());
 		assertEquals(parent1, node1.getData());
 
-		TreeNode node2 = root.getChildren().get(1);
-		assertEquals(root, node2.getParent());
+		TreeNode node2 = rootNode.getChildren().get(1);
+		assertEquals(rootNode, node2.getParent());
 		assertEquals(parent2, node2.getData());
 	}
 
 	@Test
 	public void firstNodeHasOneChild() {
-		TreeNode root = pageTreeBuilder.buildTree(pages, null);
-		TreeNode parentNode = root.getChildren().get(0);
+		TreeNode rootNode = pageTreeBuilder.buildTree(root, null);
+		TreeNode parentNode = rootNode.getChildren().get(0);
 
 		assertEquals(1, parentNode.getChildCount());
 
@@ -82,12 +86,12 @@ public class PageTreeBuilderBuildTreeTest {
 
 	@Test
 	public void allNodesAreExpanded() {
-		TreeNode root = pageTreeBuilder.buildTree(pages, null);
+		TreeNode rootNode = pageTreeBuilder.buildTree(root, null);
 
-		assertTrue(root.isExpanded());
-		assertTrue(root.getChildren().get(0).isExpanded());
-		assertTrue(root.getChildren().get(1).isExpanded());
-		assertTrue(root.getChildren().get(0).getChildren().get(0).isExpanded());
+		assertTrue(rootNode.isExpanded());
+		assertTrue(rootNode.getChildren().get(0).isExpanded());
+		assertTrue(rootNode.getChildren().get(1).isExpanded());
+		assertTrue(rootNode.getChildren().get(0).getChildren().get(0).isExpanded());
 	}
 
 }

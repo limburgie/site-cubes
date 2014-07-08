@@ -41,6 +41,10 @@ public abstract class PageServiceTestCase extends ServiceTestCase {
 		for (Page page : pageService.getRootPages()) {
 			pageService.delete(page);
 		}
+		Page root = pageService.getRoot();
+		if (root != null) {
+			pageService.delete(root);
+		}
 	}
 
 }

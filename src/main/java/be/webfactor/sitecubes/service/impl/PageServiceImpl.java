@@ -13,6 +13,7 @@ import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -27,6 +28,18 @@ public class PageServiceImpl implements PageService, Serializable {
 	@Inject private PageRepository pageRepository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
+	@PostConstruct
+	public void initRoot() {
+		Page root = getPageByFriendlyUrl(Page.ROOT_FRIENDLY_URL);
+		if (root == null) {
+			save(Page.ROOT);
+		}
+	}
+
+	public Page getRoot() {
+		return getPageByFriendlyUrl("/");
+	}
+
 	public List<Page> getRootPages() {
 		return pageRepository.getRootPages();
 	}
@@ -37,7 +50,7 @@ public class PageServiceImpl implements PageService, Serializable {
 		checkForInvalidFriendlyUrl(page);
 		checkForDuplicateFriendlyUrl(page);
 		if (page.getId() == null) {
-			int position = getChildren(page.getParent()).size();
+			int position = getPages(page.getParent()).size();
 			page.setPosition(position);
 		}
 		return pageRepository.save(page);
@@ -102,29 +115,19 @@ public class PageServiceImpl implements PageService, Serializable {
 		Page oldParent = movingPage.getParent();
 		doMovePage(movingPage, null, -1);
 		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
-		movePagesDownForParentFromPosition(targetParentPage, position, oldParent);
+		movePagesDownForParentFromPosition(targetParentPage, position);
 		doMovePage(movingPage, targetParentPage, position);
 	}
 
-	private void movePagesDownForParentFromPosition(Page parent, int position, Page sourceParent) {
-		if (pagesAreBothNullOrEqual(sourceParent, parent)) {
-			position++;
-		}
-		List<Page> children = getChildren(parent);
+	private void movePagesDownForParentFromPosition(Page parent, int position) {
+		List<Page> children = getPages(parent);
 		for (int i = children.size() - 1; i >= position; i--) {
 			moveDown(children.get(i));
 		}
 	}
 
-	private boolean pagesAreBothNullOrEqual(Page page1, Page page2) {
-		if (page1 == null) {
-			return page2 == null;
-		}
-		return page1.equals(page2);
-	}
-
 	private void movePagesUpForParentFromPosition(Page parent, int position) {
-		List<Page> children = getChildren(parent);
+		List<Page> children = getPages(parent);
 		for (Page child : children) {
 			int childPos = child.getPosition();
 			if (childPos >= position) {
@@ -156,8 +159,8 @@ public class PageServiceImpl implements PageService, Serializable {
 		}
 	}
 
-	private List<Page> getChildren(Page parent) {
-		return parent == null ? getRootPages() : getPageById(parent.getId()).getChildren();
+	public List<Page> getPages(Page parent) {
+		return pageRepository.getPagesForParent(parent);
 	}
 
 }
