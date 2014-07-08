@@ -41,14 +41,22 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public Page save(Page page) {
+		validate(page);
+		if (page.getId() == null) {
+			page.setPosition(getNewPosition(page));
+		}
+		return pageRepository.save(page);
+	}
+
+	private void validate(Page page) {
 		checkForInvalidName(page);
 		checkForInvalidFriendlyUrl(page);
 		checkForDuplicateFriendlyUrl(page);
-		if (page.getId() == null) {
-			int position = page.getParent().getChildren().size();
-			page.setPosition(position);
-		}
-		return pageRepository.save(page);
+	}
+
+	private int getNewPosition(Page page) {
+		Page parent = page.getParent();
+		return parent == null ? 0 : parent.getChildren().size();
 	}
 
 	private void checkForInvalidFriendlyUrl(Page page) {
