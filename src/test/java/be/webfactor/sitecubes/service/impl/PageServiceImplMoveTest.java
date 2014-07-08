@@ -11,15 +11,17 @@ public class PageServiceImplMoveTest extends PageServiceTestCase {
 
 	@Before
 	public void setup() {
-		createPage("Root 1", "root-1", Page.ROOT_FRIENDLY_URL);
+		super.setup();
+
+		createPage("Root 1", "root-1");
 		createPage("Child 11", "child-11", "root-1");
 		createPage("Child 12", "child-12", "root-1");
 		createPage("Child 13", "child-13", "root-1");
-		createPage("Root 2", "root-2", Page.ROOT_FRIENDLY_URL);
+		createPage("Root 2", "root-2");
 		createPage("Child 21", "child-21", "root-2");
 		createPage("Child 22", "child-22", "root-2");
-		createPage("Root 3", "root-3", Page.ROOT_FRIENDLY_URL);
-		createPage("Root 4", "root-4", Page.ROOT_FRIENDLY_URL);
+		createPage("Root 3", "root-3");
+		createPage("Root 4", "root-4");
 	}
 
 	@Test
@@ -56,7 +58,7 @@ public class PageServiceImplMoveTest extends PageServiceTestCase {
 
 	@Test
 	public void movingChildToRootMovesAllRootsDown() {
-		move("child-21", "/", 0);
+		move("child-21", Page.ROOT.getFriendlyUrl(), 0);
 
 		assertEquals(0, getPosition("child-21"));
 		assertEquals(1, getPosition("root-1"));
@@ -89,8 +91,8 @@ public class PageServiceImplMoveTest extends PageServiceTestCase {
 
 	@Test
 	public void quickMoveBetweenTwoPagesGivesNoError() {
-		move("root-2", "/", 2);
-		move("root-3", "/", 2);
+		move("root-2", Page.ROOT.getFriendlyUrl(), 2);
+		move("root-3", Page.ROOT.getFriendlyUrl(), 2);
 	}
 
 	private void move(String fromFriendlyUrl, String toParentFriendlyUrl, int position) {

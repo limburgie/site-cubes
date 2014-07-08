@@ -9,8 +9,9 @@ import java.util.List;
 public class Page extends BaseEntity {
 
 	public static final Page ROOT;
-	public static final String ROOT_NAME = "Root";
-	public static final String ROOT_FRIENDLY_URL = "/";
+
+	private static final String ROOT_NAME = "Root";
+	private static final String ROOT_FRIENDLY_URL = "/";
 
 	static {
 		ROOT = new Page();

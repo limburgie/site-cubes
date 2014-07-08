@@ -11,6 +11,7 @@ public class PageServiceImplDeleteTest extends PageServiceTestCase {
 
 	@Before
 	public void setup() {
+		super.setup();
 		createPage("Home", "home");
 		createPage("News", "news");
 		createPage("Contact", "contact", "home");

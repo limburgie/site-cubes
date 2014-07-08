@@ -30,18 +30,17 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@PostConstruct
 	public void initRoot() {
-		Page root = getPageByFriendlyUrl(Page.ROOT_FRIENDLY_URL);
-		if (root == null) {
+		if (getRoot() == null) {
 			save(Page.ROOT);
 		}
 	}
 
 	public Page getRoot() {
-		return getPageByFriendlyUrl("/");
+		return getPageByFriendlyUrl(Page.ROOT.getFriendlyUrl());
 	}
 
 	public List<Page> getRootPages() {
-		return pageRepository.getRootPages();
+		return getRoot().getChildren();
 	}
 
 	@Transactional
@@ -127,13 +126,14 @@ public class PageServiceImpl implements PageService, Serializable {
 	}
 
 	private void movePagesUpForParentFromPosition(Page parent, int position) {
-		List<Page> children = getPages(parent);
-		for (Page child : children) {
-			int childPos = child.getPosition();
-			if (childPos >= position) {
-				moveUp(child);
-			}
-		}
+		pageRepository.movePagesUpForParentFromPosition(parent, position);
+//		List<Page> children = getPages(parent);
+//		for (Page child : children) {
+//			int childPos = child.getPosition();
+//			if (childPos >= position) {
+//				moveUp(child);
+//			}
+//		}
 	}
 
 	private void doMovePage(Page page, Page parent, int position) {

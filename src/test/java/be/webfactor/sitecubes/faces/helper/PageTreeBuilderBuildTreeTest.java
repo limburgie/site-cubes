@@ -52,8 +52,8 @@ public class PageTreeBuilderBuildTreeTest {
 		TreeNode rootNode = pageTreeBuilder.buildTree(root, null);
 
 		Page rootPage = (Page) rootNode.getData();
-		assertEquals(Page.ROOT_NAME, rootPage.getName());
-		assertEquals(Page.ROOT_FRIENDLY_URL, rootPage.getFriendlyUrl());
+		assertEquals(Page.ROOT.getName(), rootPage.getName());
+		assertEquals(Page.ROOT.getFriendlyUrl(), rootPage.getFriendlyUrl());
 		assertNull(root.getParent());
 	}
 
