@@ -25,4 +25,6 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@Modifying(clearAutomatically = true) @Query("UPDATE Page SET position=position-1 WHERE parent=?1 AND position>=?2")
 	void movePagesUpForParentFromPosition(Page parent, int position);
 
+	@Modifying(clearAutomatically = true) @Query("UPDATE Page SET position=position+1 WHERE parent=?1 AND position>=?2 ORDER BY position DESC")
+	void movePagesDownForParentFromPosition(Page parent, int position);
 }

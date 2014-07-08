@@ -83,7 +83,7 @@ public class PageServiceImpl implements PageService, Serializable {
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
-		movePagesUpForParentFromPosition(parent, page.getPosition());
+		pageRepository.movePagesUpForParentFromPosition(parent, page.getPosition());
 	}
 
 	public Page getPageById(long id) {
@@ -113,50 +113,15 @@ public class PageServiceImpl implements PageService, Serializable {
 		int oldPosition = movingPage.getPosition();
 		Page oldParent = movingPage.getParent();
 		doMovePage(movingPage, null, -1);
-		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
-		movePagesDownForParentFromPosition(targetParentPage, position);
+		pageRepository.movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
+		pageRepository.movePagesDownForParentFromPosition(targetParentPage, position);
 		doMovePage(movingPage, targetParentPage, position);
-	}
-
-	private void movePagesDownForParentFromPosition(Page parent, int position) {
-		List<Page> children = getPages(parent);
-		for (int i = children.size() - 1; i >= position; i--) {
-			moveDown(children.get(i));
-		}
-	}
-
-	private void movePagesUpForParentFromPosition(Page parent, int position) {
-		pageRepository.movePagesUpForParentFromPosition(parent, position);
-//		List<Page> children = getPages(parent);
-//		for (Page child : children) {
-//			int childPos = child.getPosition();
-//			if (childPos >= position) {
-//				moveUp(child);
-//			}
-//		}
 	}
 
 	private void doMovePage(Page page, Page parent, int position) {
 		page.setParent(parent);
 		page.setPosition(position);
 		pageRepository.saveAndFlush(page);
-		System.out.println("Moved page to parent " + parent + " in position " + position);
-	}
-
-	private void moveDown(Page page) {
-		int oldPos = page.getPosition();
-		page.setPosition(oldPos + 1);
-		pageRepository.saveAndFlush(page);
-		System.out.println("Moved page " + page + " down to pos " + (oldPos + 1));
-	}
-
-	private void moveUp(Page page) {
-		int oldPos = page.getPosition();
-		if (oldPos > 0) {
-			page.setPosition(oldPos - 1);
-			pageRepository.saveAndFlush(page);
-			System.out.println("Moved page " + page + " up to pos " + (oldPos - 1));
-		}
 	}
 
 	public List<Page> getPages(Page parent) {
