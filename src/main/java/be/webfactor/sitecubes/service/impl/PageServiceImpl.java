@@ -31,16 +31,12 @@ public class PageServiceImpl implements PageService, Serializable {
 	@PostConstruct
 	public void initRoot() {
 		if (getRoot() == null) {
-			save(Page.ROOT);
+			pageRepository.save(Page.ROOT);
 		}
 	}
 
 	public Page getRoot() {
 		return getPageByFriendlyUrl(Page.ROOT.getFriendlyUrl());
-	}
-
-	public List<Page> getRootPages() {
-		return getRoot().getChildren();
 	}
 
 	@Transactional
@@ -49,7 +45,7 @@ public class PageServiceImpl implements PageService, Serializable {
 		checkForInvalidFriendlyUrl(page);
 		checkForDuplicateFriendlyUrl(page);
 		if (page.getId() == null) {
-			int position = getPages(page.getParent()).size();
+			int position = page.getParent().getChildren().size();
 			page.setPosition(position);
 		}
 		return pageRepository.save(page);
@@ -95,7 +91,7 @@ public class PageServiceImpl implements PageService, Serializable {
 	}
 
 	public Page getFirstPage() {
-		List<Page> pages = getRootPages();
+		List<Page> pages = getRoot().getChildren();
 		if (pages.isEmpty()) {
 			return null;
 		}
@@ -122,10 +118,6 @@ public class PageServiceImpl implements PageService, Serializable {
 		page.setParent(parent);
 		page.setPosition(position);
 		pageRepository.saveAndFlush(page);
-	}
-
-	public List<Page> getPages(Page parent) {
-		return pageRepository.getPagesForParent(parent);
 	}
 
 }

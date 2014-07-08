@@ -19,7 +19,7 @@ public class PageServiceImplSaveTest extends PageServiceTestCase {
 	@Test
 	public void pageCanBeCreated() {
 		createPage("Home", "home");
-		assertEquals(1, pageService.getRootPages().size());
+		assertEquals(1, pageService.getRoot().getChildren().size());
 	}
 
 	@Test

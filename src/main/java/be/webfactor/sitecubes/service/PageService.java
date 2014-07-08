@@ -3,15 +3,9 @@ package be.webfactor.sitecubes.service;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
 
-import java.util.List;
-
 public interface PageService {
 
 	Page getRoot();
-
-	List<Page> getRootPages();
-
-	List<Page> getPages(Page parent);
 
 	Page save(Page page);
 
