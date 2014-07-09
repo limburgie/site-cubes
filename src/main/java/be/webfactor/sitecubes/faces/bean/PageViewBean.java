@@ -6,6 +6,7 @@ import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.renderer.CustomDashboardModel;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.PageService;
+import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.event.DashboardReorderEvent;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -59,7 +61,7 @@ public class PageViewBean implements Serializable {
 	}
 
 	private void initDashboard() {
-		dashboardComponent = (Dashboard) facesUtil.createComponent("org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
+		dashboardComponent = facesUtil.createPrimeComponent(Dashboard.class);
 		String tpl = page.getLayout().getStructure();
 		CustomDashboardModel dashboardModel = new CustomDashboardModel(tpl);
 
@@ -74,10 +76,22 @@ public class PageViewBean implements Serializable {
 		}
 
 		for (ContentLocation location : locations) {
-			Panel panel = (Panel) facesUtil.createComponent("org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
+			Panel panel = facesUtil.createPrimeComponent(Panel.class);
 			panel.setId(PANEL_PREFIX + location.getId());
 			panel.setHeader(location.getItem().getTitle());
 			panel.setStyleClass("portlet");
+			panel.setWidgetVar(PANEL_PREFIX + location.getId());
+
+			HtmlPanelGroup actionsGroup = new HtmlPanelGroup();
+			CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
+			closeLink.setStyleClass("ui-panel-titlebar-icon");
+			closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
+			closeLink.setUpdate(":dashboard");
+			HtmlOutputText closeIcon = new HtmlOutputText();
+			closeIcon.setStyleClass("fa fa-times");
+			closeLink.getChildren().add(closeIcon);
+			actionsGroup.getChildren().add(closeLink);
+			panel.getFacets().put("actions", actionsGroup);
 
 			HtmlOutputText panelContent = new HtmlOutputText();
 			panelContent.setEscape(false);
@@ -88,6 +102,10 @@ public class PageViewBean implements Serializable {
 		}
 
 		dashboardComponent.setModel(dashboardModel);
+	}
+
+	public void remove(long locationId) {
+		System.out.println("REmoving "+locationId);
 	}
 
 	public void reorder(DashboardReorderEvent event) {

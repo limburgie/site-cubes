@@ -10,7 +10,7 @@
 		<ui:define name="body">
 			<div class="container">
 				<h2>#{pageViewBean.page.name}</h2>
-				<p:dashboard binding="#{pageViewBean.dashboardComponent}">
+				<p:dashboard id="dashboard" binding="#{pageViewBean.dashboardComponent}">
 					<p:ajax event="reorder" listener="#{pageViewBean.reorder}"/>
 				</p:dashboard>
 			</div>
