@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface PageRepository extends JpaRepository<Page, Long> {
 
-	@Query("FROM Page WHERE parent.friendlyUrl = '/' ORDER BY position ASC")
-	List<Page> getRootPages();
-
 	@Query("FROM Page WHERE (?1 IS NULL AND parent_id IS NULL) OR parent=?1 ORDER BY position ASC")
 	List<Page> getPagesForParent(Page page);
 
@@ -22,9 +19,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	void updatePageLayout(PageLayout layout, PageLayout defaultLayout);
 
-	@Modifying(clearAutomatically = true) @Query("UPDATE Page SET position=position-1 WHERE parent=?1 AND position>=?2")
-	void movePagesUpForParentFromPosition(Page parent, int position);
-
 	@Modifying(clearAutomatically = true) @Query("UPDATE Page SET position=position+1 WHERE parent=?1 AND position>=?2 ORDER BY position DESC")
 	void movePagesDownForParentFromPosition(Page parent, int position);
+
 }

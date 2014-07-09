@@ -87,7 +87,7 @@ public class PageServiceImpl implements PageService, Serializable {
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
-		pageRepository.movePagesUpForParentFromPosition(parent, page.getPosition());
+		movePagesUpForParentFromPosition(parent, page.getPosition());
 	}
 
 	public Page getPageById(long id) {
@@ -117,9 +117,27 @@ public class PageServiceImpl implements PageService, Serializable {
 		int oldPosition = movingPage.getPosition();
 		Page oldParent = movingPage.getParent();
 		doMovePage(movingPage, null, -1);
-		pageRepository.movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
+		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
 		pageRepository.movePagesDownForParentFromPosition(targetParentPage, position);
 		doMovePage(movingPage, targetParentPage, position);
+	}
+
+	private void movePagesUpForParentFromPosition(Page parent, int position) {
+		List<Page> children = pageRepository.getPagesForParent(parent);
+		for (Page child : children) {
+			int childPos = child.getPosition();
+			if (childPos >= position) {
+				moveUp(child);
+			}
+		}
+	}
+
+	private void moveUp(Page page) {
+		int oldPos = page.getPosition();
+		if (oldPos > 0) {
+			page.setPosition(oldPos - 1);
+			pageRepository.saveAndFlush(page);
+		}
 	}
 
 	private void doMovePage(Page page, Page parent, int position) {
