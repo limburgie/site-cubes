@@ -23,4 +23,6 @@ public interface ContentLocationRepository extends JpaRepository<ContentLocation
 	@Modifying @Query("UPDATE ContentLocation SET position=position-1 WHERE columnId=?1 AND position>?2")
 	void moveItemsInColumnUpFromPosition(String columnId, int position);
 
+	@Modifying @Query("DELETE FROM ContentLocation WHERE page=?1")
+	void deletePageLocations(Page page);
 }

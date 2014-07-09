@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PAGE_COL_POS", columnNames = {"page_id", "column_id", "position"})})
 public class ContentLocation extends BaseEntity {
 
 	@OneToOne(fetch = FetchType.EAGER)

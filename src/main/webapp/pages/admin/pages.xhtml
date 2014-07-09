@@ -19,8 +19,9 @@
 				<div class="col-md-5">
 					<h:form id="tree-form">
 						<h3>#{msg['page-tree']}</h3>
-						<p:tree value="#{pagesBean.root}" var="page" selectionMode="single">
+						<p:tree value="#{pagesBean.root}" var="page" selectionMode="single" draggable="true" droppable="true">
 							<p:ajax event="select" listener="#{pagesBean.onNodeSelect}" update=":detail-form :button-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+							<p:ajax event="dragdrop" listener="#{pagesBean.onDragDrop}" update="@form :button-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 							<p:treeNode>
 								<h:outputText value="#{page.name}"/>
 							</p:treeNode>

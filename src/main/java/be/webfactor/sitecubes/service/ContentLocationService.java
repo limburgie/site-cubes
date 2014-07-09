@@ -14,4 +14,5 @@ public interface ContentLocationService {
 
 	void moveLocation(long locationId, String toColumnId, int position);
 
+	void deletePageLocations(Page page);
 }

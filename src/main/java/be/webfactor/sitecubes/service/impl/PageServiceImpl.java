@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.repository.PageRepository;
+import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
@@ -12,28 +13,50 @@ import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@Named @Transactional(readOnly = true)
+@Named
+@Transactional(readOnly = true)
 public class PageServiceImpl implements PageService, Serializable {
 
+	@Inject private ContentLocationService contentLocationService;
 	@Inject private PageLayoutService pageLayoutService;
 	@Inject private PageRepository pageRepository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
-	public List<Page> getPages() {
-		return pageRepository.getRootPages();
+	@PostConstruct
+	public void initRoot() {
+		if (getRoot() == null) {
+			pageRepository.save(Page.ROOT);
+		}
+	}
+
+	public Page getRoot() {
+		return getPageByFriendlyUrl(Page.ROOT.getFriendlyUrl());
 	}
 
 	@Transactional
 	public Page save(Page page) {
+		validate(page);
+		if (page.getId() == null) {
+			page.setPosition(getNewPosition(page));
+		}
+		return pageRepository.save(page);
+	}
+
+	private void validate(Page page) {
 		checkForInvalidName(page);
 		checkForInvalidFriendlyUrl(page);
 		checkForDuplicateFriendlyUrl(page);
-		return pageRepository.save(page);
+	}
+
+	private int getNewPosition(Page page) {
+		Page parent = page.getParent();
+		return parent == null ? 0 : parent.getChildren().size();
 	}
 
 	private void checkForInvalidFriendlyUrl(Page page) {
@@ -57,13 +80,14 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	@Transactional
 	public void delete(Page page) {
-		//TODO: Delete content locations
+		contentLocationService.deletePageLocations(page);
 		Page parent = page.getParent();
 		if (parent != null) {
 			parent.removePage(page);
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
+		movePagesUpForParentFromPosition(parent, page.getPosition());
 	}
 
 	public Page getPageById(long id) {
@@ -75,7 +99,7 @@ public class PageServiceImpl implements PageService, Serializable {
 	}
 
 	public Page getFirstPage() {
-		List<Page> pages = getPages();
+		List<Page> pages = getRoot().getChildren();
 		if (pages.isEmpty()) {
 			return null;
 		}
@@ -86,6 +110,40 @@ public class PageServiceImpl implements PageService, Serializable {
 	public void resetPageLayouts(PageLayout layout) {
 		PageLayout defaultLayout = pageLayoutService.getDefaultLayout();
 		pageRepository.updatePageLayout(layout, defaultLayout);
+	}
+
+	@Transactional
+	public void move(Page movingPage, Page targetParentPage, int position) {
+		int oldPosition = movingPage.getPosition();
+		Page oldParent = movingPage.getParent();
+		doMovePage(movingPage, null, -1);
+		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
+		pageRepository.movePagesDownForParentFromPosition(targetParentPage, position);
+		doMovePage(movingPage, targetParentPage, position);
+	}
+
+	private void movePagesUpForParentFromPosition(Page parent, int position) {
+		List<Page> children = pageRepository.getPagesForParent(parent);
+		for (Page child : children) {
+			int childPos = child.getPosition();
+			if (childPos >= position) {
+				moveUp(child);
+			}
+		}
+	}
+
+	private void moveUp(Page page) {
+		int oldPos = page.getPosition();
+		if (oldPos > 0) {
+			page.setPosition(oldPos - 1);
+			pageRepository.saveAndFlush(page);
+		}
+	}
+
+	private void doMovePage(Page page, Page parent, int position) {
+		page.setParent(parent);
+		page.setPosition(position);
+		pageRepository.saveAndFlush(page);
 	}
 
 }

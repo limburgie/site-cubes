@@ -5,7 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"})})
 public class Page extends BaseEntity {
+
+	public static final Page ROOT;
+
+	private static final String ROOT_NAME = "Root";
+	private static final String ROOT_FRIENDLY_URL = "/";
+
+	static {
+		ROOT = new Page();
+		ROOT.setName(ROOT_NAME);
+		ROOT.setFriendlyUrl(ROOT_FRIENDLY_URL);
+	}
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -17,7 +29,11 @@ public class Page extends BaseEntity {
 	@JoinColumn(name = "parent_id", nullable = true)
 	private Page parent;
 
+	@Column(name = "position", nullable = false)
+	private int position;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderBy("position ASC")
 	private List<Page> children = new ArrayList<Page>();
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -48,6 +64,14 @@ public class Page extends BaseEntity {
 		this.parent = parent;
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
 	public List<Page> getChildren() {
 		return children;
 	}
@@ -74,6 +98,11 @@ public class Page extends BaseEntity {
 			page.getParent().children.remove(page);
 		}
 		page.setParent(null);
+	}
+
+	@Override
+	public String toString() {
+		return friendlyUrl;
 	}
 
 }
