@@ -16,6 +16,11 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 
 	@Inject private ContentLocationRepository contentLocationRepository;
 
+	@Transactional
+	public ContentLocation save(ContentLocation location) {
+		return contentLocationRepository.save(location);
+	}
+
 	public List<ContentLocation> getLocationsOnPage(Page page) {
 		return contentLocationRepository.findByPage(page);
 	}
@@ -43,6 +48,29 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 	@Transactional
 	public void deletePageLocations(Page page) {
 		contentLocationRepository.deletePageLocations(page);
+	}
+
+	@Transactional
+	public void delete(ContentLocation location) {
+		Page page = location.getPage();
+		String columnId = location.getColumnId();
+		int position = location.getPosition();
+
+		contentLocationRepository.delete(location);
+		moveLocationsUpFromPosition(page, columnId, position);
+	}
+
+	private void moveLocationsUpFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (ContentLocation location : locations) {
+			int currentPosition = location.getPosition();
+			location.setPosition(currentPosition - 1);
+			contentLocationRepository.saveAndFlush(location);
+		}
+	}
+
+	public ContentLocation getLocation(long id) {
+		return contentLocationRepository.findOne(id);
 	}
 
 }

@@ -14,6 +14,9 @@ public interface ContentLocationRepository extends JpaRepository<ContentLocation
 	@Query("FROM ContentLocation WHERE page=?1 ORDER BY position ASC")
 	List<ContentLocation> findByPage(Page page);
 
+	@Query("FROM ContentLocation WHERE page=?1 AND columnId=?2 AND position>?3 ORDER BY position ASC")
+	List<ContentLocation> findByPageAndColumnIdFromPosition(Page page, String columnId, int position);
+
 	@Modifying @Query("DELETE FROM ContentLocation WHERE item=?1")
 	void deleteItemLocations(ContentItem item);
 

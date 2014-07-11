@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ContentLocationService {
 
+	ContentLocation save(ContentLocation location);
+
 	List<ContentLocation> getLocationsOnPage(Page page);
 
 	void deleteItemLocations(ContentItem item);
@@ -15,4 +17,9 @@ public interface ContentLocationService {
 	void moveLocation(long locationId, String toColumnId, int position);
 
 	void deletePageLocations(Page page);
+
+	void delete(ContentLocation location);
+
+	ContentLocation getLocation(long id);
+
 }

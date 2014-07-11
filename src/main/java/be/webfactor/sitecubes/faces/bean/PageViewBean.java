@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public class PageViewBean implements Serializable {
 
 	private static final Pattern VAR_PATTERN = Pattern.compile("\\{(.*?)\\}");
-	private static final String PANEL_PREFIX = "panel-";
+	private static final String PANEL_PREFIX = "panel";
 
 	@Inject private PageService pageService;
 	@Inject private ContentLocationService contentLocationService;
@@ -46,24 +46,30 @@ public class PageViewBean implements Serializable {
 	public void init() {
 		initPage();
 		initDashboard();
+		populateDashboard();
 	}
 
 	private void initPage() {
 		String friendlyUrl = facesUtil.getParam("u");
 		page = pageService.getPageByFriendlyUrl(friendlyUrl);
-		locations = contentLocationService.getLocationsOnPage(page);
+	}
 
+	private void initDashboard() {
 		columnIds = new ArrayList<String>();
 		Matcher matcher = VAR_PATTERN.matcher(page.getLayout().getStructure());
 		while (matcher.find()) {
 			columnIds.add(matcher.group(1));
 		}
+
+		dashboardComponent = facesUtil.createPrimeComponent(Dashboard.class);
 	}
 
-	private void initDashboard() {
-		dashboardComponent = facesUtil.createPrimeComponent(Dashboard.class);
-		String tpl = page.getLayout().getStructure();
-		CustomDashboardModel dashboardModel = new CustomDashboardModel(tpl);
+	private void populateDashboard() {
+		locations = contentLocationService.getLocationsOnPage(page);
+
+		dashboardComponent.getChildren().removeAll(dashboardComponent.getChildren());
+
+		CustomDashboardModel dashboardModel = new CustomDashboardModel(page.getLayout().getStructure());
 
 		for (String columnId : columnIds) {
 			DashboardColumn column = new DefaultDashboardColumn();
@@ -100,12 +106,13 @@ public class PageViewBean implements Serializable {
 
 			dashboardComponent.getChildren().add(panel);
 		}
-
 		dashboardComponent.setModel(dashboardModel);
 	}
 
 	public void remove(long locationId) {
-		System.out.println("REmoving "+locationId);
+		ContentLocation location = contentLocationService.getLocation(locationId);
+		contentLocationService.delete(location);
+		facesUtil.js(PANEL_PREFIX+locationId+".close()");
 	}
 
 	public void reorder(DashboardReorderEvent event) {

@@ -19,6 +19,10 @@ public class ContentItemServiceImpl implements ContentItemService {
 	@Inject private ContentLocationService contentLocationService;
 	@Inject private ContentItemRepository contentItemRepository;
 
+	public ContentItem getItem(long id) {
+		return contentItemRepository.findOne(id);
+	}
+
 	public List<ContentItem> getItems() {
 		return contentItemRepository.findAll();
 	}
