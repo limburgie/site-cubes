@@ -1,0 +1,37 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+
+	<div class="container">
+		<ul class="nav nav-pills">
+			<ui:repeat value="#{navigationBean.root.children}" var="level1">
+				<h:panelGroup rendered="#{!empty level1.children}">
+					<li class="dropdown #{level1.isParentOf(pageViewBean.page)}">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							#{level1.name} <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<ui:repeat value="#{level1.children}" var="level2">
+								<li class="#{pageViewBean.page == level2 ? 'active' : ''}">
+									<a href="#{facesContext.externalContext.requestContextPath}/#{level2.friendlyUrl}">
+										#{level2.name}
+									</a>
+								</li>
+							</ui:repeat>
+						</ul>
+					</li>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{empty level1.children}">
+					<li class="#{pageViewBean.page == level1 ? 'active' : ''}">
+						<a href="#{facesContext.externalContext.requestContextPath}/#{level1.friendlyUrl}">
+							#{level1.name}
+						</a>
+					</li>
+				</h:panelGroup>
+			</ui:repeat>
+		</ul>
+	</div>
+
+</f:view>
