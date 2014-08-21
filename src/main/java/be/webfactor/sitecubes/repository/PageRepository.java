@@ -19,10 +19,12 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@Cacheable("page")
 	List<Page> findAll();
 
-	@Query("FROM Page WHERE parent IS NULL") @Cacheable("page")
+	@Cacheable("page")
+	@Query("FROM Page WHERE parent IS NULL")
 	List<Page> getRootPages();
 
-	@Query("FROM Page WHERE friendlyUrl=:friendlyUrl") @Cacheable("page")
+	@Cacheable("page")
+	@Query("FROM Page WHERE friendlyUrl=:friendlyUrl")
 	Page findByFriendlyUrl(@Param("friendlyUrl") String friendlyUrl);
 
 	@CacheEvict(value = "page", allEntries = true)
@@ -31,9 +33,8 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@CacheEvict(value = "page", allEntries = true)
 	void delete(Long id);
 
-	@Modifying
-	@Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	@CacheEvict(value = "page", allEntries = true)
+	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	void updatePageLayout(PageLayout layout, PageLayout defaultLayout);
 
 }

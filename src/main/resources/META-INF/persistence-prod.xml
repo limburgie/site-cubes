@@ -5,10 +5,8 @@
 
 	<persistence-unit name="sitecubes" transaction-type="RESOURCE_LOCAL">
 		<non-jta-data-source>java:comp/env/jdbc/sitecubes</non-jta-data-source>
-		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
-			<property name="hibernate.show_sql" value="true"/>
 		</properties>
 	</persistence-unit>
 

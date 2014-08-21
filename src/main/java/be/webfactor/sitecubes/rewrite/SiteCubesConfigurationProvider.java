@@ -37,10 +37,12 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 					}
 				})
 				.addRule().when(Path.matches("/{friendlyUrl}")).perform(Forward.to("/pages/view.jsf?u={friendlyUrl}")).where("friendlyUrl").matches(".*").constrainedBy(new Constraint<String>() {
-					public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value) {
+					public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String friendlyUrl) {
 						// Check if there is a page with this friendly URL
-						Page page = pageService.getPageByFriendlyUrl(value);
-						return page != null;
+						if (friendlyUrl.contains("javax.faces.resource")) {
+							return false;
+						}
+						return pageService.getPageByFriendlyUrl(friendlyUrl) != null;
 					}
 				});
 	}
