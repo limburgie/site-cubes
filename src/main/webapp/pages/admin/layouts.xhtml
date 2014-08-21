@@ -10,10 +10,11 @@
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
 				<div class="btn-group">
-					<p:commandButton value="#{msg['add-layout']}" action="#{pageLayoutsBean.initNewLayout}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty pageLayoutsBean.layout}"/>
-					<p:commandButton value="#{msg['back-to-overview']}" action="#{pageLayoutsBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout}"/>
-					<p:commandButton value="#{msg['delete']}" action="#{pageLayoutsBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout.id}"/>
+					<p:commandButton value="#{msg['add-layout']}" action="#{pageLayoutsBean.initNewLayout}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty pageLayoutsBean.layout}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{pageLayoutsBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pageLayoutsBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pageLayoutsBean.layout.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 				</div>
+				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 			</h:form>
 			<h:form id="data-form">
 				<h:panelGroup layout="block" rendered="#{empty pageLayoutsBean.layout}">
@@ -25,6 +26,7 @@
 								<p:panel>
 									<f:facet name="header">
 										<p:commandLink action="#{pageLayoutsBean.setLayout(layout)}" update="@form :button-form :detail-form">
+											<p:ajax onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 											<h:outputText value="#{layout.name}"/>
 											<h:outputText value=" (#{msg['default']})" rendered="#{layout.defaultLayout}"/>
 										</p:commandLink>
@@ -60,8 +62,9 @@
 						<h:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
 						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3"/>
 					</div>
-					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary"/>
-					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-default"/>
+					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 				</h:panelGroup>
 			</h:form>
 		</ui:define>

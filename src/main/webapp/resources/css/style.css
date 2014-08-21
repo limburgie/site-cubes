@@ -29,6 +29,10 @@
 	margin-right: 1px;
 }
 
+button.ui-button {
+	background-position: 0 !important;
+}
+
 /* UI Messages */
 
 div.ui-messages ul {
@@ -70,7 +74,11 @@ div.ui-messages ul {
 	background: #fff;
 }
 
-.ui-datatable table tbody tr.ui-state-hover td,
+.ui-datatable table tbody tr.ui-state-hover td {
+	background: #f5f5f5;
+	border-color: transparent;
+}
+
 .ui-datatable table tbody tr.ui-state-highlight td {
 	background-image: -webkit-linear-gradient(top,#428bca 0,#3278b3 100%);
 	background-image: linear-gradient(to bottom,#428bca 0,#3278b3 100%);
@@ -88,8 +96,7 @@ div.ui-messages ul {
 /* Dashboard */
 
 .ui-dashboard .ui-dashboard-column {
-	padding-bottom: 0;
-	min-height: 50px;
+	float: none;
 }
 
 /* Panel */
@@ -102,6 +109,7 @@ div.ui-messages ul {
 .ui-panel div.ui-panel-titlebar {
 	padding: 0.3em 1em;
 	text-align: center;
+	cursor: pointer;
 }
 
 .ui-panel div.ui-panel-titlebar .ui-panel-title {
@@ -151,10 +159,18 @@ body {
 	padding-top: 50px;
 }
 
+.btn:focus {
+	outline: none !important;
+}
+
 #control-panel {
 	min-height: 100%;
 	height: auto !important;
 	margin: 0 auto -60px;
+}
+
+#control-panel .list-group {
+	margin-top: 20px;
 }
 
 #push-footer {
@@ -167,4 +183,44 @@ body {
 
 #version-info p {
 	margin:	20px 0;
+}
+
+.ui-icon.fa {
+	text-indent: 0;
+	background-image: none;
+}
+
+.controls-toggler {
+	margin: 5px;
+	color: #777;
+}
+
+/* Controls hidden */
+
+.controls-hidden .portlet > .ui-panel-titlebar {
+	display: none;
+}
+
+.controls-hidden .portlet,
+.controls-hidden .portlet > .ui-panel-content {
+	padding: 0;
+	border: none;
+}
+
+body.dragging .ui-dashboard-column {
+	background: #fcf8e3;
+	padding: 5px;
+	border-radius: 6px;
+}
+
+body.dragging .portlet-placeholder {
+	background: #eee;
+	border-radius: 4px;
+	height: 50px !important;
+	margin-bottom: 10px;
+}
+
+.fa-spin {
+	margin-left: 5px;
+	color: #777;
 }

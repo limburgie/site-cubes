@@ -1,78 +1,57 @@
 package be.webfactor.sitecubes.service.impl;
 
 import be.webfactor.sitecubes.domain.Page;
-import be.webfactor.sitecubes.service.PageService;
-import org.junit.After;
+import be.webfactor.sitecubes.service.test.PageServiceTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.inject.Inject;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
-public class PageServiceImplDeleteTest extends ServiceTestCase {
-
-	@Inject private PageService pageService;
-
-	private Page home;
-	private Page news;
-	private Page contact;
+public class PageServiceImplDeleteTest extends PageServiceTestCase {
 
 	@Before
 	public void setup() {
-		home = new Page();
-		home.setName("Home");
-		home.setFriendlyUrl("home");
-
-		news = new Page();
-		news.setName("News");
-		news.setFriendlyUrl("news");
-
-		contact = new Page();
-		contact.setName("Contact");
-		contact.setFriendlyUrl("contact");
-
-		home.addPage(contact);
+		super.setup();
+		createPage("Home", "home");
+		createPage("News", "news");
+		createPage("Contact", "contact", "home");
 	}
 
 	@Test
 	public void deletePageWithoutChildrenIsSuccessful() {
-		pageService.save(news);
+		delete("news");
 
-		pageService.delete(news);
-
-		List<Page> pages = pageService.getPages();
-		assertTrue(pages.isEmpty());
+		assertNull(getPage("news"));
 	}
 
 	@Test
 	public void deleteParentPageAlsoDeletesSubpages() {
-		pageService.save(home);
+		delete("home");
 
-		pageService.delete(home);
+		Page home = getPage("home");
+		Page contact = getPage("contact");
 
-		List<Page> pages = pageService.getPages();
-		assertTrue(pages.isEmpty());
+		assertNull(home);
+		assertNull(contact);
 	}
 
 	@Test
 	public void deleteChildPageIsSuccessful() {
-		pageService.save(home);
+		delete("contact");
 
-		pageService.delete(contact);
-
-		List<Page> pages = pageService.getPages();
-		assertEquals(1, pages.size());
-		assertEquals("Home", pages.get(0).getName());
-		assertTrue(pages.get(0).getChildren().isEmpty());
+		assertNull(getPage("contact"));
+		assertTrue(getPage("home").getChildren().isEmpty());
 	}
 
-	@After
-	public void tearDown() {
-		for (Page page : pageService.getPages()) {
-			pageService.delete(page);
-		}
+	@Test
+	public void deletePageMovesOtherPagesWithSameParentUp() {
+		delete("home");
+
+		assertEquals(0, getPosition("news"));
+	}
+
+	private void delete(String friendlyUrl) {
+		pageService.delete(getPage(friendlyUrl));
 	}
 
 }

@@ -1,5 +1,6 @@
 package be.webfactor.sitecubes.faces.helper;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
@@ -33,6 +34,10 @@ public class FacesUtil {
 		return ((HttpServletRequest) fc().getExternalContext().getRequest()).getParameter(key);
 	}
 
+	public boolean isAdminView() {
+		return fc().getViewRoot().getViewId().startsWith("/pages/admin");
+	}
+
 	private void msg(FacesMessage.Severity severity, String key) {
 		fc().addMessage(null, new FacesMessage(severity, translate(key), null));
 	}
@@ -45,6 +50,19 @@ public class FacesUtil {
 
 	private FacesContext fc() {
 		return FacesContext.getCurrentInstance();
+	}
+
+	public String getRootContext() {
+		String contextPath = fc().getExternalContext().getRequestContextPath();
+		return StringUtils.isBlank(contextPath) ? "/" : contextPath;
+	}
+
+	public String prefixWithContext(String path) {
+		String contextPath = fc().getExternalContext().getRequestContextPath();
+		if (StringUtils.isBlank(contextPath)) {
+			return "/" + path;
+		}
+		return contextPath + "/" + path;
 	}
 
 	public UIComponent createComponent(String componentClassName, String rendererClassName) {
