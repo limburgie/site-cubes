@@ -31,11 +31,11 @@ public interface PageLayoutRepository extends JpaRepository<PageLayout, Long> {
 	@Query("FROM PageLayout WHERE defaultLayout=true")
 	List<PageLayout> getDefault();
 
-	@CacheEvict("page_layout")
+	@CacheEvict(value = "page_layout", allEntries = true)
 	@Modifying @Query("UPDATE PageLayout SET defaultLayout=false")
 	void undefaultAll();
 
-	@CacheEvict("page_layout")
+	@CacheEvict(value = "page_layout", allEntries = true)
 	@Modifying @Query("UPDATE PageLayout SET defaultLayout=true WHERE id=?1")
 	void setDefault(long id);
 
