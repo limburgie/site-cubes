@@ -30,14 +30,13 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	Page save(Page page);
 
 	@CacheEvict(value = "page", allEntries = true)
+	Page saveAndFlush(Page page);
+
+	@CacheEvict(value = "page", allEntries = true)
 	void delete(Long id);
 
 	@CacheEvict(value = "page", allEntries = true)
 	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	void updatePageLayout(PageLayout layout, PageLayout defaultLayout);
-
-	@CacheEvict(value = "page", allEntries = true)
-	@Modifying(clearAutomatically = true) @Query("UPDATE Page SET position=position+1 WHERE parent=?1 AND position>=?2 ORDER BY position DESC")
-	void movePagesDownForParentFromPosition(Page parent, int position);
 
 }
