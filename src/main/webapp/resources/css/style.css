@@ -225,6 +225,11 @@ body.dragging .portlet-placeholder {
 	color: #777;
 }
 
+.panel-close-icon {
+	background: none !important;
+	margin-top: 0 !important;
+}
+
 /* Basic navigation */
 
 .basic-navigation {

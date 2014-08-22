@@ -49,6 +49,7 @@ public class PageViewBean implements Serializable {
 	public void init() {
 		initPage();
 		initDashboard();
+		retrieveLocations();
 		populateDashboard();
 	}
 
@@ -68,8 +69,6 @@ public class PageViewBean implements Serializable {
 	}
 
 	private void populateDashboard() {
-		locations = contentLocationService.getLocationsOnPage(page);
-
 		addWidgetsToDashboard();
 
 		for (ContentLocation location : locations) {
@@ -78,8 +77,12 @@ public class PageViewBean implements Serializable {
 		}
 	}
 
-	private void addWidgetsToDashboard() {
+	private void retrieveLocations() {
 		locations = contentLocationService.getLocationsOnPage(page);
+	}
+
+	private void addWidgetsToDashboard() {
+		retrieveLocations();
 		CustomDashboardModel dashboardModel = new CustomDashboardModel(page.getLayout().getStructure());
 		for (String columnId : columnIds) {
 			DashboardColumn column = new DefaultDashboardColumn();
@@ -102,7 +105,7 @@ public class PageViewBean implements Serializable {
 
 		HtmlPanelGroup actionsGroup = new HtmlPanelGroup();
 		CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
-		closeLink.setStyleClass("ui-panel-titlebar-icon");
+		closeLink.setStyleClass("ui-panel-titlebar-icon panel-close-icon");
 		closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
 		closeLink.setUpdate(":dashboard");
 		HtmlOutputText closeIcon = new HtmlOutputText();
@@ -121,7 +124,7 @@ public class PageViewBean implements Serializable {
 	public void remove(long locationId) {
 		ContentLocation location = contentLocationService.getLocation(locationId);
 		contentLocationService.delete(location);
-		facesUtil.js(PANEL_PREFIX+locationId+".close()");
+		addWidgetsToDashboard();
 	}
 
 	public void reorder(DashboardReorderEvent event) {
