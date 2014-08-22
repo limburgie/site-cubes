@@ -93,11 +93,6 @@ public class Page extends BaseEntity {
 		this.layout = layout;
 	}
 
-	public void addPage(Page page) {
-		children.add(page);
-		page.setParent(this);
-	}
-
 	public void removePage(Page page) {
 		if (page.getParent() != null) {
 			page.getParent().children.remove(page);
