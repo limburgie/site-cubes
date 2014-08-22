@@ -1,9 +1,11 @@
 package be.webfactor.sitecubes.faces.bean;
 
+import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.renderer.CustomDashboardModel;
+import be.webfactor.sitecubes.service.ContentItemService;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.component.commandlink.CommandLink;
@@ -34,6 +36,7 @@ public class PageViewBean implements Serializable {
 
 	@Inject private PageService pageService;
 	@Inject private ContentLocationService contentLocationService;
+	@Inject private ContentItemService contentItemService;
 	@Inject private FacesUtil facesUtil;
 
 	private Page page;
@@ -67,10 +70,17 @@ public class PageViewBean implements Serializable {
 	private void populateDashboard() {
 		locations = contentLocationService.getLocationsOnPage(page);
 
-		dashboardComponent.getChildren().removeAll(dashboardComponent.getChildren());
+		addWidgetsToDashboard();
 
+		for (ContentLocation location : locations) {
+			Panel panel = createPanelForLocation(location);
+			dashboardComponent.getChildren().add(panel);
+		}
+	}
+
+	private void addWidgetsToDashboard() {
+		locations = contentLocationService.getLocationsOnPage(page);
 		CustomDashboardModel dashboardModel = new CustomDashboardModel(page.getLayout().getStructure());
-
 		for (String columnId : columnIds) {
 			DashboardColumn column = new DefaultDashboardColumn();
 			for (ContentLocation location : locations) {
@@ -80,33 +90,32 @@ public class PageViewBean implements Serializable {
 			}
 			dashboardModel.addColumn(columnId, column);
 		}
-
-		for (ContentLocation location : locations) {
-			Panel panel = facesUtil.createPrimeComponent(Panel.class);
-			panel.setId(PANEL_PREFIX + location.getId());
-			panel.setHeader(location.getItem().getTitle());
-			panel.setStyleClass("portlet");
-			panel.setWidgetVar(PANEL_PREFIX + location.getId());
-
-			HtmlPanelGroup actionsGroup = new HtmlPanelGroup();
-			CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
-			closeLink.setStyleClass("ui-panel-titlebar-icon");
-			closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
-			closeLink.setUpdate(":dashboard");
-			HtmlOutputText closeIcon = new HtmlOutputText();
-			closeIcon.setStyleClass("fa fa-times");
-			closeLink.getChildren().add(closeIcon);
-			actionsGroup.getChildren().add(closeLink);
-			panel.getFacets().put("actions", actionsGroup);
-
-			HtmlOutputText panelContent = new HtmlOutputText();
-			panelContent.setEscape(false);
-			panelContent.setValue(location.getItem().getContent());
-			panel.getChildren().add(panelContent);
-
-			dashboardComponent.getChildren().add(panel);
-		}
 		dashboardComponent.setModel(dashboardModel);
+	}
+
+	private Panel createPanelForLocation(ContentLocation location) {
+		Panel panel = facesUtil.createPrimeComponent(Panel.class);
+		panel.setId(PANEL_PREFIX + location.getId());
+		panel.setHeader(location.getItem().getTitle());
+		panel.setStyleClass("portlet");
+		panel.setWidgetVar(PANEL_PREFIX + location.getId());
+
+		HtmlPanelGroup actionsGroup = new HtmlPanelGroup();
+		CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
+		closeLink.setStyleClass("ui-panel-titlebar-icon");
+		closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
+		closeLink.setUpdate(":dashboard");
+		HtmlOutputText closeIcon = new HtmlOutputText();
+		closeIcon.setStyleClass("fa fa-times");
+		closeLink.getChildren().add(closeIcon);
+		actionsGroup.getChildren().add(closeLink);
+		panel.getFacets().put("actions", actionsGroup);
+
+		HtmlOutputText panelContent = new HtmlOutputText();
+		panelContent.setEscape(false);
+		panelContent.setValue(location.getItem().getContent());
+		panel.getChildren().add(panelContent);
+		return panel;
 	}
 
 	public void remove(long locationId) {
@@ -122,6 +131,18 @@ public class PageViewBean implements Serializable {
 		String toColumnId = columnIds.get(event.getColumnIndex());
 
 		contentLocationService.moveLocation(locationId, toColumnId, position);
+	}
+
+	public void addContent() {
+		// Todo: let user select content item
+		List<ContentItem> items = contentItemService.getItems();
+		if (items.isEmpty()) {
+			return;
+		}
+		ContentLocation location = contentLocationService.addItemInFirstColumn(page, items.get(0));
+		Panel panel = createPanelForLocation(location);
+		dashboardComponent.getChildren().add(panel);
+		addWidgetsToDashboard();
 	}
 
 	public Dashboard getDashboardComponent() {

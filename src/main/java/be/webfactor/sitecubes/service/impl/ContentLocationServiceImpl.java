@@ -98,4 +98,14 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		return contentLocationRepository.findOne(id);
 	}
 
+	@Transactional
+	public ContentLocation addItemInFirstColumn(Page page, ContentItem item) {
+		ContentLocation location = new ContentLocation();
+		location.setPage(page);
+		location.setItem(item);
+		location.setPosition(contentLocationRepository.getLocationCountForPageInColumnId(page, "col1"));
+		location.setColumnId("col1");
+		return contentLocationRepository.save(location);
+	}
+
 }

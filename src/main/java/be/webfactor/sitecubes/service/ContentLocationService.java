@@ -22,4 +22,6 @@ public interface ContentLocationService {
 
 	ContentLocation getLocation(long id);
 
+	ContentLocation addItemInFirstColumn(Page page, ContentItem item);
+
 }

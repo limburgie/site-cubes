@@ -49,4 +49,8 @@ public interface ContentLocationRepository extends JpaRepository<ContentLocation
 	@Modifying @Query("DELETE FROM ContentLocation WHERE page=?1")
 	void deletePageLocations(Page page);
 
+	@Cacheable("content_location")
+	@Query("SELECT COUNT(*) FROM ContentLocation WHERE page=?1 AND columnId=?2")
+	int getLocationCountForPageInColumnId(Page page, String columnId);
+
 }
