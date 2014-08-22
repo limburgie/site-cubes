@@ -24,7 +24,7 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['add']} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><h:commandLink value="#{msg['page']}"/></li>
-									<li><p:commandLink value="#{msg['content']}" action="#{pageViewBean.addContent}" update=":dashboard"/></li>
+									<li><p:commandLink value="#{msg['content']}" action="#{contentSelectorBean.initializeContent}" update=":content-selector-form" oncomplete="PF('contentSelectorDialog').show()"/></li>
 								</ul>
 							</li>
 						</h:panelGroup>
@@ -58,4 +58,19 @@
 			</div>
 		</nav>
 	</h:form>
+	<p:dialog modal="true" widgetVar="contentSelectorDialog" header="#{msg['select-content']}" resizable="false" draggable="false" rendered="#{!facesUtil.adminView}">
+		<h:form id="content-selector-form">
+			<p:dataTable value="#{contentSelectorBean.items}" var="item" tableStyleClass="table table-striped content-selector" selectionMode="single" selection="#{contentSelectorBean.item}" rowKey="#{item.id}" sortBy="#{item.modifiedDate}" sortOrder="descending">
+				<p:ajax event="rowSelect" listener="#{contentSelectorBean.onRowSelect}" update=":dashboard" oncomplete="PF('contentSelectorDialog').hide()"/>
+				<p:column headerText="#{msg['title']}" sortBy="#{item.title}">
+					#{item.title}
+				</p:column>
+				<p:column headerText="#{msg['modified-date']}" sortBy="#{item.modifiedDate}">
+					<h:outputText value="#{item.modifiedDate}">
+						<f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:dialog>
 </f:view>
