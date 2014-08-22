@@ -24,7 +24,7 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['add']} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><h:commandLink value="#{msg['page']}"/></li>
-									<li><h:commandLink value="#{msg['content']}"/></li>
+									<li><p:commandLink value="#{msg['content']}" action="#{pageViewBean.addContent}" update=":dashboard"/></li>
 								</ul>
 							</li>
 						</h:panelGroup>

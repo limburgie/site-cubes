@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ContentItemService {
 
+	ContentItem getItem(long id);
+
 	List<ContentItem> getItems();
 
 	ContentItem save(ContentItem item);

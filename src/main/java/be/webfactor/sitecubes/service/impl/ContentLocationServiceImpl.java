@@ -16,6 +16,11 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 
 	@Inject private ContentLocationRepository contentLocationRepository;
 
+	@Transactional
+	public ContentLocation save(ContentLocation location) {
+		return contentLocationRepository.save(location);
+	}
+
 	public List<ContentLocation> getLocationsOnPage(Page page) {
 		return contentLocationRepository.findByPage(page);
 	}
@@ -28,21 +33,79 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 	@Transactional
 	public void moveLocation(long locationId, String toColumnId, int toPosition) {
 		ContentLocation location = contentLocationRepository.findOne(locationId);
+		Page page = location.getPage();
 		String fromColumnId = location.getColumnId();
 		int fromPosition = location.getPosition();
 
-		contentLocationRepository.moveItemsInColumnDownFromPosition(toColumnId, toPosition);
+		doMove(location, null, -1);
+		moveItemsInColumnUpFromPosition(page, fromColumnId, fromPosition + 1);
+		moveItemsInColumnDownFromPosition(page, toColumnId, toPosition);
+		doMove(location, toColumnId, toPosition);
+	}
 
+	private void doMove(ContentLocation location, String toColumnId, int toPosition) {
 		location.setColumnId(toColumnId);
 		location.setPosition(toPosition);
 		contentLocationRepository.saveAndFlush(location);
+	}
 
-		contentLocationRepository.moveItemsInColumnUpFromPosition(fromColumnId, fromPosition);
+	private void moveItemsInColumnUpFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (int i = 0; i < locations.size(); i++) {
+			ContentLocation location = locations.get(i);
+			int current = location.getPosition();
+			if (current >= position) {
+				location.setPosition(current - 1);
+				contentLocationRepository.saveAndFlush(location);
+			}
+		}
+	}
+
+	private void moveItemsInColumnDownFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (int i = locations.size() - 1; i >= 0; i--) {
+			ContentLocation location = locations.get(i);
+			location.setPosition(location.getPosition() + 1);
+			contentLocationRepository.saveAndFlush(location);
+		}
 	}
 
 	@Transactional
 	public void deletePageLocations(Page page) {
 		contentLocationRepository.deletePageLocations(page);
+	}
+
+	@Transactional
+	public void delete(ContentLocation location) {
+		Page page = location.getPage();
+		String columnId = location.getColumnId();
+		int position = location.getPosition();
+
+		contentLocationRepository.delete(location);
+		moveLocationsUpFromPosition(page, columnId, position);
+	}
+
+	private void moveLocationsUpFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (ContentLocation location : locations) {
+			int currentPosition = location.getPosition();
+			location.setPosition(currentPosition - 1);
+			contentLocationRepository.saveAndFlush(location);
+		}
+	}
+
+	public ContentLocation getLocation(long id) {
+		return contentLocationRepository.findOne(id);
+	}
+
+	@Transactional
+	public ContentLocation addItemInFirstColumn(Page page, ContentItem item) {
+		ContentLocation location = new ContentLocation();
+		location.setPage(page);
+		location.setItem(item);
+		location.setPosition(contentLocationRepository.getLocationCountForPageInColumnId(page, "col1"));
+		location.setColumnId("col1");
+		return contentLocationRepository.save(location);
 	}
 
 }
