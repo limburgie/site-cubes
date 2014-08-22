@@ -136,13 +136,8 @@ public class PageViewBean implements Serializable {
 		contentLocationService.moveLocation(locationId, toColumnId, position);
 	}
 
-	public void addContent() {
-		// Todo: let user select content item
-		List<ContentItem> items = contentItemService.getItems();
-		if (items.isEmpty()) {
-			return;
-		}
-		ContentLocation location = contentLocationService.addItemInFirstColumn(page, items.get(0));
+	void addContent(ContentItem item) {
+		ContentLocation location = contentLocationService.addItemInFirstColumn(page, item);
 		Panel panel = createPanelForLocation(location);
 		dashboardComponent.getChildren().add(panel);
 		addWidgetsToDashboard();

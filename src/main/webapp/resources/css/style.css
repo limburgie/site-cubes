@@ -56,6 +56,8 @@ div.ui-messages ul {
 .ui-datatable table th.ui-state-hover,
 .ui-datatable table th.ui-state-active {
 	background: none;
+	border: none;
+	border-bottom: 2px solid #ddd;
 }
 
 .ui-datatable table thead th {
@@ -75,7 +77,7 @@ div.ui-messages ul {
 }
 
 .ui-datatable table tbody tr.ui-state-hover td {
-	background: #f5f5f5;
+	background: #eee;
 	border-color: transparent;
 }
 
@@ -228,6 +230,14 @@ body.dragging .portlet-placeholder {
 .panel-close-icon {
 	background: none !important;
 	margin-top: 0 !important;
+}
+
+.ui-dialog.ui-widget-content .ui-dialog-title {
+	font-size: 18px;
+}
+
+.ui-datatable table.content-selector {
+	width: auto;
 }
 
 /* Basic navigation */
