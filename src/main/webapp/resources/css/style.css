@@ -224,3 +224,9 @@ body.dragging .portlet-placeholder {
 	margin-left: 5px;
 	color: #777;
 }
+
+/* Basic navigation */
+
+.basic-navigation {
+	margin-top: 25px;
+}

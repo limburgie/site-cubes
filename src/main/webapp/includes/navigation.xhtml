@@ -5,10 +5,10 @@
 		xmlns:p="http://primefaces.org/ui">
 
 	<div class="container">
-		<ul class="nav nav-pills">
+		<ul class="nav nav-pills basic-navigation">
 			<ui:repeat value="#{navigationBean.root.children}" var="level1">
 				<h:panelGroup rendered="#{!empty level1.children}">
-					<li class="dropdown #{level1.isParentOf(pageViewBean.page)}">
+					<li class="dropdown #{pageViewBean.page.parent == level1 ? 'active' : ''}">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 							#{level1.name} <span class="caret"></span>
 						</a>
