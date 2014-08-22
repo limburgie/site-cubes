@@ -14,7 +14,7 @@ public class ContentLocation extends BaseEntity {
 	@JoinColumn(name = "page_id", nullable = false)
 	private Page page;
 
-	@Column(name = "column_id", nullable = false)
+	@Column(name = "column_id", nullable = true)
 	private String columnId;
 
 	@Column(name = "position", nullable = false)

@@ -13,25 +13,37 @@ import java.util.List;
 
 public interface ContentLocationRepository extends JpaRepository<ContentLocation, Long> {
 
+	@CacheEvict(value = "content_location", allEntries = true)
+	ContentLocation save(ContentLocation location);
+
+	@CacheEvict(value = "content_location", allEntries = true)
+	ContentLocation saveAndFlush(ContentLocation location);
+
+	@Cacheable("content_location")
+	ContentLocation findOne(Long id);
+
+	@CacheEvict(value = "content_location", allEntries = true)
+	void delete(ContentLocation location);
+
 	@Cacheable("content_location")
 	@Query("FROM ContentLocation WHERE page=?1 ORDER BY position ASC")
 	List<ContentLocation> findByPage(Page page);
 
 	@Cacheable("content_location")
-	@Query("FROM ContentLocation WHERE page=?1 AND columnId=?2 AND position>?3 ORDER BY position ASC")
+	@Query("FROM ContentLocation WHERE page=?1 AND columnId=?2 AND position>=?3 ORDER BY position ASC")
 	List<ContentLocation> findByPageAndColumnIdFromPosition(Page page, String columnId, int position);
 
 	@CacheEvict(value = "content_location", allEntries = true)
 	@Modifying @Query("DELETE FROM ContentLocation WHERE item=?1")
 	void deleteItemLocations(ContentItem item);
 
-	@CacheEvict(value = "content_location", allEntries = true)
-	@Modifying @Query("UPDATE ContentLocation SET position=position+1 WHERE columnId=?1 AND position>=?2")
-	void moveItemsInColumnDownFromPosition(String columnId, int position);
-
-	@CacheEvict(value = "content_location", allEntries = true)
-	@Modifying @Query("UPDATE ContentLocation SET position=position-1 WHERE columnId=?1 AND position>?2")
-	void moveItemsInColumnUpFromPosition(String columnId, int position);
+//	@CacheEvict(value = "content_location", allEntries = true)
+//	@Modifying @Query("UPDATE ContentLocation SET position=position+1 WHERE columnId=?1 AND position>=?2")
+//	void moveItemsInColumnDownFromPosition(String columnId, int position);
+//
+//	@CacheEvict(value = "content_location", allEntries = true)
+//	@Modifying @Query("UPDATE ContentLocation SET position=position-1 WHERE columnId=?1 AND position>?2")
+//	void moveItemsInColumnUpFromPosition(String columnId, int position);
 
 	@CacheEvict(value = "content_location", allEntries = true)
 	@Modifying @Query("DELETE FROM ContentLocation WHERE page=?1")

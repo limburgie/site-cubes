@@ -33,16 +33,41 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 	@Transactional
 	public void moveLocation(long locationId, String toColumnId, int toPosition) {
 		ContentLocation location = contentLocationRepository.findOne(locationId);
+		Page page = location.getPage();
 		String fromColumnId = location.getColumnId();
 		int fromPosition = location.getPosition();
 
-		contentLocationRepository.moveItemsInColumnDownFromPosition(toColumnId, toPosition);
+		doMove(location, null, -1);
+		moveItemsInColumnUpFromPosition(page, fromColumnId, fromPosition + 1);
+		moveItemsInColumnDownFromPosition(page, toColumnId, toPosition);
+		doMove(location, toColumnId, toPosition);
+	}
 
+	private void doMove(ContentLocation location, String toColumnId, int toPosition) {
 		location.setColumnId(toColumnId);
 		location.setPosition(toPosition);
 		contentLocationRepository.saveAndFlush(location);
+	}
 
-		contentLocationRepository.moveItemsInColumnUpFromPosition(fromColumnId, fromPosition);
+	private void moveItemsInColumnUpFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (int i = 0; i < locations.size(); i++) {
+			ContentLocation location = locations.get(i);
+			int current = location.getPosition();
+			if (current >= position) {
+				location.setPosition(current - 1);
+				contentLocationRepository.saveAndFlush(location);
+			}
+		}
+	}
+
+	private void moveItemsInColumnDownFromPosition(Page page, String columnId, int position) {
+		List<ContentLocation> locations = contentLocationRepository.findByPageAndColumnIdFromPosition(page, columnId, position);
+		for (int i = locations.size() - 1; i >= 0; i--) {
+			ContentLocation location = locations.get(i);
+			location.setPosition(location.getPosition() + 1);
+			contentLocationRepository.saveAndFlush(location);
+		}
 	}
 
 	@Transactional
