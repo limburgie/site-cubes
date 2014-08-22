@@ -118,25 +118,28 @@ public class PageServiceImpl implements PageService, Serializable {
 		Page oldParent = movingPage.getParent();
 		doMovePage(movingPage, null, -1);
 		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
-		pageRepository.movePagesDownForParentFromPosition(targetParentPage, position);
+		movePagesDownForParentFromPosition(targetParentPage, position);
 		doMovePage(movingPage, targetParentPage, position);
 	}
 
 	private void movePagesUpForParentFromPosition(Page parent, int position) {
 		List<Page> children = pageRepository.getPagesForParent(parent);
-		for (Page child : children) {
-			int childPos = child.getPosition();
-			if (childPos >= position) {
-				moveUp(child);
+		for (int i = 0; i < children.size(); i++) {
+			Page child = children.get(i);
+			int current = child.getPosition();
+			if (current >= position) {
+				child.setPosition(current - 1);
+				pageRepository.saveAndFlush(child);
 			}
 		}
 	}
 
-	private void moveUp(Page page) {
-		int oldPos = page.getPosition();
-		if (oldPos > 0) {
-			page.setPosition(oldPos - 1);
-			pageRepository.saveAndFlush(page);
+	private void movePagesDownForParentFromPosition(Page parent, int position) {
+		List<Page> children = pageRepository.getPagesForParent(parent);
+		for (int i = children.size() - 1; i >= position; i--) {
+			Page child = children.get(i);
+			child.setPosition(i + 1);
+			pageRepository.saveAndFlush(child);
 		}
 	}
 

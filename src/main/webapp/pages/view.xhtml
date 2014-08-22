@@ -8,6 +8,7 @@
 			#{pageViewBean.page.name}
 		</ui:define>
 		<ui:define name="body">
+			<ui:include src="../includes/navigation.xhtml"/>
 			<div class="container">
 				<h2>#{pageViewBean.page.name}</h2>
 				<p:dashboard id="dashboard" binding="#{pageViewBean.dashboardComponent}">

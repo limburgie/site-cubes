@@ -1,5 +1,7 @@
 package be.webfactor.sitecubes.domain;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,7 @@ public class Page extends BaseEntity {
 		this.friendlyUrl = friendlyUrl;
 	}
 
+	@Cacheable("page")
 	public Page getParent() {
 		return parent;
 	}
@@ -72,6 +75,7 @@ public class Page extends BaseEntity {
 		this.position = position;
 	}
 
+	@Cacheable("page")
 	public List<Page> getChildren() {
 		return children;
 	}
@@ -80,17 +84,13 @@ public class Page extends BaseEntity {
 		this.children = children;
 	}
 
+	@Cacheable("page")
 	public PageLayout getLayout() {
 		return layout;
 	}
 
 	public void setLayout(PageLayout layout) {
 		this.layout = layout;
-	}
-
-	public void addPage(Page page) {
-		children.add(page);
-		page.setParent(this);
 	}
 
 	public void removePage(Page page) {

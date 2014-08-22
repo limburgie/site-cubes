@@ -28,7 +28,6 @@ public class PagesBean implements Serializable {
 	@Inject private FacesUtil facesUtil;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
-	private List<PageLayout> layouts;
 	private PageLayout defaultLayout;
 	private TreeNode rootNode;
 	private Page page;
@@ -41,7 +40,6 @@ public class PagesBean implements Serializable {
 	}
 
 	private void initLayouts() {
-		layouts = pageLayoutService.getLayouts();
 		defaultLayout = pageLayoutService.getDefaultLayout();
 	}
 
