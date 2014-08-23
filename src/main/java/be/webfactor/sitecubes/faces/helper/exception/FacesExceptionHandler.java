@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.helper.exception;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.exception.type.FieldValidationException;
 import be.webfactor.sitecubes.service.exception.type.MessagedException;
+import org.springframework.security.access.AccessDeniedException;
 
 import javax.faces.FacesException;
 import javax.faces.event.ExceptionQueuedEvent;
@@ -37,6 +38,8 @@ public class FacesExceptionHandler {
 				FieldValidationException fve = (FieldValidationException) actual;
 				facesUtil.addErrorStyling(fve.getFieldWrapperClass());
 			}
+		} else if (actual instanceof AccessDeniedException) {
+			facesUtil.permissionError(actual);
 		} else {
 			facesUtil.unexpectedError(actual);
 		}

@@ -157,7 +157,7 @@ html, body {
 	height: 100%;
 }
 
-body {
+body.dockbar-visible {
 	padding-top: 50px;
 }
 
@@ -238,6 +238,11 @@ body.dragging .portlet-placeholder {
 
 .ui-datatable table.content-selector {
 	width: auto;
+}
+
+.login-panel {
+	width: 350px;
+	margin: 50px auto;
 }
 
 /* Basic navigation */

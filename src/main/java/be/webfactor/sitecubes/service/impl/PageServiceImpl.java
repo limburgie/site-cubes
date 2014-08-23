@@ -11,6 +11,7 @@ import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +40,7 @@ public class PageServiceImpl implements PageService, Serializable {
 		return getPageByFriendlyUrl(Page.ROOT.getFriendlyUrl());
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public Page save(Page page) {
 		validate(page);
 		if (page.getId() == null) {
@@ -78,7 +79,7 @@ public class PageServiceImpl implements PageService, Serializable {
 		}
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(Page page) {
 		contentLocationService.deletePageLocations(page);
 		Page parent = page.getParent();
@@ -106,13 +107,13 @@ public class PageServiceImpl implements PageService, Serializable {
 		return pages.get(0);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void resetPageLayouts(PageLayout layout) {
 		PageLayout defaultLayout = pageLayoutService.getDefaultLayout();
 		pageRepository.updatePageLayout(layout, defaultLayout);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void move(Page movingPage, Page targetParentPage, int position) {
 		int oldPosition = movingPage.getPosition();
 		Page oldParent = movingPage.getParent();
