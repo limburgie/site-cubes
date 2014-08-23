@@ -36,8 +36,11 @@
 		<sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<sec:intercept-url pattern="/**" access="permitAll"/>
 
+		<sec:form-login login-page="/login" authentication-failure-url="/login?error=1"
+						username-parameter="username" password-parameter="password"/>
+
 		<sec:logout logout-success-url="/"/>
-		<sec:remember-me/>
+		<sec:remember-me remember-me-parameter="remember-me"/>
 	</sec:http>
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider>

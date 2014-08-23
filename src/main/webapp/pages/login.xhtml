@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/main.xhtml">
+		<ui:define name="title">
+			#{msg['sign-in']}
+		</ui:define>
+		<ui:define name="body">
+			<div class="container">
+				<div class="panel panel-default login-panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">#{msg['sign-in']}</h3>
+					</div>
+					<div class="panel-body">
+						<h:panelGroup layout="block" styleClass="ui-messages-error ui-corner-all" rendered="#{!empty param['error']}">
+							#{msg['authentication-failed']}
+						</h:panelGroup>
+						<h:form id="login-form" prependId="false">
+							<p:focus context="login-form"/>
+							<div class="form-group">
+								<h:outputLabel for="username" value="#{msg['username']}" styleClass="control-label"/>
+								<h:inputText id="username" value="#{loginBean.name}" styleClass="form-control" maxlength="255"/>
+							</div>
+							<div class="form-group">
+								<h:outputLabel for="password" value="#{msg['password']}" styleClass="control-label"/>
+								<h:inputSecret id="password" value="#{loginBean.password}" styleClass="form-control" maxlength="255"/>
+							</div>
+							<div class="checkbox">
+								<h:outputLabel for="remember-me" value="#{msg['remember-me']}"/>
+								<h:selectBooleanCheckbox id="remember-me" value="#{loginBean.rememberMe}"/>
+							</div>
+							<p:commandButton styleClass="btn btn-primary" icon="fa fa-sign-in" value="#{msg['sign-in']}" action="#{loginBean.login}" ajax="false"/>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

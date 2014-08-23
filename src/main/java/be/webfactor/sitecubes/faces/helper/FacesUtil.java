@@ -8,9 +8,15 @@ import org.primefaces.context.RequestContext;
 import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 @Named
@@ -38,7 +44,7 @@ public class FacesUtil {
 	}
 
 	private HttpServletRequest getRequest() {
-		return ((HttpServletRequest) fc().getExternalContext().getRequest());
+		return ((HttpServletRequest) ec().getRequest());
 	}
 
 	public boolean isAdminView() {
@@ -60,12 +66,16 @@ public class FacesUtil {
 	}
 
 	public String getRootContext() {
-		String contextPath = fc().getExternalContext().getRequestContextPath();
+		String contextPath = ec().getRequestContextPath();
 		return StringUtils.isBlank(contextPath) ? "/" : contextPath;
 	}
 
+	private ExternalContext ec() {
+		return fc().getExternalContext();
+	}
+
 	public String prefixWithContext(String path) {
-		String contextPath = fc().getExternalContext().getRequestContextPath();
+		String contextPath = ec().getRequestContextPath();
 		if (StringUtils.isBlank(contextPath)) {
 			return "/" + path;
 		}
@@ -92,6 +102,18 @@ public class FacesUtil {
 	public void unexpectedError(Throwable t) {
 		error("unexpected-error");
 		LOGGER.error("An unexpected error occurred", t);
+	}
+
+	public void forwardTo(String url) {
+		RequestDispatcher dispatcher = ((ServletRequest)ec().getRequest()).getRequestDispatcher(url);
+		try {
+			dispatcher.forward((ServletRequest)ec().getRequest(), (ServletResponse)ec().getResponse());
+		} catch (ServletException e) {
+			unexpectedError(e);
+		} catch (IOException e) {
+			unexpectedError(e);
+		}
+		fc().responseComplete();
 	}
 
 	public MethodExpression createMethodExpression(String expression, Class<?> returnType, Class<?>... parameterTypes) {

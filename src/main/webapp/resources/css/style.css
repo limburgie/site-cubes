@@ -240,6 +240,11 @@ body.dragging .portlet-placeholder {
 	width: auto;
 }
 
+.login-panel {
+	width: 350px;
+	margin: 50px auto;
+}
+
 /* Basic navigation */
 
 .basic-navigation {
