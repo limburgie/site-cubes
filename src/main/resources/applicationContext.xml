@@ -39,6 +39,9 @@
 	<sec:http auto-config="true" use-expressions="true">
 		<sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<sec:intercept-url pattern="/**" access="permitAll"/>
+
+		<sec:logout logout-success-url="/"/>
+		<sec:remember-me/>
 	</sec:http>
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider>

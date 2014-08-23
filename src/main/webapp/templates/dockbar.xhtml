@@ -50,7 +50,9 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Peter Mesotten <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">#{msg['sign-out']}</a></li>
+								<li>
+									<h:outputLink value="#{facesUtil.rootContext}/j_spring_security_logout">#{msg['sign-out']}</h:outputLink>
+								</li>
 							</ul>
 						</li>
 					</ul>
