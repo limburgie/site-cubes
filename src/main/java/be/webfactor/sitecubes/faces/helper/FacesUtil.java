@@ -103,4 +103,9 @@ public class FacesUtil {
 		return getRequest().getUserPrincipal() != null;
 	}
 
+	public void permissionError(Throwable t) {
+		error("access-denied-error");
+		LOGGER.error("A user performed an action he was not allowed to", t);
+	}
+
 }

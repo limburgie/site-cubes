@@ -18,10 +18,6 @@
 
 	<context:component-scan base-package="be.webfactor.sitecubes"/>
 
-	<jpa:repositories base-package="be.webfactor.sitecubes.repository"/>
-
-	<tx:annotation-driven/>
-
 	<!-- Caching -->
 	<cache:annotation-driven cache-manager="cacheManager" key-generator="methodSpecificKeyGenerator"/>
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
@@ -50,7 +46,9 @@
 			</sec:user-service>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
+	<sec:global-method-security secured-annotations="enabled"/>
 
+	<!-- Data -->
 	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/sitecubes"/>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -72,6 +70,11 @@
 		<property name="defaultDataSource" ref="dataSource"/>
 	</bean>
 
+	<jpa:repositories base-package="be.webfactor.sitecubes.repository"/>
+
+	<tx:annotation-driven/>
+
+	<!-- View scope -->
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
 		<property name="scopes">
 			<map>
