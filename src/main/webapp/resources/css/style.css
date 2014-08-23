@@ -157,7 +157,7 @@ html, body {
 	height: 100%;
 }
 
-body {
+body.dockbar-visible {
 	padding-top: 50px;
 }
 

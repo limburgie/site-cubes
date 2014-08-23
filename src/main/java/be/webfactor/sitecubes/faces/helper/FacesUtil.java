@@ -34,7 +34,11 @@ public class FacesUtil {
 	}
 
 	public String getParam(String key) {
-		return ((HttpServletRequest) fc().getExternalContext().getRequest()).getParameter(key);
+		return getRequest().getParameter(key);
+	}
+
+	private HttpServletRequest getRequest() {
+		return ((HttpServletRequest) fc().getExternalContext().getRequest());
 	}
 
 	public boolean isAdminView() {
@@ -93,6 +97,10 @@ public class FacesUtil {
 	public MethodExpression createMethodExpression(String expression, Class<?> returnType, Class<?>... parameterTypes) {
 		return fc().getApplication().getExpressionFactory().createMethodExpression(
 				fc().getELContext(), expression, returnType, parameterTypes);
+	}
+
+	public boolean isUserLoggedIn() {
+		return getRequest().getUserPrincipal() != null;
 	}
 
 }
