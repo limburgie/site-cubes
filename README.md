@@ -13,3 +13,13 @@ Hmm, yes. But SiteCubes is different! SiteCubes builds solely upon open-source t
 * JSF 2.2
 * PrimeFaces 5.0
 * HTML 5, CSS 3
+
+### Where can I see it in action?
+
+New commits are automatically built by Jenkins and deployed on
+http://sitecubes.limburgie.cloudbees.net
+
+Go to http://sitecubes.limburgie.cloudbees.net/admin to access the Control Panel.
+Sign in to the Control Panel with credentials admin/admin1@
+
+Feel free to play around!
