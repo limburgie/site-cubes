@@ -17,9 +17,9 @@ Hmm, yes. But SiteCubes is different! SiteCubes builds solely upon open-source t
 ### Where can I see it in action?
 
 New commits are automatically built by Jenkins and deployed on
-http://sitecubes.limburgie.cloudbees.net
+http://ec2-54-77-224-133.eu-west-1.compute.amazonaws.com:8080/site-cubes
 
-Go to http://sitecubes.limburgie.cloudbees.net/admin to access the Control Panel.
+Go to http://ec2-54-77-224-133.eu-west-1.compute.amazonaws.com:8080/site-cubes/admin to access the Control Panel.
 Sign in to the Control Panel with credentials admin/admin1@
 
 Feel free to play around!
