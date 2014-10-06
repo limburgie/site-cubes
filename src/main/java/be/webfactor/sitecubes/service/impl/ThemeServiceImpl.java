@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -17,8 +18,15 @@ public class ThemeServiceImpl implements ThemeService {
 
 	@Inject private ThemeRepository themeRepository;
 
-	public Theme getTheme(long id) {
-		return themeRepository.findOne(id);
+	@PostConstruct
+	public void initDefault() {
+		if (getDefault() == null) {
+			themeRepository.save(Theme.DEFAULT);
+		}
+	}
+
+	public Theme getDefault() {
+		return themeRepository.findByName(Theme.DEFAULT.getName());
 	}
 
 	public List<Theme> getThemes() {

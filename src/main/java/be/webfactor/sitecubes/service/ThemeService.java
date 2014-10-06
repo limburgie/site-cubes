@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ThemeService {
 
-	Theme getTheme(long id);
+	Theme getDefault();
 
 	List<Theme> getThemes();
 
