@@ -28,8 +28,9 @@
 								<h:inputSecret id="password" value="#{loginBean.password}" styleClass="form-control" maxlength="255"/>
 							</div>
 							<div class="checkbox">
-								<h:outputLabel for="remember-me" value="#{msg['remember-me']}"/>
-								<h:selectBooleanCheckbox id="remember-me" value="#{loginBean.rememberMe}"/>
+								<label>
+									<h:selectBooleanCheckbox id="remember-me" value="#{loginBean.rememberMe}"/> #{msg['remember-me']}
+								</label>
 							</div>
 							<p:commandButton styleClass="btn btn-primary" icon="fa fa-sign-in" value="#{msg['sign-in']}" action="#{loginBean.login}" ajax="false"/>
 						</h:form>

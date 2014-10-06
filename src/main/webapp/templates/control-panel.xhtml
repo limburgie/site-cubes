@@ -1,8 +1,7 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:p="http://primefaces.org/ui">
+		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:composition template="main.xhtml">
 		<ui:define name="title">
 			<ui:insert name="subtitle"/> | #{msg['control-panel']}
@@ -15,6 +14,7 @@
 							<div class="list-group">
 								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
 								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
+								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}"/>
 								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
 							</div>
 						</div>

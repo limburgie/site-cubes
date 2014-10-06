@@ -6,6 +6,7 @@
 	<persistence-unit name="jevota.test" transaction-type="RESOURCE_LOCAL">
 		<class>be.webfactor.sitecubes.domain.Page</class>
 		<class>be.webfactor.sitecubes.domain.PageLayout</class>
+		<class>be.webfactor.sitecubes.domain.Theme</class>
 		<class>be.webfactor.sitecubes.domain.ContentItem</class>
 		<class>be.webfactor.sitecubes.domain.ContentLocation</class>
 		<properties>
