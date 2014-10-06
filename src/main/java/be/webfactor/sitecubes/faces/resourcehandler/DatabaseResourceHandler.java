@@ -1,4 +1,4 @@
-package be.webfactor.sitecubes.faces.helper;
+package be.webfactor.sitecubes.faces.resourcehandler;
 
 import be.webfactor.sitecubes.service.ThemeService;
 import be.webfactor.sitecubes.util.BeanLocator;
@@ -8,10 +8,7 @@ import javax.faces.application.ResourceHandler;
 import javax.faces.application.ResourceHandlerWrapper;
 import javax.faces.application.ViewResource;
 import javax.faces.context.FacesContext;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 
 public class DatabaseResourceHandler extends ResourceHandlerWrapper {
@@ -26,19 +23,9 @@ public class DatabaseResourceHandler extends ResourceHandlerWrapper {
 	public ViewResource createViewResource(FacesContext context, String resourceName) {
 		if (resourceName.equals("/pages/view.xhtml")) {
 			try {
-				File file = File.createTempFile("dynamic-", ".xhtml");
+				String template = BeanLocator.getBean(ThemeService.class).getThemes().get(0).getTemplate();
+				final URL url = new URL(null, "sample://test", new CustomURLStreamHandler(template));
 
-				Writer writer = null; sour
-				try {
-					writer = new FileWriter(file);
-					writer.append(BeanLocator.getBean(ThemeService.class).getThemes().get(0).getTemplate());
-				} finally {
-					if (writer != null) {
-						writer.close();
-					}
-				}
-
-				final URL url = file.toURI().toURL();
 				return new ViewResource() {
 					@Override
 					public URL getURL() {
