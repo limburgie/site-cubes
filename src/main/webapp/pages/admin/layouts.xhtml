@@ -55,8 +55,9 @@
 						<h:inputText id="name" value="#{pageLayoutsBean.layout.name}" styleClass="form-control" maxlength="255"/>
 					</div>
 					<div class="checkbox">
-						<h:outputLabel for="default" value="#{msg['is-default-layout']}"/>
-						<h:selectBooleanCheckbox id="default" value="#{pageLayoutsBean.layout.defaultLayout}" disabled="#{pageLayoutsBean.layout.defaultLayout and !empty pageLayoutsBean.layout.id}"/>
+						<label>
+							<h:selectBooleanCheckbox id="default" value="#{pageLayoutsBean.layout.defaultLayout}" disabled="#{pageLayoutsBean.layout.defaultLayout and !empty pageLayoutsBean.layout.id}"/> #{msg['is-default-layout']}
+						</label>
 					</div>
 					<div class="form-group layout-structure-field">
 						<h:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
