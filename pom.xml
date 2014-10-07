@@ -11,7 +11,7 @@
 
 	<properties>
 		<version.jsf>2.2.8-02</version.jsf>
-		<version.spring>4.1.1.RELEASE</version.spring>
+		<version.spring>4.0.7.RELEASE</version.spring>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 	</properties>
