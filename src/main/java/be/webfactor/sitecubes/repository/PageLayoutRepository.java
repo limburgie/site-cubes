@@ -39,4 +39,7 @@ public interface PageLayoutRepository extends JpaRepository<PageLayout, Long> {
 	@Modifying @Query("UPDATE PageLayout SET defaultLayout=true WHERE id=?1")
 	void setDefault(long id);
 
+	@CacheEvict(value = "page_layout", allEntries = true)
+	void delete(PageLayout layout);
+
 }

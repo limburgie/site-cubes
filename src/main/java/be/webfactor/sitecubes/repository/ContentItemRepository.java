@@ -16,6 +16,6 @@ public interface ContentItemRepository extends JpaRepository<ContentItem, Long> 
 	ContentItem save(ContentItem item);
 
 	@CacheEvict(value = "content_item", allEntries = true)
-	void delete(Long id);
+	void delete(ContentItem item);
 
 }
