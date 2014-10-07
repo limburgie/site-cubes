@@ -33,7 +33,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	Page saveAndFlush(Page page);
 
 	@CacheEvict(value = "page", allEntries = true)
-	void delete(Long id);
+	void delete(Page page);
 
 	@CacheEvict(value = "page", allEntries = true)
 	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")

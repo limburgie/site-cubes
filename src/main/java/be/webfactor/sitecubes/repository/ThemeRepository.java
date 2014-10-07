@@ -20,6 +20,6 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
 	Theme save(Theme theme);
 
 	@CacheEvict(value = "theme", allEntries = true)
-	void delete(Long id);
+	void delete(Theme theme);
 
 }
