@@ -16,6 +16,7 @@
 			<var>build</var>
 		</resource-bundle>
 		<resource-handler>org.omnifaces.resourcehandler.UnmappedResourceHandler</resource-handler>
+		<resource-handler>be.webfactor.sitecubes.faces.resourcehandler.DatabaseResourceHandler</resource-handler>
 	</application>
 	<factory>
 		<exception-handler-factory>be.webfactor.sitecubes.faces.helper.exception.ExceptionHandlerFactory</exception-handler-factory>
