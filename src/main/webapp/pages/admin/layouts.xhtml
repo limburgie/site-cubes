@@ -25,7 +25,7 @@
 							<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 								<p:panel>
 									<f:facet name="header">
-										<p:commandLink action="#{pageLayoutsBean.setLayout(layout)}" update="@form :button-form :detail-form">
+										<p:commandLink action="#{pageLayoutsBean.selectLayout(layout)}" update="@form :button-form :detail-form">
 											<p:ajax onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 											<h:outputText value="#{layout.name}"/>
 											<h:outputText value=" (#{msg['default']})" rendered="#{layout.defaultLayout}"/>

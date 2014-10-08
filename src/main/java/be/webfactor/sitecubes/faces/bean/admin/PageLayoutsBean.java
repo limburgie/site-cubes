@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.bean.admin;
 import be.webfactor.sitecubes.domain.PageLayout;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.PageLayoutService;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -44,6 +45,10 @@ public class PageLayoutsBean implements Serializable {
 	public void cancel() {
 		layout = null;
 		initLayouts();
+	}
+
+	public void selectLayout(PageLayout layout) {
+		setLayout(SerializationUtils.clone(layout));
 	}
 
 	public void setLayout(PageLayout layout) {

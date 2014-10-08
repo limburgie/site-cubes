@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.bean.admin;
 import be.webfactor.sitecubes.domain.Theme;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.ThemeService;
+import org.apache.commons.lang3.SerializationUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
 
@@ -32,7 +33,7 @@ public class ThemeBean implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		theme = (Theme) event.getObject();
+		theme = SerializationUtils.clone((Theme) event.getObject());
 	}
 
 	public void save() {
