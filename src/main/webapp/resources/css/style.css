@@ -251,3 +251,7 @@ body.dragging .portlet-placeholder {
 .basic-navigation {
 	margin-top: 25px;
 }
+
+.site-selector {
+	background: #ddd;
+}
