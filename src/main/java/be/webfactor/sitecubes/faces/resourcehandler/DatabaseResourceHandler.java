@@ -24,7 +24,7 @@ public class DatabaseResourceHandler extends ResourceHandlerWrapper {
 		if (resourceName.equals("/pages/view.xhtml")) {
 			try {
 				String template = BeanLocator.getBean(ThemeService.class).getThemes().get(0).getTemplate();
-				final URL url = new URL(null, "sample://test", new CustomURLStreamHandler(template));
+				final URL url = new URL(null, "sample://test?t=" + System.currentTimeMillis(), new CustomURLStreamHandler(template));
 
 				return new ViewResource() {
 					@Override
