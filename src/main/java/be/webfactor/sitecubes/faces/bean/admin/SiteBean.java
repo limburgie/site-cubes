@@ -10,10 +10,11 @@ import org.springframework.context.annotation.Scope;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 @Named @Scope("view")
-public class SiteBean {
+public class SiteBean implements Serializable {
 
 	@Inject private SiteService siteService;
 	@Inject private FacesUtil facesUtil;

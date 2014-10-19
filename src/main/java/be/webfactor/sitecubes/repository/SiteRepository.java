@@ -4,6 +4,7 @@ import be.webfactor.sitecubes.domain.Site;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -18,4 +19,11 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 	@CacheEvict(value = "site", allEntries = true)
 	void delete(Site site);
 
+	@Cacheable("site")
+	@Query("FROM Site WHERE friendlyUrl=?1")
+	Site findByFriendlyUrl(String friendlyUrl);
+
+	@Cacheable("site")
+	@Query("FROM Site WHERE name=?1")
+	Site findByName(String name);
 }

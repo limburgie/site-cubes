@@ -7,8 +7,8 @@ import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageLayoutService;
 import be.webfactor.sitecubes.service.PageService;
-import be.webfactor.sitecubes.service.exception.DuplicateFriendlyUrlException;
-import be.webfactor.sitecubes.service.exception.InvalidFriendlyUrlException;
+import be.webfactor.sitecubes.service.exception.DuplicatePageFriendlyUrlException;
+import be.webfactor.sitecubes.service.exception.InvalidPageFriendlyUrlException;
 import be.webfactor.sitecubes.service.exception.InvalidPageNameException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.annotation.Secured;
@@ -62,7 +62,7 @@ public class PageServiceImpl implements PageService, Serializable {
 
 	private void checkForInvalidFriendlyUrl(Page page) {
 		if (!friendlyUrlHandler.isValid(page.getFriendlyUrl())) {
-			throw new InvalidFriendlyUrlException();
+			throw new InvalidPageFriendlyUrlException();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PageServiceImpl implements PageService, Serializable {
 	private void checkForDuplicateFriendlyUrl(Page page) {
 		Page friendlyUrlPage = getPageByFriendlyUrl(page.getFriendlyUrl());
 		if (friendlyUrlPage != null && !friendlyUrlPage.equals(page)) {
-			throw new DuplicateFriendlyUrlException();
+			throw new DuplicatePageFriendlyUrlException();
 		}
 	}
 
