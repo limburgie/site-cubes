@@ -8,4 +8,8 @@ public interface SiteService {
 
 	List<Site> getSites();
 
+	Site save(Site site);
+
+	void delete(Site site);
+
 }
