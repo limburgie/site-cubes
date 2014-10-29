@@ -2,6 +2,7 @@ package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
+import be.webfactor.sitecubes.faces.bean.SiteContextBean;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.helper.PageTreeBuilder;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
@@ -16,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 
 @Named
 @Scope("view")
@@ -27,6 +27,7 @@ public class PagesBean implements Serializable {
 	@Inject private PageTreeBuilder pageTreeBuilder;
 	@Inject private FacesUtil facesUtil;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
+	@Inject private SiteContextBean siteContextBean;
 
 	private PageLayout defaultLayout;
 	private TreeNode rootNode;
@@ -44,7 +45,7 @@ public class PagesBean implements Serializable {
 	}
 
 	public void initTree() {
-		rootPage = pageService.getRoot();
+		rootPage = pageService.getRoot(siteContextBean.getActiveSite());
 		rootNode = pageTreeBuilder.buildTree(rootPage, page);
 	}
 

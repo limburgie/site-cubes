@@ -13,6 +13,10 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 	@Cacheable("site")
 	List<Site> findAll();
 
+	@Cacheable("site")
+	@Query("FROM Site WHERE defaultSite=true")
+	Site getDefaultSite();
+
 	@CacheEvict(value = "site", allEntries = true)
 	Site save(Site site);
 

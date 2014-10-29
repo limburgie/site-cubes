@@ -10,16 +10,8 @@ import java.util.List;
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"})})
 public class Page extends BaseEntity {
 
-	public static final Page ROOT;
-
-	private static final String ROOT_NAME = "Root";
-	private static final String ROOT_FRIENDLY_URL = "/";
-
-	static {
-		ROOT = new Page();
-		ROOT.setName(ROOT_NAME);
-		ROOT.setFriendlyUrl(ROOT_FRIENDLY_URL);
-	}
+	public static final String ROOT_NAME = "Root";
+	public static final String ROOT_FRIENDLY_URL = "/";
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -41,6 +33,10 @@ public class Page extends BaseEntity {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "page_layout_id")
 	private PageLayout layout;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "site_id")
+	private Site site;
 
 	public String getName() {
 		return name;
@@ -91,6 +87,15 @@ public class Page extends BaseEntity {
 
 	public void setLayout(PageLayout layout) {
 		this.layout = layout;
+	}
+
+	@Cacheable("site")
+	public Site getSite() {
+		return site;
+	}
+
+	public void setSite(Site site) {
+		this.site = site;
 	}
 
 	public void removePage(Page page) {

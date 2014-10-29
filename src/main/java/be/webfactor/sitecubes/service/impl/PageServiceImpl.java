@@ -2,6 +2,7 @@ package be.webfactor.sitecubes.service.impl;
 
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
+import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.PageRepository;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
@@ -14,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -29,15 +29,21 @@ public class PageServiceImpl implements PageService, Serializable {
 	@Inject private PageRepository pageRepository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 
-	@PostConstruct
-	public void initRoot() {
-		if (getRoot() == null) {
-			pageRepository.save(Page.ROOT);
+	@Transactional
+	public Page createRoot(Site site) {
+		Page root = getRoot(site);
+		if (root != null) {
+			return root;
 		}
+		root = new Page();
+		root.setName(Page.ROOT_NAME);
+		root.setFriendlyUrl(Page.ROOT_FRIENDLY_URL);
+		root.setSite(site);
+		return save(root);
 	}
 
-	public Page getRoot() {
-		return getPageByFriendlyUrl(Page.ROOT.getFriendlyUrl());
+	public Page getRoot(Site site) {
+		return getPageByFriendlyUrl(site, Page.ROOT_FRIENDLY_URL);
 	}
 
 	@Transactional @Secured("ROLE_ADMIN")
@@ -73,7 +79,7 @@ public class PageServiceImpl implements PageService, Serializable {
 	}
 
 	private void checkForDuplicateFriendlyUrl(Page page) {
-		Page friendlyUrlPage = getPageByFriendlyUrl(page.getFriendlyUrl());
+		Page friendlyUrlPage = getPageByFriendlyUrl(page.getSite(), page.getFriendlyUrl());
 		if (friendlyUrlPage != null && !friendlyUrlPage.equals(page)) {
 			throw new DuplicatePageFriendlyUrlException();
 		}
@@ -88,19 +94,19 @@ public class PageServiceImpl implements PageService, Serializable {
 			pageRepository.save(parent);
 		}
 		pageRepository.delete(page);
-		movePagesUpForParentFromPosition(parent, page.getPosition());
+		movePagesUpForParentFromPosition(page.getSite(), parent, page.getPosition());
 	}
 
 	public Page getPageById(long id) {
 		return pageRepository.findOne(id);
 	}
 
-	public Page getPageByFriendlyUrl(String friendlyUrl) {
-		return pageRepository.findByFriendlyUrl(friendlyUrl);
+	public Page getPageByFriendlyUrl(Site site, String friendlyUrl) {
+		return pageRepository.findByFriendlyUrl(site, friendlyUrl);
 	}
 
-	public Page getFirstPage() {
-		List<Page> pages = getRoot().getChildren();
+	public Page getFirstPage(Site site) {
+		List<Page> pages = getRoot(site).getChildren();
 		if (pages.isEmpty()) {
 			return null;
 		}
@@ -118,13 +124,13 @@ public class PageServiceImpl implements PageService, Serializable {
 		int oldPosition = movingPage.getPosition();
 		Page oldParent = movingPage.getParent();
 		doMovePage(movingPage, null, -1);
-		movePagesUpForParentFromPosition(oldParent, oldPosition + 1);
-		movePagesDownForParentFromPosition(targetParentPage, position);
+		movePagesUpForParentFromPosition(movingPage.getSite(), oldParent, oldPosition + 1);
+		movePagesDownForParentFromPosition(movingPage.getSite(), targetParentPage, position);
 		doMovePage(movingPage, targetParentPage, position);
 	}
 
-	private void movePagesUpForParentFromPosition(Page parent, int position) {
-		List<Page> children = pageRepository.getPagesForParent(parent);
+	private void movePagesUpForParentFromPosition(Site site, Page parent, int position) {
+		List<Page> children = pageRepository.getPagesForParent(site, parent);
 		for (int i = 0; i < children.size(); i++) {
 			Page child = children.get(i);
 			int current = child.getPosition();
@@ -135,8 +141,8 @@ public class PageServiceImpl implements PageService, Serializable {
 		}
 	}
 
-	private void movePagesDownForParentFromPosition(Page parent, int position) {
-		List<Page> children = pageRepository.getPagesForParent(parent);
+	private void movePagesDownForParentFromPosition(Site site, Page parent, int position) {
+		List<Page> children = pageRepository.getPagesForParent(site, parent);
 		for (int i = children.size() - 1; i >= position; i--) {
 			Page child = children.get(i);
 			child.setPosition(i + 1);

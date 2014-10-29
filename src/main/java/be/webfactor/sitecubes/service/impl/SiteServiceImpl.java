@@ -3,15 +3,14 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.SiteRepository;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
+import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.SiteService;
-import be.webfactor.sitecubes.service.exception.DuplicateSiteFriendlyUrlException;
-import be.webfactor.sitecubes.service.exception.DuplicateSiteNameException;
-import be.webfactor.sitecubes.service.exception.InvalidSiteFriendlyUrlException;
-import be.webfactor.sitecubes.service.exception.InvalidSiteNameException;
+import be.webfactor.sitecubes.service.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -20,8 +19,20 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class SiteServiceImpl implements SiteService {
 
+	@Inject private PageService pageService;
 	@Inject private SiteRepository repository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
+
+	@PostConstruct
+	public void init() {
+		if (getDefaultSite() == null) {
+			save(Site.DEFAULT_SITE);
+		}
+	}
+
+	public Site getDefaultSite() {
+		return repository.getDefaultSite();
+	}
 
 	public List<Site> getSites() {
 		return repository.findAll();
@@ -30,7 +41,12 @@ public class SiteServiceImpl implements SiteService {
 	@Transactional @Secured("ROLE_ADMIN")
 	public Site save(Site site) {
 		validate(site);
-		return repository.save(site);
+		boolean isNew = site.isNew();
+		site = repository.save(site);
+		if (isNew) {
+			pageService.createRoot(site);
+		}
+		return site;
 	}
 
 	private void validate(Site site) {
@@ -76,6 +92,9 @@ public class SiteServiceImpl implements SiteService {
 
 	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(Site site) {
+		if (site.isDefaultSite()) {
+			throw new DefaultSiteCannotBeDeletedException();
+		}
 		repository.delete(site);
 	}
 
