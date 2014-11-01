@@ -1,6 +1,7 @@
 package be.webfactor.sitecubes.service.impl;
 
 import be.webfactor.sitecubes.domain.ContentItem;
+import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.ContentItemRepository;
 import be.webfactor.sitecubes.service.ContentItemService;
 import be.webfactor.sitecubes.service.ContentLocationService;
@@ -20,12 +21,8 @@ public class ContentItemServiceImpl implements ContentItemService {
 	@Inject private ContentLocationService contentLocationService;
 	@Inject private ContentItemRepository contentItemRepository;
 
-	public ContentItem getItem(long id) {
-		return contentItemRepository.findOne(id);
-	}
-
-	public List<ContentItem> getItems() {
-		return contentItemRepository.findAll();
+	public List<ContentItem> getItems(Site site) {
+		return contentItemRepository.getSiteContent(site);
 	}
 
 	@Transactional @Secured("ROLE_ADMIN")

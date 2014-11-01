@@ -33,7 +33,7 @@
 								<ul class="dropdown-menu">
 									<ui:repeat value="#{siteContextBean.otherSites}" var="site">
 										<li>
-											<h:link outcome="/pages/admin/pages" value="#{site.name}">
+											<h:link outcome="#{view.viewId}" value="#{site.name}">
 												<f:param name="s" value="#{site.friendlyUrl}"/>
 											</h:link>
 										</li>

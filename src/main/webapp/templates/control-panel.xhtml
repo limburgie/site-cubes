@@ -20,9 +20,15 @@
 								</h:link>
 							</div>
 							<div class="list-group">
-								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}"/>
-								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}"/>
-								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
+								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
 							</div>
 						</div>
 						<div class="col-md-8 col-sm-8">
