@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
+import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.ContentLocationRepository;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import org.springframework.security.access.annotation.Secured;

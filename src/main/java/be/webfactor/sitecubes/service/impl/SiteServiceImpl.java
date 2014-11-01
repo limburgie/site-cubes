@@ -1,7 +1,9 @@
 package be.webfactor.sitecubes.service.impl;
 
+import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.SiteRepository;
+import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.FriendlyUrlHandler;
 import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.SiteService;
@@ -22,6 +24,7 @@ public class SiteServiceImpl implements SiteService {
 	@Inject private PageService pageService;
 	@Inject private SiteRepository repository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
+	@Inject private ContentLocationService contentLocationService;
 
 	@PostConstruct
 	public void init() {
@@ -95,6 +98,8 @@ public class SiteServiceImpl implements SiteService {
 		if (site.isDefaultSite()) {
 			throw new DefaultSiteCannotBeDeletedException();
 		}
+		Page root = pageService.getRoot(site);
+		pageService.delete(root);
 		repository.delete(site);
 	}
 

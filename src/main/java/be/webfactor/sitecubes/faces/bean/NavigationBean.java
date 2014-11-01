@@ -19,7 +19,7 @@ public class NavigationBean implements Serializable {
 
 	@PostConstruct
 	public void initRoot() {
-		root = pageService.getRoot(siteContextBean.getActiveSite());
+		root = pageService.getRoot(siteContextBean.getSite());
 	}
 
 	public Page getRoot() {

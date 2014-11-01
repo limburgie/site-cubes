@@ -1,7 +1,8 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:p="http://primefaces.org/ui">
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:form rendered="#{facesUtil.userLoggedIn}">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -18,14 +19,28 @@
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<h:panelGroup rendered="#{!facesUtil.adminView}">
+						<ui:fragment rendered="#{!facesUtil.adminView}">
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['add']} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><p:commandLink value="#{msg['content']}" action="#{contentSelectorBean.initializeContent}" update=":content-selector-form" oncomplete="PF('contentSelectorDialog').show()"/></li>
 								</ul>
 							</li>
-						</h:panelGroup>
+						</ui:fragment>
+						<ui:fragment rendered="#{facesUtil.adminView}">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{siteContextBean.site.name} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<ui:repeat value="#{siteContextBean.otherSites}" var="site">
+										<li>
+											<h:link outcome="/pages/admin/pages" value="#{site.name}">
+												<f:param name="s" value="#{site.friendlyUrl}"/>
+											</h:link>
+										</li>
+									</ui:repeat>
+								</ul>
+							</li>
+						</ui:fragment>
 					</ul>
 					<h:panelGroup layout="block" styleClass="controls-toggler navbar-left" rendered="#{!facesUtil.adminView}">
 						<div class="checkbox">
@@ -46,7 +61,7 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Peter Mesotten <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li>
 									<a href="#{facesUtil.prefixWithContext('j_spring_security_logout')}">#{msg['sign-out']}</a>

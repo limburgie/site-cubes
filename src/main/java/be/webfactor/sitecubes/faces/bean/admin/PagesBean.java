@@ -45,7 +45,7 @@ public class PagesBean implements Serializable {
 	}
 
 	public void initTree() {
-		rootPage = pageService.getRoot(siteContextBean.getActiveSite());
+		rootPage = pageService.getRoot(siteContextBean.getSite());
 		rootNode = pageTreeBuilder.buildTree(rootPage, page);
 	}
 
