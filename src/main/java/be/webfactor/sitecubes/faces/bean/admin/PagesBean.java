@@ -63,6 +63,7 @@ public class PagesBean implements Serializable {
 	private void createPage() {
 		page = new Page();
 		page.setLayout(defaultLayout);
+		page.setSite(siteContextBean.getSite());
 	}
 
 	public void onNodeSelect(NodeSelectEvent event) {

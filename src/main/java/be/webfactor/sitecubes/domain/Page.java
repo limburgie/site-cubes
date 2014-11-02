@@ -31,11 +31,11 @@ public class Page extends BaseEntity {
 	private List<Page> children = new ArrayList<Page>();
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "page_layout_id")
+	@JoinColumn(name = "page_layout_id", nullable = false)
 	private PageLayout layout;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "site_id")
+	@JoinColumn(name = "site_id", nullable = false)
 	private Site site;
 
 	public String getName() {

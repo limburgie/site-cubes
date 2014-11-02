@@ -39,6 +39,7 @@ public class PageServiceImpl implements PageService, Serializable {
 		root.setName(Page.ROOT_NAME);
 		root.setFriendlyUrl(Page.ROOT_FRIENDLY_URL);
 		root.setSite(site);
+		root.setLayout(pageLayoutService.getDefaultLayout());
 		return save(root);
 	}
 

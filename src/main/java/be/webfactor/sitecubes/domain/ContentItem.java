@@ -20,7 +20,7 @@ public class ContentItem extends BaseEntity {
 	private Date modifiedDate;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "site_id")
+	@JoinColumn(name = "site_id", nullable = false)
 	private Site site;
 
 	public String getTitle() {
