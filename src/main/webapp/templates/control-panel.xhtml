@@ -4,7 +4,7 @@
 		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:composition template="main.xhtml">
 		<ui:define name="title">
-			<ui:insert name="subtitle"/> | #{msg['control-panel']}
+			<ui:insert name="subtitle"/> | #{siteContextBean.site.name} | #{msg['control-panel']}
 		</ui:define>
 		<ui:define name="body">
 			<div id="control-panel">
