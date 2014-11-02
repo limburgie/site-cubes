@@ -97,6 +97,11 @@ public class PageServiceImpl implements PageService, Serializable {
 		movePagesUpForParentFromPosition(page.getSite(), parent, page.getPosition());
 	}
 
+	@Transactional @Secured("ROLE_ADMIN")
+	public void deleteSitePages(Site site) {
+		pageRepository.deleteSitePages(site);
+	}
+
 	public Page getPageById(long id) {
 		return pageRepository.findOne(id);
 	}

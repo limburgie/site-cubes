@@ -40,4 +40,8 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	void updatePageLayout(PageLayout layout, PageLayout defaultLayout);
 
+	@CacheEvict(value = "page", allEntries = true)
+	@Modifying @Query("DELETE FROM Page WHERE site=?1")
+	void deleteSitePages(Site site);
+
 }

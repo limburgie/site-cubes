@@ -78,6 +78,11 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 	}
 
 	@Transactional @Secured("ROLE_ADMIN")
+	public void deleteSiteLocations(Site site) {
+		contentLocationRepository.deleteSiteLocations(site);
+	}
+
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(ContentLocation location) {
 		Page page = location.getPage();
 		String columnId = location.getColumnId();

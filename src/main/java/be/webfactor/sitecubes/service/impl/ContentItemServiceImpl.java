@@ -47,4 +47,11 @@ public class ContentItemServiceImpl implements ContentItemService {
 		contentItemRepository.delete(item);
 	}
 
+	@Transactional @Secured("ROLE_ADMIN")
+	public void deleteSiteContent(Site site) {
+		for (ContentItem item : getItems(site)) {
+			delete(item);
+		}
+	}
+
 }

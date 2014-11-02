@@ -14,6 +14,7 @@
 						<span class="icon-bar"></span>
 					</button>
 					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.rootContext}" rendered="#{!facesUtil.adminView}">#{msg['homepage']}</h:outputLink>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.rootContext}" rendered="#{facesUtil.adminView}" title="#{msg['go-back']}"><i class="fa fa-arrow-circle-left"></i></h:outputLink>
 					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext('admin')}" rendered="#{facesUtil.adminView}">#{msg['control-panel']}</h:outputLink>
 				</div>
 

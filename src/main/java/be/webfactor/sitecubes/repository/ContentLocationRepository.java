@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.repository;
 import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
+import be.webfactor.sitecubes.domain.Site;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,5 +45,9 @@ public interface ContentLocationRepository extends JpaRepository<ContentLocation
 	@Cacheable("content_location")
 	@Query("SELECT COUNT(*) FROM ContentLocation WHERE page=?1 AND columnId=?2")
 	int getLocationCountForPageInColumnId(Page page, String columnId);
+
+	@CacheEvict(value = "content_location", allEntries = true)
+	@Modifying @Query("DELETE FROM ContentLocation WHERE page.site=?1")
+	void deleteSiteLocations(Site site);
 
 }

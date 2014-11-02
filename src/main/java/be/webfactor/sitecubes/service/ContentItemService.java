@@ -13,4 +13,6 @@ public interface ContentItemService {
 
 	void delete(ContentItem item);
 
+	void deleteSiteContent(Site site);
+
 }

@@ -14,6 +14,8 @@ public interface PageService {
 
 	void delete(Page page);
 
+	void deleteSitePages(Site site);
+
 	Page getPageById(long id);
 
 	Page getPageByFriendlyUrl(Site site, String friendlyUrl);
