@@ -169,6 +169,7 @@ body.dockbar-visible {
 	min-height: 100%;
 	height: auto !important;
 	margin: 0 auto -60px;
+	padding-bottom: 20px;
 }
 
 #control-panel .list-group {
@@ -181,7 +182,6 @@ body.dockbar-visible {
 
 #version-info {
 	background-color: #f5f5f5;
-	margin-top: 20px;
 }
 
 #version-info p {
@@ -250,4 +250,8 @@ body.dragging .portlet-placeholder {
 
 .basic-navigation {
 	margin-top: 25px;
+}
+
+.site-selector {
+	background: #ddd;
 }

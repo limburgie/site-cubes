@@ -5,7 +5,6 @@ import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.faces.renderer.CustomDashboardModel;
-import be.webfactor.sitecubes.service.ContentItemService;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.PageService;
 import org.primefaces.component.commandlink.CommandLink;
@@ -36,8 +35,8 @@ public class PageViewBean implements Serializable {
 
 	@Inject private PageService pageService;
 	@Inject private ContentLocationService contentLocationService;
-	@Inject private ContentItemService contentItemService;
 	@Inject private FacesUtil facesUtil;
+	@Inject private SiteContextBean siteContextBean;
 
 	private Page page;
 	private List<ContentLocation> locations;
@@ -54,8 +53,8 @@ public class PageViewBean implements Serializable {
 	}
 
 	private void initPage() {
-		String friendlyUrl = facesUtil.getParam("u");
-		page = pageService.getPageByFriendlyUrl(friendlyUrl);
+		String friendlyUrl = facesUtil.getParam("p");
+		page = pageService.getPageByFriendlyUrl(siteContextBean.getSite(), friendlyUrl);
 	}
 
 	private void initDashboard() {

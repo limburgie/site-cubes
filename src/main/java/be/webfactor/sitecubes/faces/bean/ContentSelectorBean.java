@@ -1,6 +1,7 @@
 package be.webfactor.sitecubes.faces.bean;
 
 import be.webfactor.sitecubes.domain.ContentItem;
+import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.service.ContentItemService;
 import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
@@ -18,9 +19,11 @@ public class ContentSelectorBean implements Serializable {
 
 	@Inject private ContentItemService contentItemService;
 	@Inject private PageViewBean pageViewBean;
+	@Inject private SiteContextBean siteContextBean;
 
 	public void initializeContent() {
-		items = contentItemService.getItems();
+		Site site = siteContextBean.getSite();
+		items = contentItemService.getItems(site);
 	}
 
 	public List<ContentItem> getItems() {

@@ -2,6 +2,7 @@ package be.webfactor.sitecubes.repository;
 
 import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.PageLayout;
+import be.webfactor.sitecubes.domain.Site;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,12 +20,12 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	List<Page> findAll();
 
 	@Cacheable("page")
-	@Query("FROM Page WHERE (?1 IS NULL AND parent_id IS NULL) OR parent=?1 ORDER BY position ASC")
-	List<Page> getPagesForParent(Page page);
+	@Query("FROM Page WHERE site=?1 AND ((?2 IS NULL AND parent_id IS NULL) OR parent=?2) ORDER BY position ASC")
+	List<Page> getPagesForParent(Site site, Page page);
 
 	@Cacheable("page")
-	@Query("FROM Page WHERE friendlyUrl=?1")
-	Page findByFriendlyUrl(String friendlyUrl);
+	@Query("FROM Page WHERE site=?1 AND friendlyUrl=?2")
+	Page findByFriendlyUrl(Site site, String friendlyUrl);
 
 	@CacheEvict(value = "page", allEntries = true)
 	Page save(Page page);
@@ -38,5 +39,9 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 	@CacheEvict(value = "page", allEntries = true)
 	@Modifying @Query("UPDATE Page SET layout=?2 WHERE layout=?1")
 	void updatePageLayout(PageLayout layout, PageLayout defaultLayout);
+
+	@CacheEvict(value = "page", allEntries = true)
+	@Modifying @Query("DELETE FROM Page WHERE site=?1")
+	void deleteSitePages(Site site);
 
 }

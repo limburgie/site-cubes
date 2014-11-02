@@ -1,52 +1,33 @@
 package be.webfactor.sitecubes.rewrite;
 
 
-import be.webfactor.sitecubes.domain.Page;
-import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.util.BeanLocator;
 import org.ocpsoft.rewrite.annotation.RewriteConfiguration;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
-import org.ocpsoft.rewrite.config.InboundOperation;
-import org.ocpsoft.rewrite.context.EvaluationContext;
-import org.ocpsoft.rewrite.event.InboundRewrite;
-import org.ocpsoft.rewrite.event.Rewrite;
-import org.ocpsoft.rewrite.param.Constraint;
-import org.ocpsoft.rewrite.servlet.config.Forward;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
-import org.ocpsoft.rewrite.servlet.event.InboundServletRewrite;
 
 import javax.servlet.ServletContext;
 
 @RewriteConfiguration
 public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 
+	private InboundPageOperation operation;
+
+	public SiteCubesConfigurationProvider() {
+		operation = BeanLocator.getBean(InboundPageOperation.class);
+	}
+
 	@Override
 	public Configuration getConfiguration(ServletContext servletContext) {
-		final PageService pageService = BeanLocator.getBean(PageService.class);
 		return ConfigurationBuilder.begin()
 				.addRule(Join.path("/login").to("/pages/login.xhtml"))
-				.addRule(Join.path("/admin").to("/admin/pages").withChaining())
+				.addRule(Join.path("/admin").to("/pages/admin/pages.xhtml"))
 				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"))
-				.addRule().when(Path.matches("/")).perform(new InboundOperation() {
-					public void performInbound(InboundRewrite event, EvaluationContext context) {
-						Page first = pageService.getFirstPage();
-						if (first != null) {
-							((InboundServletRewrite) event).forward("/"+first.getFriendlyUrl());
-						}
-					}
-				})
-				.addRule().when(Path.matches("/{friendlyUrl}")).perform(Forward.to("/pages/view.xhtml?u={friendlyUrl}")).where("friendlyUrl").matches(".*").constrainedBy(new Constraint<String>() {
-					public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String friendlyUrl) {
-						// Check if there is a page with this friendly URL
-						if (friendlyUrl.contains("javax.faces.resource")) {
-							return false;
-						}
-						return pageService.getPageByFriendlyUrl(friendlyUrl) != null;
-					}
-				});
+				.addRule().when(Path.matches("/{siteFriendlyUrl}/{pageFriendlyUrl}")).perform(operation)
+				.addRule().when(Path.matches("/{siteFriendlyUrl}")).perform(operation);
 	}
 
 	@Override

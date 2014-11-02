@@ -1,6 +1,8 @@
 package be.webfactor.sitecubes.faces.bean.admin;
 
 import be.webfactor.sitecubes.domain.ContentItem;
+import be.webfactor.sitecubes.domain.Site;
+import be.webfactor.sitecubes.faces.bean.SiteContextBean;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.ContentItemService;
 import org.apache.commons.lang3.SerializationUtils;
@@ -17,19 +19,23 @@ import java.util.List;
 public class ContentItemBean implements Serializable {
 
 	@Inject private ContentItemService contentItemService;
+	@Inject private SiteContextBean siteContextBean;
 	@Inject private FacesUtil facesUtil;
 
+	private Site site;
 	private List<ContentItem> items;
 	private ContentItem item;
 
 	@PostConstruct
 	public void initData() {
 		item = null;
-		items = contentItemService.getItems();
+		site = siteContextBean.getSite();
+		items = contentItemService.getItems(site);
 	}
 
 	public void initNewItem() {
 		item = new ContentItem();
+		item.setSite(site);
 	}
 
 	public void onRowSelect(SelectEvent event) {

@@ -1,7 +1,8 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:p="http://primefaces.org/ui">
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:form rendered="#{facesUtil.userLoggedIn}">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -12,20 +13,46 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.rootContext}" rendered="#{!facesUtil.adminView}">#{msg['homepage']}</h:outputLink>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext(pageViewBean.page.site.friendlyUrl)}" rendered="#{!facesUtil.adminView}">#{pageViewBean.page.site.name}</h:outputLink>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext(siteContextBean.site.friendlyUrl)}" rendered="#{facesUtil.adminView}" title="#{msg['go-back']}"><i class="fa fa-arrow-circle-left"></i></h:outputLink>
 					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext('admin')}" rendered="#{facesUtil.adminView}">#{msg['control-panel']}</h:outputLink>
 				</div>
 
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<h:panelGroup rendered="#{!facesUtil.adminView}">
+						<ui:fragment rendered="#{!facesUtil.adminView}">
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['add']} <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									#{msg['add']} <b class="caret"></b>
+								</a>
 								<ul class="dropdown-menu">
 									<li><p:commandLink value="#{msg['content']}" action="#{contentSelectorBean.initializeContent}" update=":content-selector-form" oncomplete="PF('contentSelectorDialog').show()"/></li>
 								</ul>
 							</li>
-						</h:panelGroup>
+						</ui:fragment>
+						<ui:fragment rendered="#{facesUtil.adminView}">
+							<ui:fragment rendered="#{empty siteContextBean.otherSites}">
+								<li>
+									<a href="#">#{siteContextBean.site.name}</a>
+								</li>
+							</ui:fragment>
+							<ui:fragment rendered="#{!empty siteContextBean.otherSites}">
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										#{siteContextBean.site.name} <b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu">
+										<ui:repeat value="#{siteContextBean.otherSites}" var="site">
+											<li>
+												<h:link outcome="#{view.viewId}" value="#{site.name}">
+													<f:param name="s" value="#{site.friendlyUrl}"/>
+												</h:link>
+											</li>
+										</ui:repeat>
+									</ul>
+								</li>
+							</ui:fragment>
+						</ui:fragment>
 					</ul>
 					<h:panelGroup layout="block" styleClass="controls-toggler navbar-left" rendered="#{!facesUtil.adminView}">
 						<div class="checkbox">
@@ -38,19 +65,21 @@
 						</div>
 					</h:panelGroup>
 					<ul class="nav navbar-nav navbar-right">
+						<ui:fragment rendered="#{!facesUtil.adminView}">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<ui:repeat value="#{siteBean.sites}" var="site">
+										<li><a href="#{facesUtil.prefixWithContext(site.friendlyUrl)}">#{site.name}</a></li>
+									</ui:repeat>
+								</ul>
+							</li>
+						</ui:fragment>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['admin']} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#{facesUtil.rootContext}">#{msg['homepage']}</a></li>
 								<li><a href="#{facesUtil.prefixWithContext('admin')}">#{msg['control-panel']}</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Peter Mesotten <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#{facesUtil.prefixWithContext('j_spring_security_logout')}">#{msg['sign-out']}</a>
-								</li>
+								<li><a href="#{facesUtil.prefixWithContext('j_spring_security_logout')}">#{msg['sign-out']}</a></li>
 							</ul>
 						</li>
 					</ul>

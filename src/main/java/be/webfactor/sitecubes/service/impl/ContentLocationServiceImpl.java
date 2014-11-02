@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.ContentItem;
 import be.webfactor.sitecubes.domain.ContentLocation;
 import be.webfactor.sitecubes.domain.Page;
+import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.ContentLocationRepository;
 import be.webfactor.sitecubes.service.ContentLocationService;
 import org.springframework.security.access.annotation.Secured;
@@ -74,6 +75,11 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 	@Transactional @Secured("ROLE_ADMIN")
 	public void deletePageLocations(Page page) {
 		contentLocationRepository.deletePageLocations(page);
+	}
+
+	@Transactional @Secured("ROLE_ADMIN")
+	public void deleteSiteLocations(Site site) {
+		contentLocationRepository.deleteSiteLocations(site);
 	}
 
 	@Transactional @Secured("ROLE_ADMIN")

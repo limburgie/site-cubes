@@ -13,12 +13,13 @@ import java.io.Serializable;
 public class NavigationBean implements Serializable {
 
 	@Inject private PageService pageService;
+	@Inject private SiteContextBean siteContextBean;
 
 	private Page root;
 
 	@PostConstruct
 	public void initRoot() {
-		root = pageService.getRoot();
+		root = pageService.getRoot(siteContextBean.getSite());
 	}
 
 	public Page getRoot() {

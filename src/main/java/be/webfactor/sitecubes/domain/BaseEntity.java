@@ -12,6 +12,10 @@ public abstract class BaseEntity implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	public boolean isNew() {
+		return id == null;
+	}
+
 	public Long getId() {
 		return id;
 	}

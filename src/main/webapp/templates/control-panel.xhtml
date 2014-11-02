@@ -4,7 +4,7 @@
 		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:composition template="main.xhtml">
 		<ui:define name="title">
-			<ui:insert name="subtitle"/> | #{msg['control-panel']}
+			<ui:insert name="subtitle"/> | #{siteContextBean.site.name} | #{msg['control-panel']}
 		</ui:define>
 		<ui:define name="body">
 			<div id="control-panel">
@@ -12,10 +12,23 @@
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
 							<div class="list-group">
-								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}"/>
-								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}"/>
-								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}"/>
-								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}"/>
+								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+							</div>
+							<div class="list-group">
+								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
 							</div>
 						</div>
 						<div class="col-md-8 col-sm-8">
