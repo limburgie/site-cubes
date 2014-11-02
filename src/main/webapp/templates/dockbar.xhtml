@@ -13,7 +13,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.rootContext}" rendered="#{!facesUtil.adminView}">#{msg['homepage']}</h:outputLink>
+					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext(pageViewBean.page.site.friendlyUrl)}" rendered="#{!facesUtil.adminView}">#{pageViewBean.page.site.name}</h:outputLink>
 					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext(siteContextBean.site.friendlyUrl)}" rendered="#{facesUtil.adminView}" title="#{msg['go-back']}"><i class="fa fa-arrow-circle-left"></i></h:outputLink>
 					<h:outputLink styleClass="navbar-brand" value="#{facesUtil.prefixWithContext('admin')}" rendered="#{facesUtil.adminView}">#{msg['control-panel']}</h:outputLink>
 				</div>
@@ -65,19 +65,21 @@
 						</div>
 					</h:panelGroup>
 					<ul class="nav navbar-nav navbar-right">
+						<ui:fragment rendered="#{!facesUtil.adminView}">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<ui:repeat value="#{siteBean.sites}" var="site">
+										<li><a href="#{facesUtil.prefixWithContext(site.friendlyUrl)}">#{site.name}</a></li>
+									</ui:repeat>
+								</ul>
+							</li>
+						</ui:fragment>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['admin']} <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#{facesUtil.rootContext}">#{msg['homepage']}</a></li>
 								<li><a href="#{facesUtil.prefixWithContext('admin')}">#{msg['control-panel']}</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#{facesUtil.prefixWithContext('j_spring_security_logout')}">#{msg['sign-out']}</a>
-								</li>
+								<li><a href="#{facesUtil.prefixWithContext('j_spring_security_logout')}">#{msg['sign-out']}</a></li>
 							</ul>
 						</li>
 					</ul>
