@@ -8,10 +8,10 @@ Hmm, yes. But SiteCubes is different! SiteCubes builds solely upon open-source t
 
 ### Which technologies are used?
 
-* Twitter Bootstrap 3.1.1
-* FontAwesome 4.1.0
+* Twitter Bootstrap 3.2.0
+* FontAwesome 4.2.0
 * JSF 2.2
-* PrimeFaces 5.0
+* PrimeFaces 5.1
 * HTML 5, CSS 3
 
 ### Where can I see it in action?
