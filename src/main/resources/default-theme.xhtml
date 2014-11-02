@@ -5,7 +5,7 @@
 		xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/main.xhtml">
 		<ui:define name="title">
-			#{pageViewBean.page.name}
+			#{pageViewBean.page.name} | #{pageViewBean.page.site.name}
 		</ui:define>
 		<ui:define name="body">
 			<div class="container">
