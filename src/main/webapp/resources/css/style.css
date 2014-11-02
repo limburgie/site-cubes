@@ -168,7 +168,7 @@ body.dockbar-visible {
 #control-panel {
 	min-height: 100%;
 	height: auto !important;
-	margin: 0 auto -60px;
+	margin: 0 auto -80px;
 }
 
 #control-panel .list-group {
