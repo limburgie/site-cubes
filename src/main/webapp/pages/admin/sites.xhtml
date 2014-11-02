@@ -26,6 +26,9 @@
 						<p:column headerText="#{msg['friendly-url']}" sortBy="#{site.friendlyUrl}">
 							#{site.friendlyUrl}
 						</p:column>
+						<p:column headerText="#{msg['virtual-host']}" sortBy="#{site.virtualHost}">
+							#{site.virtualHost}
+						</p:column>
 					</p:dataTable>
 				</h:panelGroup>
 			</h:form>
@@ -45,6 +48,10 @@
 							<span class="input-group-addon">/</span>
 							<h:inputText id="friendly-url" value="#{siteBean.site.friendlyUrl}" styleClass="form-control" maxlength="255"/>
 						</div>
+					</div>
+					<div class="form-group site-virtual-host-field">
+						<h:outputLabel for="virtual-host" value="#{msg['virtual-host']}" styleClass="control-label"/>
+						<h:inputText id="virtual-host" value="#{siteBean.site.virtualHost}" styleClass="form-control" maxlength="255"/>
 					</div>
 					<p:commandButton value="#{msg.save}" action="#{siteBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<p:commandButton value="#{msg.cancel}" action="#{siteBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
