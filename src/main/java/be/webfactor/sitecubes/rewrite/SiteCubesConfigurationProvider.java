@@ -6,6 +6,7 @@ import org.ocpsoft.rewrite.annotation.RewriteConfiguration;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 import javax.servlet.ServletContext;
@@ -24,11 +25,9 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 		return ConfigurationBuilder.begin()
 				.addRule(Join.path("/login").to("/pages/login.xhtml"))
 				.addRule(Join.path("/admin").to("/pages/admin/pages.xhtml"))
-				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"));
-//				.addRule().when(Path.matches("/{siteFriendlyUrl}")).perform(operation)
-//				.addRule().when(Path.matches("/{siteFriendlyUrl}/{pageFriendlyUrl}")).perform(operation);
-//				.addRule(Join.path("/{siteFriendlyUrl}").to("/pages/view.xhtml?s={siteFriendlyUrl}"))
-//				.addRule(Join.path("/{siteFriendlyUrl}/{pageFriendlyUrl}").to("/pages/view.xhtml?s={siteFriendlyUrl}&p={pageFriendlyUrl}"));
+				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"))
+				.addRule().when(Path.matches("/{siteFriendlyUrl}/{pageFriendlyUrl}")).perform(operation)
+				.addRule().when(Path.matches("/{siteFriendlyUrl}")).perform(operation);
 	}
 
 	@Override
