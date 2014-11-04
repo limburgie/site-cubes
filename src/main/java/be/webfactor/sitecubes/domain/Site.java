@@ -24,7 +24,7 @@ public class Site extends BaseEntity {
 	@Column(name = "friendly_url", nullable = false, unique = true)
 	private String friendlyUrl;
 
-	@Column(name = "virtual_host", unique = true)
+	@Column(name = "virtual_host")
 	private String virtualHost;
 
 	@Column(name = "default_site")

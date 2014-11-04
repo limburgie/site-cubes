@@ -28,6 +28,10 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 	Site findByFriendlyUrl(String friendlyUrl);
 
 	@Cacheable("site")
+	@Query("FROM Site WHERE virtualHost IS NOT NULL AND virtualHost=?1")
+	Site findByVirtualHost(String virtualHost);
+
+	@Cacheable("site")
 	@Query("FROM Site WHERE name=?1")
 	Site findByName(String name);
 }
