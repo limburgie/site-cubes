@@ -53,6 +53,14 @@ public class SiteServiceImpl implements SiteService {
 		checkForInvalidFriendlyUrl(site);
 		checkForDuplicateName(site);
 		checkForDuplicateFriendlyUrl(site);
+		checkForDuplicateVirtualHost(site);
+	}
+
+	private void checkForDuplicateVirtualHost(Site site) {
+		Site virtualHostSite = getSiteByVirtualHost(site.getVirtualHost());
+		if (virtualHostSite != null && !virtualHostSite.equals(site)) {
+			throw new DuplicateSiteVirtualHostException();
+		}
 	}
 
 	private void checkForDuplicateName(Site site) {
@@ -83,6 +91,10 @@ public class SiteServiceImpl implements SiteService {
 
 	public Site getSiteByFriendlyUrl(String friendlyUrl) {
 		return repository.findByFriendlyUrl(friendlyUrl);
+	}
+
+	public Site getSiteByVirtualHost(String virtualHost) {
+		return repository.findByVirtualHost(virtualHost);
 	}
 
 	private Site getSiteByName(String name) {

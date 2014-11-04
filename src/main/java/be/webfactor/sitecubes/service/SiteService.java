@@ -14,6 +14,8 @@ public interface SiteService {
 
 	Site getSiteByFriendlyUrl(String friendlyUrl);
 
+	Site getSiteByVirtualHost(String virtualHost);
+
 	void delete(Site site);
 
 }

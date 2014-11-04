@@ -14,10 +14,16 @@ import javax.servlet.ServletContext;
 @RewriteConfiguration
 public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 
-	private InboundPageOperation operation;
+	private SitePageOperation sitePageOperation;
+	private SiteDefaultPageOperation siteDefaultPageOperation;
+	private SiteVirtualHostPageOperation siteVirtualHostPageOperation;
+	private SiteVirtualHostDefaultPageOperation siteVirtualHostDefaultPageOperation;
 
 	public SiteCubesConfigurationProvider() {
-		operation = BeanLocator.getBean(InboundPageOperation.class);
+		sitePageOperation = BeanLocator.getBean(SitePageOperation.class);
+		siteDefaultPageOperation = BeanLocator.getBean(SiteDefaultPageOperation.class);
+		siteVirtualHostPageOperation = BeanLocator.getBean(SiteVirtualHostPageOperation.class);
+		siteVirtualHostDefaultPageOperation = BeanLocator.getBean(SiteVirtualHostDefaultPageOperation.class);
 	}
 
 	@Override
@@ -26,8 +32,10 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 				.addRule(Join.path("/login").to("/pages/login.xhtml"))
 				.addRule(Join.path("/admin").to("/pages/admin/pages.xhtml"))
 				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"))
-				.addRule().when(Path.matches("/{siteFriendlyUrl}/{pageFriendlyUrl}")).perform(operation)
-				.addRule().when(Path.matches("/{siteFriendlyUrl}")).perform(operation);
+				.addRule().when(Path.matches("/{siteFriendlyUrl}/{pageFriendlyUrl}")).perform(sitePageOperation)
+				.addRule().when(Path.matches("/{siteFriendlyUrl}")).perform(siteDefaultPageOperation)
+				.addRule().when(Path.matches("/{pageFriendlyUrl}")).perform(siteVirtualHostPageOperation)
+				.addRule().when(Path.matches("/")).perform(siteVirtualHostDefaultPageOperation);
 	}
 
 	@Override

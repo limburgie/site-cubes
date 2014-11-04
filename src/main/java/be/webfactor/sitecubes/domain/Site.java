@@ -24,6 +24,9 @@ public class Site extends BaseEntity {
 	@Column(name = "friendly_url", nullable = false, unique = true)
 	private String friendlyUrl;
 
+	@Column(name = "virtual_host")
+	private String virtualHost;
+
 	@Column(name = "default_site")
 	private boolean defaultSite;
 
@@ -41,6 +44,14 @@ public class Site extends BaseEntity {
 
 	public void setFriendlyUrl(String friendlyUrl) {
 		this.friendlyUrl = friendlyUrl;
+	}
+
+	public String getVirtualHost() {
+		return virtualHost;
+	}
+
+	public void setVirtualHost(String virtualHost) {
+		this.virtualHost = virtualHost;
 	}
 
 	public boolean isDefaultSite() {
