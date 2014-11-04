@@ -1,7 +1,6 @@
 package be.webfactor.sitecubes.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Site extends BaseEntity {
@@ -29,6 +28,10 @@ public class Site extends BaseEntity {
 
 	@Column(name = "default_site")
 	private boolean defaultSite;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "theme_id", nullable = false)
+	private Theme theme;
 
 	public String getName() {
 		return name;
@@ -60,6 +63,14 @@ public class Site extends BaseEntity {
 
 	public void setDefaultSite(boolean defaultSite) {
 		this.defaultSite = defaultSite;
+	}
+
+	public Theme getTheme() {
+		return theme;
+	}
+
+	public void setTheme(Theme theme) {
+		this.theme = theme;
 	}
 
 }

@@ -53,6 +53,13 @@
 						<h:outputLabel for="virtual-host" value="#{msg['virtual-host']}" styleClass="control-label"/>
 						<h:inputText id="virtual-host" value="#{siteBean.site.virtualHost}" styleClass="form-control" maxlength="255"/>
 					</div>
+					<div class="form-group">
+						<h:outputLabel for="theme" value="#{msg['theme']}"/>
+						<h:selectOneMenu id="theme" value="#{siteBean.site.theme}" styleClass="form-control">
+							<f:converter binding="#{themeConverter}"/>
+							<f:selectItems value="#{themeBean.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+						</h:selectOneMenu>
+					</div>
 					<p:commandButton value="#{msg.save}" action="#{siteBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<p:commandButton value="#{msg.cancel}" action="#{siteBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
