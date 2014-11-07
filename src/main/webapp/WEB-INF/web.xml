@@ -61,6 +61,14 @@
 		<url-pattern>*.xhtml</url-pattern>
 		<url-pattern>/javax.faces.resource/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>File Download Servlet</servlet-name>
+		<servlet-class>be.webfactor.sitecubes.servlet.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>File Download Servlet</servlet-name>
+		<url-pattern>/file/*</url-pattern>
+	</servlet-mapping>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>

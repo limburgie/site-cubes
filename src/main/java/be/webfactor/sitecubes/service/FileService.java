@@ -13,4 +13,6 @@ public interface FileService {
 
 	void delete(File file);
 
+	File getFile(Site site, String fileName);
+
 }

@@ -50,14 +50,24 @@ public class FileBean implements Serializable {
 		return upload;
 	}
 
-	public void handleUpload(FileUploadEvent event) {
+	public void uploadNewFile(FileUploadEvent event) {
 		UploadedFile uploadedFile = event.getFile();
 		File file = new File();
 		file.setFileName(uploadedFile.getFileName());
-		file.setData(uploadedFile.getContents());
 		file.setSite(site);
+		saveUploadedFileData(file, uploadedFile);
+	}
+
+	public void uploadExistingFile(FileUploadEvent event) {
+		UploadedFile uploadedFile = event.getFile();
+		file = saveUploadedFileData(file, uploadedFile);
+	}
+
+	private File saveUploadedFileData(File file, UploadedFile uploadedFile) {
+		file.setData(uploadedFile.getContents());
+		file.setContentType(uploadedFile.getContentType());
 		file.setModifiedDate(new Date());
-		fileService.save(file);
+		return fileService.save(file);
 	}
 
 	public void save() {

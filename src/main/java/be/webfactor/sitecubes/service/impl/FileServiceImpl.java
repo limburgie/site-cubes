@@ -20,6 +20,10 @@ public class FileServiceImpl implements FileService {
 		return repository.getSiteFiles(site);
 	}
 
+	public File getFile(Site site, String fileName) {
+		return repository.getFileByName(site, fileName);
+	}
+
 	@Transactional @Secured("ROLE_ADMIN")
 	public File save(File file) {
 		return repository.save(file);

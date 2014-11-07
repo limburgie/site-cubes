@@ -15,6 +15,10 @@ public interface FileRepository extends JpaRepository<File, Long> {
 	@Query("FROM File WHERE site=?1")
 	List<File> getSiteFiles(Site site);
 
+	@Cacheable("file")
+	@Query("From File WHERE site=?1 AND fileName=?2")
+	File getFileByName(Site site, String fileName);
+
 	@CacheEvict(value = "file", allEntries = true)
 	File save(File file);
 
