@@ -11,7 +11,7 @@
 				<div class="btn-group">
 					<p:commandButton value="#{msg['upload-files']}" action="#{fileBean.initUpload}" update="@form :data-form :upload-form" styleClass="btn btn-default" rendered="#{empty fileBean.file and !fileBean.upload}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 					<p:commandButton value="#{msg['back-to-overview']}" action="#{fileBean.cancel}" update="@form :data-form :detail-form :upload-form" styleClass="btn btn-default" rendered="#{!empty fileBean.file or fileBean.upload}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
-					<p:commandButton value="#{msg['delete']}" action="#{fileBean.delete}" update="@form :data-form :upload-form" styleClass="btn btn-default" rendered="#{!empty fileBean.file.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{fileBean.delete}" update="@form :data-form :detail-form :upload-form" styleClass="btn btn-default" rendered="#{!empty fileBean.file.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 				</div>
 				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 			</h:form>
@@ -20,16 +20,16 @@
 					<h3>#{msg['file-overview']}</h3>
 					<p:dataTable value="#{fileBean.files}" var="file" tableStyleClass="table table-striped" selectionMode="single" selection="#{fileBean.file}" rowKey="#{file.id}" sortBy="#{file.modifiedDate}" sortOrder="descending">
 						<p:ajax event="rowSelect" listener="#{fileBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+						<p:column headerText="#{msg['file-name']}" sortBy="#{file.fileName}">
+							<i class="fa #{file.iconClass}"></i> #{file.fileName}
+						</p:column>
+						<p:column headerText="#{msg['file-size']}" sortBy="#{file.fileSize}">
+							#{file.readableFileSize}
+						</p:column>
 						<p:column headerText="#{msg['modified-date']}" sortBy="#{file.modifiedDate}">
 							<h:outputText value="#{file.modifiedDate}">
 								<f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
 							</h:outputText>
-						</p:column>
-						<p:column headerText="#{msg['file-name']}" sortBy="#{file.fileName}">
-							#{file.fileName}
-						</p:column>
-						<p:column headerText="#{msg['file-size']}" sortBy="#{file.fileSize}">
-							#{file.readableFileSize}
 						</p:column>
 					</p:dataTable>
 				</h:panelGroup>
@@ -48,8 +48,6 @@
 						<p class="form-control-static">#{fileBean.file.fileName}</p>
 					</div>
 					<p:fileUpload fileUploadListener="#{fileBean.uploadExistingFile}" mode="advanced" sizeLimit="1048576" invalidSizeMessage="#{msg['file-is-too-large']}" update="@form"/>
-					<p:commandButton value="#{msg.cancel}" action="#{fileBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
-					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 				</ui:fragment>
 			</h:form>
 		</ui:define>

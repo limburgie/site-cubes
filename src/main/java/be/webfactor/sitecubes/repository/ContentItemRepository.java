@@ -15,10 +15,10 @@ public interface ContentItemRepository extends JpaRepository<ContentItem, Long> 
 	@Query("FROM ContentItem WHERE site=?1")
 	List<ContentItem> getSiteContent(Site site);
 
-	@CacheEvict(value = "content_item", allEntries = true)
+	@CacheEvict(value = {"content_item", "content_location"}, allEntries = true)
 	ContentItem save(ContentItem item);
 
-	@CacheEvict(value = "content_item", allEntries = true)
+	@CacheEvict(value = {"content_item", "content_location"}, allEntries = true)
 	void delete(ContentItem item);
 
 }

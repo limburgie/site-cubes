@@ -1,6 +1,8 @@
 package be.webfactor.sitecubes.domain;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.util.MimeTypeUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -30,6 +32,29 @@ public class File extends BaseEntity {
 
 	public String getReadableFileSize() {
 		return FileUtils.byteCountToDisplaySize(getFileSize());
+	}
+
+	public String getFileExtension() {
+		return FilenameUtils.getExtension(fileName);
+	}
+
+	public String getIconClass() {
+		if (contentType.startsWith("image")) {
+			return "fa-file-image-o";
+		}
+		if (contentType.equals("application/pdf")) {
+			return "fa-file-pdf-o";
+		}
+		if (contentType.startsWith("audio")) {
+			return "fa-file-audio-o";
+		}
+		if (contentType.startsWith("video")) {
+			return "fa-file-video-o";
+		}
+		if (contentType.startsWith("text")) {
+			return "fa-file-text-o";
+		}
+		return "fa-file-o";
 	}
 
 	public String getFileName() {
