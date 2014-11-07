@@ -18,6 +18,9 @@
 								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}">
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
 								</h:link>
+								<h:link value="#{msg['files']}" outcome="/pages/admin/files" styleClass="list-group-item #{view.viewId == '/pages/admin/files.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
 							</div>
 							<div class="list-group">
 								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
