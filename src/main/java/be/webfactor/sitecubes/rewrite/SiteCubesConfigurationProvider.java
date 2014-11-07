@@ -29,6 +29,7 @@ public class SiteCubesConfigurationProvider extends HttpConfigurationProvider {
 	@Override
 	public Configuration getConfiguration(ServletContext servletContext) {
 		return ConfigurationBuilder.begin()
+				.addRule(Join.path("/file/{siteFriendlyUrl}/{fileName}").to("/file?s={siteFriendlyUrl}&f={fileName}"))
 				.addRule(Join.path("/login").to("/pages/login.xhtml"))
 				.addRule(Join.path("/admin").to("/pages/admin/pages.xhtml"))
 				.addRule(Join.path("/admin/{cp_item}").to("/pages/admin/{cp_item}.xhtml"))
