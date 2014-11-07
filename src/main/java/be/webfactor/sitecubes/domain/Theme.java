@@ -15,9 +15,9 @@ public class Theme extends BaseEntity {
 
 	static {
 		DEFAULT = new Theme();
+		DEFAULT.setDefaultTheme(true);
 		DEFAULT.setName(DEFAULT_NAME);
 		DEFAULT.setTemplate(new Scanner(Theme.class.getResourceAsStream(DEFAULT_TEMPLATE_LOCATION), "UTF-8").useDelimiter("\\A").next());
-		DEFAULT.setCss("");
 	}
 
 	@Column(name = "name", nullable = false)
@@ -26,8 +26,8 @@ public class Theme extends BaseEntity {
 	@Column(name = "template", length = 1024 * 1024, nullable = false) @Lob
 	private String template;
 
-	@Column(name = "css") @Lob
-	private String css;
+	@Column(name = "default_theme")
+	private boolean defaultTheme;
 
 	public String getName() {
 		return name;
@@ -45,12 +45,12 @@ public class Theme extends BaseEntity {
 		this.template = template;
 	}
 
-	public String getCss() {
-		return css;
+	public boolean isDefaultTheme() {
+		return defaultTheme;
 	}
 
-	public void setCss(String css) {
-		this.css = css;
+	public void setDefaultTheme(boolean defaultTheme) {
+		this.defaultTheme = defaultTheme;
 	}
 
 }

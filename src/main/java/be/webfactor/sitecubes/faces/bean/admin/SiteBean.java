@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.bean.admin;
 import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.SiteService;
+import be.webfactor.sitecubes.service.ThemeService;
 import org.apache.commons.lang3.SerializationUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SiteBean implements Serializable {
 
 	@Inject private SiteService siteService;
+	@Inject private ThemeService themeService;
 	@Inject private FacesUtil facesUtil;
 
 	private List<Site> sites;
@@ -30,6 +32,7 @@ public class SiteBean implements Serializable {
 
 	public void initNewSite() {
 		site = new Site();
+		site.setTheme(themeService.getDefault());
 	}
 
 	public void onRowSelect(SelectEvent event) {

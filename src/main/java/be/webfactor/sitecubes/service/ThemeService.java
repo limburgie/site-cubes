@@ -14,4 +14,6 @@ public interface ThemeService {
 
 	void delete(Theme theme);
 
+	Theme getTheme(long id);
+	
 }

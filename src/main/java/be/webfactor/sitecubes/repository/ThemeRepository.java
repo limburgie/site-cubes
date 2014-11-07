@@ -11,15 +11,18 @@ import java.util.List;
 public interface ThemeRepository extends JpaRepository<Theme, Long> {
 
 	@Cacheable("theme")
+	Theme findOne(Long id);
+
+	@Cacheable("theme")
 	List<Theme> findAll();
 
-	@Cacheable("theme") @Query("FROM Theme WHERE name=?1")
-	Theme findByName(String name);
-
-	@CacheEvict(value = "theme", allEntries = true)
+	@CacheEvict(value = {"theme", "site"}, allEntries = true)
 	Theme save(Theme theme);
 
 	@CacheEvict(value = "theme", allEntries = true)
 	void delete(Theme theme);
+
+	@Cacheable("theme") @Query("FROM Theme WHERE defaultTheme=true")
+	Theme getDefault();
 
 }

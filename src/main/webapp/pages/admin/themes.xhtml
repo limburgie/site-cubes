@@ -39,11 +39,7 @@
 					</div>
 					<div class="form-group theme-template-field">
 						<h:outputLabel for="template" value="#{msg['template']}" styleClass="control-label"/>
-						<pe:codeMirror id="template" mode="xml" theme="eclipse" value="#{themeBean.theme.template}" lineNumbers="true" tabSize="3"/>
-					</div>
-					<div class="form-group theme-css-field">
-						<h:outputLabel for="css" value="#{msg['css']}" styleClass="control-label"/>
-						<pe:codeMirror id="css" mode="css" theme="eclipse" value="#{themeBean.theme.css}" lineNumbers="true" tabSize="3"/>
+						<pe:codeMirror id="template" mode="xml" theme="eclipse" value="#{themeBean.theme.template}" lineNumbers="true" tabSize="3" />
 					</div>
 					<p:commandButton value="#{msg.save}" action="#{themeBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<p:commandButton value="#{msg.cancel}" action="#{themeBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>

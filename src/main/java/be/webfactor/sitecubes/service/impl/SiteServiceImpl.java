@@ -21,11 +21,14 @@ public class SiteServiceImpl implements SiteService {
 	@Inject private SiteRepository repository;
 	@Inject private FriendlyUrlHandler friendlyUrlHandler;
 	@Inject private ContentItemService contentItemService;
+	@Inject private ThemeService themeService;
 
 	@PostConstruct
 	public void init() {
 		if (getDefaultSite() == null) {
-			save(Site.DEFAULT_SITE);
+			Site defaultSite = Site.DEFAULT_SITE;
+			defaultSite.setTheme(themeService.getDefault());
+			save(defaultSite);
 		}
 	}
 
@@ -57,9 +60,11 @@ public class SiteServiceImpl implements SiteService {
 	}
 
 	private void checkForDuplicateVirtualHost(Site site) {
-		Site virtualHostSite = getSiteByVirtualHost(site.getVirtualHost());
-		if (virtualHostSite != null && !virtualHostSite.equals(site)) {
-			throw new DuplicateSiteVirtualHostException();
+		if (StringUtils.isNotBlank(site.getVirtualHost())) {
+			Site virtualHostSite = getSiteByVirtualHost(site.getVirtualHost());
+			if (virtualHostSite != null && !virtualHostSite.equals(site)) {
+				throw new DuplicateSiteVirtualHostException();
+			}
 		}
 	}
 
