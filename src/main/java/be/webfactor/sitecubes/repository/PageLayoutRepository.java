@@ -17,7 +17,7 @@ public interface PageLayoutRepository extends JpaRepository<PageLayout, Long> {
 	@Cacheable("page_layout")
 	List<PageLayout> findAll();
 
-	@CacheEvict(value = "page_layout", allEntries = true)
+	@CacheEvict(value = {"page_layout", "page"}, allEntries = true)
 	PageLayout save(PageLayout layout);
 
 	@Cacheable("page_layout")
