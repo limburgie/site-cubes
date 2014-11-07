@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"})})
+@Table(uniqueConstraints = {
+		@UniqueConstraint(name = "UQ_PARENT_POSITION", columnNames = {"parent_id", "position"}),
+		@UniqueConstraint(name = "UQ_SITE_FRIENDLY_URL", columnNames = {"site_id", "friendly_url"})
+})
 public class Page extends BaseEntity {
 
 	public static final String ROOT_NAME = "Root";
@@ -16,7 +19,7 @@ public class Page extends BaseEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "friendly_url", nullable = false, unique = true)
+	@Column(name = "friendly_url", nullable = false)
 	private String friendlyUrl;
 
 	@ManyToOne(fetch = FetchType.EAGER)
