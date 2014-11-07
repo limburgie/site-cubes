@@ -60,9 +60,11 @@ public class SiteServiceImpl implements SiteService {
 	}
 
 	private void checkForDuplicateVirtualHost(Site site) {
-		Site virtualHostSite = getSiteByVirtualHost(site.getVirtualHost());
-		if (virtualHostSite != null && !virtualHostSite.equals(site)) {
-			throw new DuplicateSiteVirtualHostException();
+		if (StringUtils.isNotBlank(site.getVirtualHost())) {
+			Site virtualHostSite = getSiteByVirtualHost(site.getVirtualHost());
+			if (virtualHostSite != null && !virtualHostSite.equals(site)) {
+				throw new DuplicateSiteVirtualHostException();
+			}
 		}
 	}
 
