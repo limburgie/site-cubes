@@ -1,6 +1,8 @@
 package be.webfactor.sitecubes.faces.resourcehandler;
 
-import be.webfactor.sitecubes.service.ThemeService;
+import be.webfactor.sitecubes.domain.Site;
+import be.webfactor.sitecubes.faces.helper.FacesUtil;
+import be.webfactor.sitecubes.service.SiteService;
 import be.webfactor.sitecubes.util.BeanLocator;
 
 import javax.faces.FacesException;
@@ -23,7 +25,9 @@ public class DatabaseResourceHandler extends ResourceHandlerWrapper {
 	public ViewResource createViewResource(FacesContext context, String resourceName) {
 		if (resourceName.equals("/pages/view.xhtml")) {
 			try {
-				String template = BeanLocator.getBean(ThemeService.class).getThemes().get(0).getTemplate();
+				String siteFriendlyUrl = BeanLocator.getBean(FacesUtil.class).getParam("s");
+				Site site = BeanLocator.getBean(SiteService.class).getSiteByFriendlyUrl(siteFriendlyUrl);
+				String template = site.getTheme().getTemplate();
 				final URL url = new URL(null, "sample://test?t=" + System.currentTimeMillis(), new CustomURLStreamHandler(template));
 
 				return new ViewResource() {
