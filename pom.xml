@@ -246,4 +246,11 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
 </project>
