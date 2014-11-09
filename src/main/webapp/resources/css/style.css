@@ -2,11 +2,14 @@
 
 .ui-widget {
 	font-size: 1em;
+	font-family: inherit;
 }
 
 .ui-widget-content {
 	border: 0;
 	width: auto;
+	background: transparent;
+	color: inherit;
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
@@ -208,6 +211,10 @@ body.dockbar-visible {
 .controls-hidden .portlet > .ui-panel-content {
 	padding: 0;
 	border: none;
+}
+
+.controls-hidden .ui-dashboard-column {
+	padding-bottom: 0;
 }
 
 body.dragging .ui-dashboard-column {
