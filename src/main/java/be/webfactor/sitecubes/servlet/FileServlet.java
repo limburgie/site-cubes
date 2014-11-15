@@ -32,8 +32,18 @@ public class FileServlet extends HttpServlet {
 		Site site = siteService.getSiteByFriendlyUrl(siteFriendlyUrl);
 		if (site != null) {
 			File file = fileService.getFile(site, fileName);
+			long etagValue = file.getModifiedDate().getTime();
+			resp.setDateHeader("ETag", etagValue);
+			resp.setHeader("Cache-Control", "max-age=60");
+
+			if (req.getDateHeader("If-None-Match") == etagValue) {
+				resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				return;
+			}
+
 			resp.setContentType(file.getContentType());
 			resp.getOutputStream().write(file.getData());
+			resp.setContentLength(file.getData().length);
 		}
 	}
 
