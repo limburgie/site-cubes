@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ContentItemService {
 
+	ContentItem getItemByTitle(Site site, String title);
+
 	List<ContentItem> getItems(Site site);
 
 	ContentItem save(ContentItem item);
