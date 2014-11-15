@@ -53,7 +53,7 @@ public class PageViewBean implements Serializable {
 	}
 
 	private void initPage() {
-		String friendlyUrl = facesUtil.getParam("p");
+		String friendlyUrl = facesUtil.getRequestParam("p");
 		page = pageService.getPageByFriendlyUrl(siteContextBean.getSite(), friendlyUrl);
 	}
 
