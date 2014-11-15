@@ -21,4 +21,8 @@ public interface ContentItemRepository extends JpaRepository<ContentItem, Long> 
 	@CacheEvict(value = {"content_item", "content_location"}, allEntries = true)
 	void delete(ContentItem item);
 
+	@Cacheable("content_item")
+	@Query("FROM ContentItem WHERE site=?1 AND title=?2")
+	ContentItem getItemByTitle(Site site, String title);
+
 }
