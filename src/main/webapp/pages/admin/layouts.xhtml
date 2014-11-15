@@ -61,7 +61,7 @@
 					</div>
 					<div class="form-group layout-structure-field">
 						<h:outputLabel for="structure" value="#{msg['layout-structure']}" styleClass="control-label"/>
-						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3"/>
+						<pe:codeMirror id="structure" mode="xml" theme="eclipse" value="#{pageLayoutsBean.layout.structure}" lineNumbers="true" tabSize="3" indentUnit="3" smartIndent="false" electricChars="false" indentWithTabs="true"/>
 					</div>
 					<p:commandButton value="#{msg.save}" action="#{pageLayoutsBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<p:commandButton value="#{msg.cancel}" action="#{pageLayoutsBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
