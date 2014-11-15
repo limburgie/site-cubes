@@ -31,13 +31,13 @@ public class FacesExceptionHandler {
 	}
 
 	private void handleException(Throwable actual) {
-		if (actual instanceof MessagedException) {
+		if (actual instanceof FieldValidationException) {
+			FieldValidationException fve = (FieldValidationException) actual;
+			facesUtil.addErrorStyling(fve.getFieldWrapperClass());
+		}
+		else if (actual instanceof MessagedException) {
 			MessagedException e = (MessagedException) actual;
 			facesUtil.error(e.getResourceKey(), e);
-			if (actual instanceof FieldValidationException) {
-				FieldValidationException fve = (FieldValidationException) actual;
-				facesUtil.addErrorStyling(fve.getFieldWrapperClass());
-			}
 		} else if (actual instanceof AccessDeniedException) {
 			facesUtil.permissionError(actual);
 		} else {

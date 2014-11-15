@@ -43,7 +43,7 @@ public class FileServlet extends HttpServlet {
 
 			resp.setContentType(file.getContentType());
 			resp.getOutputStream().write(file.getData());
-			resp.setContentLength(file.getData().length);
+			resp.setContentLengthLong(file.getFileSize());
 		}
 	}
 

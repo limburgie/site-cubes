@@ -17,6 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 @Named
@@ -26,12 +27,28 @@ public class FacesUtil {
 	private static final String PRIME_COMPONENT_PREFIX = "org.primefaces.component.";
 	private static final String PRIME_RENDERER_SUFFIX = "Renderer";
 
-	public void info(String key) {
-		msg(FacesMessage.SEVERITY_INFO, key);
+	/*
+	 * General utilities
+	 */
+
+	private FacesContext fc() {
+		return FacesContext.getCurrentInstance();
 	}
 
-	public void error(String key) {
-		msg(FacesMessage.SEVERITY_ERROR, key);
+	private ExternalContext ec() {
+		return fc().getExternalContext();
+	}
+
+	/*
+	 * Messaging utilities
+	 */
+
+	public void info(String key, Object... params) {
+		msg(FacesMessage.SEVERITY_INFO, key, params);
+	}
+
+	public void error(String key, Object... params) {
+		msg(FacesMessage.SEVERITY_ERROR, key, params);
 	}
 
 	public void error(String key, Throwable t) {
@@ -39,39 +56,40 @@ public class FacesUtil {
 		LOGGER.error(t);
 	}
 
-	public String getParam(String key) {
-		return getRequest().getParameter(key);
+	public void unexpectedError(Throwable t) {
+		error("unexpected-error");
+		LOGGER.error("An unexpected error occurred", t);
 	}
+
+	public void permissionError(Throwable t) {
+		error("access-denied-error");
+		LOGGER.error("A user performed an action he was not allowed to", t);
+	}
+
+	private void msg(FacesMessage.Severity severity, String key, Object... params) {
+		String message = MessageFormat.format(translate(key), params);
+		fc().addMessage(null, new FacesMessage(severity, message, message));
+	}
+
+	private String translate(String key) {
+		String baseName = fc().getApplication().getMessageBundle();
+		return ResourceBundle.getBundle(baseName).getString(key);
+	}
+
+	/*
+	 * Request related stuff
+	 */
 
 	private HttpServletRequest getRequest() {
 		return ((HttpServletRequest) ec().getRequest());
 	}
 
+	public String getRequestParam(String key) {
+		return getRequest().getParameter(key);
+	}
+
 	public boolean isAdminView() {
 		return fc().getViewRoot().getViewId().startsWith("/pages/admin");
-	}
-
-	private void msg(FacesMessage.Severity severity, String key) {
-		fc().addMessage(null, new FacesMessage(severity, translate(key), null));
-	}
-
-	private String translate(String key) {
-		String baseName = fc().getApplication().getMessageBundle();
-		ResourceBundle rb = ResourceBundle.getBundle(baseName);
-		return rb.getString(key);
-	}
-
-	private FacesContext fc() {
-		return FacesContext.getCurrentInstance();
-	}
-
-	public String getRootContext() {
-		String contextPath = ec().getRequestContextPath();
-		return StringUtils.isBlank(contextPath) ? "/" : contextPath;
-	}
-
-	private ExternalContext ec() {
-		return fc().getExternalContext();
 	}
 
 	public String prefixWithContext(String path) {
@@ -81,6 +99,26 @@ public class FacesUtil {
 		}
 		return contextPath + "/" + path;
 	}
+
+	public void forwardTo(String url) {
+		RequestDispatcher dispatcher = ((ServletRequest)ec().getRequest()).getRequestDispatcher(url);
+		try {
+			dispatcher.forward((ServletRequest)ec().getRequest(), (ServletResponse)ec().getResponse());
+		} catch (ServletException e) {
+			unexpectedError(e);
+		} catch (IOException e) {
+			unexpectedError(e);
+		}
+		fc().responseComplete();
+	}
+
+	public boolean isUserLoggedIn() {
+		return getRequest().getUserPrincipal() != null;
+	}
+
+	/*
+	 * Component utilities
+	 */
 
 	public <T> T createPrimeComponent(Class<? extends UIComponent> componentClass) {
 		String componentName = componentClass.getSimpleName();
@@ -99,35 +137,9 @@ public class FacesUtil {
 		RequestContext.getCurrentInstance().execute(script);
 	}
 
-	public void unexpectedError(Throwable t) {
-		error("unexpected-error");
-		LOGGER.error("An unexpected error occurred", t);
-	}
-
-	public void forwardTo(String url) {
-		RequestDispatcher dispatcher = ((ServletRequest)ec().getRequest()).getRequestDispatcher(url);
-		try {
-			dispatcher.forward((ServletRequest)ec().getRequest(), (ServletResponse)ec().getResponse());
-		} catch (ServletException e) {
-			unexpectedError(e);
-		} catch (IOException e) {
-			unexpectedError(e);
-		}
-		fc().responseComplete();
-	}
-
 	public MethodExpression createMethodExpression(String expression, Class<?> returnType, Class<?>... parameterTypes) {
 		return fc().getApplication().getExpressionFactory().createMethodExpression(
 				fc().getELContext(), expression, returnType, parameterTypes);
-	}
-
-	public boolean isUserLoggedIn() {
-		return getRequest().getUserPrincipal() != null;
-	}
-
-	public void permissionError(Throwable t) {
-		error("access-denied-error");
-		LOGGER.error("A user performed an action he was not allowed to", t);
 	}
 
 }

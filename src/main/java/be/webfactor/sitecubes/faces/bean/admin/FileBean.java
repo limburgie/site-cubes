@@ -5,6 +5,7 @@ import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.faces.bean.SiteContextBean;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.FileService;
+import be.webfactor.sitecubes.service.exception.DuplicateFileNameException;
 import org.apache.commons.lang3.SerializationUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
@@ -55,7 +56,11 @@ public class FileBean implements Serializable {
 		File file = new File();
 		file.setFileName(uploadedFile.getFileName());
 		file.setSite(site);
-		saveUploadedFileData(file, uploadedFile);
+		try {
+			saveUploadedFileData(file, uploadedFile);
+		} catch(DuplicateFileNameException e) {
+			facesUtil.error(e.getResourceKey(), uploadedFile.getFileName());
+		}
 	}
 
 	public void uploadExistingFile(FileUploadEvent event) {

@@ -25,7 +25,7 @@ public class DatabaseResourceHandler extends ResourceHandlerWrapper {
 	public ViewResource createViewResource(FacesContext context, String resourceName) {
 		if (resourceName.equals("/pages/view.xhtml")) {
 			try {
-				String siteFriendlyUrl = BeanLocator.getBean(FacesUtil.class).getParam("s");
+				String siteFriendlyUrl = BeanLocator.getBean(FacesUtil.class).getRequestParam("s");
 				Site site = BeanLocator.getBean(SiteService.class).getSiteByFriendlyUrl(siteFriendlyUrl);
 				String template = site.getTheme().getTemplate();
 				final URL url = new URL(null, "sample://test?t=" + System.currentTimeMillis(), new CustomURLStreamHandler(template));

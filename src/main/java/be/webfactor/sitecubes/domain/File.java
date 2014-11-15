@@ -2,12 +2,14 @@ package be.webfactor.sitecubes.domain;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.util.MimeTypeUtils;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(uniqueConstraints = {
+		@UniqueConstraint(name = "UQ_SITE_FILENAME", columnNames = {"site_id", "file_name"})
+})
 public class File extends BaseEntity {
 
 	@Column(name = "file_name", nullable = false, unique = true)

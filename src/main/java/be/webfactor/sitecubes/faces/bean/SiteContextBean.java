@@ -41,7 +41,7 @@ public class SiteContextBean implements Serializable {
 	}
 
 	private void initSite() {
-		String siteFriendlyUrl = facesUtil.getParam("s");
+		String siteFriendlyUrl = facesUtil.getRequestParam("s");
 		site = siteService.getSiteByFriendlyUrl(siteFriendlyUrl);
 		if (site == null) {
 			site = siteService.getDefaultSite();
