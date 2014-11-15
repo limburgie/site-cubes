@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_SITE_TITLE", columnNames = {"site_id", "title"}),
+		@UniqueConstraint(name = "UQ_SITE_TITLE", columnNames = {"site_id", "title"})
 })
 public class ContentItem extends BaseEntity {
 
