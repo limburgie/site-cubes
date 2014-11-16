@@ -106,15 +106,21 @@ div.ui-messages ul {
 
 /* Panel */
 
-.ui-panel {
-	border: 1px solid #eee;
+div.ui-panel {
+	border: 1px solid #ddd;
 	margin-bottom: 15px;
+	padding: 0;
 }
 
 .ui-panel div.ui-panel-titlebar {
 	padding: 0.3em 1em;
 	text-align: center;
 	cursor: pointer;
+	border: none;
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	background: #ddd
 }
 
 .ui-panel div.ui-panel-titlebar .ui-panel-title {
@@ -201,6 +207,15 @@ body.dockbar-visible {
 	color: #777;
 }
 
+
+.portlet > .ui-panel-content {
+	max-height: 100px;
+	overflow: scroll;
+	margin: 0.5em 1em;
+	padding: 0 !important;
+}
+
+
 /* Controls hidden */
 
 .controls-hidden .portlet > .ui-panel-titlebar {
@@ -209,26 +224,46 @@ body.dockbar-visible {
 
 .controls-hidden .portlet,
 .controls-hidden .portlet > .ui-panel-content {
-	padding: 0;
+	margin: 0;
 	border: none;
 }
 
-.controls-hidden .ui-dashboard-column {
+.controls-hidden .portlet .ui-widget-content {
+	max-height: inherit !important;
+}
+
+div.ui-dashboard-column {
 	padding-bottom: 0;
 }
 
 body.dragging .ui-dashboard-column {
 	background: #fcf8e3;
-	padding: 5px;
+	padding: 15px;
 	border-radius: 6px;
 }
 
 body.dragging .portlet-placeholder {
 	background: #eee;
 	border-radius: 4px;
-	height: 50px !important;
-	margin-bottom: 10px;
+	height: 35px !important;
+	width: 100%;
+	margin-bottom: 15px;
 }
+
+body.dragging .ui-dashboard-column {
+	min-height: 100px;
+	margin-bottom: 20px;
+}
+
+body.dragging .ui-sortable-helper .panel-close-icon {
+	display: none;
+}
+
+body.dragging .ui-sortable-helper {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+
 
 .fa-spin {
 	margin-left: 5px;
