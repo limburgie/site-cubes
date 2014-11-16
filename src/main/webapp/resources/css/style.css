@@ -201,6 +201,13 @@ body.dockbar-visible {
 	color: #777;
 }
 
+
+.portlet .ui-widget-content {
+	height: 100px;
+	overflow: scroll;
+}
+
+
 /* Controls hidden */
 
 .controls-hidden .portlet > .ui-panel-titlebar {
@@ -213,22 +220,38 @@ body.dockbar-visible {
 	border: none;
 }
 
-.controls-hidden .ui-dashboard-column {
+.controls-hidden .portlet .ui-widget-content {
+	height: auto;
+}
+
+div.ui-dashboard-column {
 	padding-bottom: 0;
 }
 
 body.dragging .ui-dashboard-column {
 	background: #fcf8e3;
-	padding: 5px;
+	padding: 15px;
 	border-radius: 6px;
 }
 
 body.dragging .portlet-placeholder {
 	background: #eee;
 	border-radius: 4px;
-	height: 50px !important;
-	margin-bottom: 10px;
+	height: 35px !important;
+	width: 100%;
+	margin-bottom: 15px;
 }
+
+body.dragging .ui-dashboard-column {
+	min-height: 100px;
+	margin-bottom: 20px;
+}
+
+body.dragging .ui-sortable-helper .panel-close-icon {
+	display: none;
+}
+
+
 
 .fa-spin {
 	margin-left: 5px;
