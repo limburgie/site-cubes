@@ -38,6 +38,6 @@ a property called tomcat.dir which points to the Tomcat directory."/>
 	</target>
 
 	<target name="move-war" depends="check-properties">
-		<copy file="${target.dir}/${ant.project.name}.war" todir="${tomcat.webapps}" />
+		<copy file="${target.dir}/${ant.project.name}.war" tofile="${tomcat.webapps}/ROOT.war"/>
 	</target>
 </project>

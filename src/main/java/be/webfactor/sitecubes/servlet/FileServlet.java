@@ -36,11 +36,12 @@ public class FileServlet extends HttpServlet {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
-			long etagValue = file.getModifiedDate().getTime();
-			resp.setDateHeader("ETag", etagValue);
+			String etagValue = file.getFileName() + file.getModifiedDate().getTime();
+			resp.setHeader("ETag", etagValue);
 			resp.setHeader("Cache-Control", "max-age=60");
 
-			if (req.getDateHeader("If-None-Match") == etagValue) {
+			String checkValue = req.getHeader("If-None-Match");
+			if (checkValue != null && checkValue.equals(etagValue)) {
 				resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 				return;
 			}
