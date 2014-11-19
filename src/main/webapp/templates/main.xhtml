@@ -16,10 +16,6 @@
 	<h:outputScript name="webjars/bootstrap/3.3.0/js/bootstrap.min.js"/>
 	<h:outputScript name="js/dashboard.js"/>
 
-	<style type="text/css">
-		#{siteContextBean.site.theme.css}
-	</style>
-
 	<ui:insert name="head"/>
 </h:head>
 <h:body styleClass="#{!facesUtil.userLoggedIn or (!facesUtil.adminView and !sessionDataBean.controlsActive) ? 'controls-hidden' : ''}
