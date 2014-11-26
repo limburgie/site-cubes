@@ -23,6 +23,9 @@
 								</h:link>
 							</div>
 							<div class="list-group">
+								<h:link value="#{msg['users']}" outcome="/pages/admin/users" styleClass="list-group-item #{view.viewId == '/pages/admin/users.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
 								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
 								</h:link>
