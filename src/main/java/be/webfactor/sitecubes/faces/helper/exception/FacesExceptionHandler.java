@@ -34,6 +34,7 @@ public class FacesExceptionHandler {
 		if (actual instanceof FieldValidationException) {
 			FieldValidationException fve = (FieldValidationException) actual;
 			facesUtil.addErrorStyling(fve.getFieldWrapperClass());
+			facesUtil.error(fve.getResourceKey());
 		}
 		else if (actual instanceof MessagedException) {
 			MessagedException e = (MessagedException) actual;
