@@ -10,6 +10,7 @@
 		<class>be.webfactor.sitecubes.domain.ContentItem</class>
 		<class>be.webfactor.sitecubes.domain.ContentLocation</class>
 		<class>be.webfactor.sitecubes.domain.Site</class>
+		<class>be.webfactor.sitecubes.domain.Role</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:testdb" />
