@@ -18,6 +18,10 @@ public class User extends BaseEntity {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	public String getFullName() {
+		return String.format("%s %s", firstName, lastName);
+	}
+
 	public String getUsername() {
 		return username;
 	}

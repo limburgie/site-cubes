@@ -13,7 +13,7 @@ public class LoginBean {
 
 	@Inject private FacesUtil facesUtil;
 
-	private String name;
+	private String username;
 	private String password;
 	private boolean rememberMe;
 
@@ -21,12 +21,12 @@ public class LoginBean {
 		facesUtil.forwardTo("/j_spring_security_check");
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
