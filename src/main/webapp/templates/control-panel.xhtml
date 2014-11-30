@@ -46,19 +46,18 @@
 				</div>
 				<div id="push-footer"></div>
 			</div>
-			<div id="version-info">
+			<footer>
 				<div class="container">
-					<p class="text-muted text-center">
-						<small>
-							<strong>
-								#{msg['site-cubes']} #{build.version}
-							</strong>
-							&#160;&#160;&#160;|&#160;&#160;&#160;
-							#{msg['last-update-on']} #{build.date}
-						</small>
-					</p>
+					<ul>
+						<li class="version">
+							<span>#{msg['site-cubes']} #{build.version}</span>
+						</li>
+						<li>
+							<span>#{msg['last-update-on']} #{build.date}</span>
+						</li>
+					</ul>
 				</div>
-			</div>
+			</footer>
 		</ui:define>
 	</ui:composition>
 </f:view>
