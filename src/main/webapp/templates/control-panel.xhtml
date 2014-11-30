@@ -11,6 +11,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
+							<h2>#{siteContextBean.site.name}</h2>
 							<div class="list-group">
 								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}">
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
