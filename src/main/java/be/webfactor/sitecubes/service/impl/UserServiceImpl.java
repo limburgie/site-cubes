@@ -3,6 +3,8 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.User;
 import be.webfactor.sitecubes.repository.UserRepository;
 import be.webfactor.sitecubes.service.UserService;
+import be.webfactor.sitecubes.service.exception.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -20,7 +22,51 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public User save(User user) {
+		validate(user);
 		return userRepository.save(user);
+	}
+
+	public User getByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	private void validate(User user) {
+		checkForInvalidUsername(user);
+		checkForDuplicateUsername(user);
+		checkForInvalidPassword(user);
+		checkForInvalidFirstName(user);
+		checkForInvalidLastName(user);
+	}
+
+	private void checkForDuplicateUsername(User user) {
+		User usernameUser = getByUsername(user.getUsername());
+		if (usernameUser != null && !usernameUser.equals(user)) {
+			throw new DuplicateUsernameException();
+		}
+	}
+
+	private void checkForInvalidLastName(User user) {
+		if (StringUtils.isBlank(user.getLastName())) {
+			throw new InvalidUserLastNameException();
+		}
+	}
+
+	private void checkForInvalidFirstName(User user) {
+		if (StringUtils.isBlank(user.getFirstName())) {
+			throw new InvalidUserFirstNameException();
+		}
+	}
+
+	private void checkForInvalidPassword(User user) {
+		if (StringUtils.isBlank(user.getPassword())) {
+			throw new InvalidPasswordException();
+		}
+	}
+
+	private void checkForInvalidUsername(User user) {
+		if (StringUtils.isBlank(user.getUsername())) {
+			throw new InvalidUsernameException();
+		}
 	}
 
 	@Transactional
