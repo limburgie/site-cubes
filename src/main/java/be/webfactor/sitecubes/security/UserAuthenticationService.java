@@ -4,6 +4,7 @@ import be.webfactor.sitecubes.domain.User;
 import be.webfactor.sitecubes.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,5 +24,14 @@ public class UserAuthenticationService implements UserDetailsService {
 				user.getUsername(), user.getPassword(), true, true, true, true, Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 
+	public User getAuthenticatedUser() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails)principal).getUsername();
+			return userService.getByUsername(username);
+		}
+		return null;
+	}
 
 }
