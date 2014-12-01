@@ -4,12 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 public class Role extends BaseEntity {
 
 	private static final Role ADMINISTRATOR;
 	private static final Role SITE_ADMINISTRATOR;
+	public static final List<Role> DEFAULT_ROLES;
 
 	static {
 		ADMINISTRATOR = new Role();
@@ -19,6 +22,8 @@ public class Role extends BaseEntity {
 		SITE_ADMINISTRATOR = new Role();
 		SITE_ADMINISTRATOR.setName("Site Administrator");
 		SITE_ADMINISTRATOR.setType(RoleType.SITE);
+
+		DEFAULT_ROLES = Arrays.asList(ADMINISTRATOR, SITE_ADMINISTRATOR);
 	}
 
 	@Column(name = "name", nullable = false, unique = true)
