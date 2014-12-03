@@ -15,6 +15,7 @@ public class RoleServiceImpl implements RoleService {
 	@Inject private RoleRepository roleRepository;
 
 	@PostConstruct
+	@Transactional
 	public void createDefaultRoles() {
 		for (Role role : Role.DEFAULT_ROLES) {
 			Role dbRole = getRoleByName(role.getName());

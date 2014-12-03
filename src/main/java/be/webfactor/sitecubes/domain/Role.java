@@ -14,13 +14,16 @@ public class Role extends BaseEntity {
 	private static final Role SITE_ADMINISTRATOR;
 	public static final List<Role> DEFAULT_ROLES;
 
+	public static final String ADMIN_ROLE_NAME = "Administrator";
+	public static final String SITE_ADMIN_ROLE_NAME = "Site Administrator";
+
 	static {
 		ADMINISTRATOR = new Role();
-		ADMINISTRATOR.setName("Administrator");
+		ADMINISTRATOR.setName(ADMIN_ROLE_NAME);
 		ADMINISTRATOR.setType(RoleType.GLOBAL);
 
 		SITE_ADMINISTRATOR = new Role();
-		SITE_ADMINISTRATOR.setName("Site Administrator");
+		SITE_ADMINISTRATOR.setName(SITE_ADMIN_ROLE_NAME);
 		SITE_ADMINISTRATOR.setType(RoleType.SITE);
 
 		DEFAULT_ROLES = Arrays.asList(ADMINISTRATOR, SITE_ADMINISTRATOR);

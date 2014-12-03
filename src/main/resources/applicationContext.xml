@@ -32,6 +32,7 @@
 				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="file"/>
 				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="user"/>
 				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="role"/>
+				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="user_role"/>
 			</set>
 		</property>
 	</bean>
