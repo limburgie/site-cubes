@@ -8,12 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @Named
 @Transactional(readOnly = true)
 public class UserRoleServiceImpl implements UserRoleService {
 
 	@Inject private UserRoleRepository userRoleRepository;
+
+	public List<UserRole> getRoles(User user) {
+		return userRoleRepository.getUserRoles(user);
+	}
 
 	public boolean hasUserRole(User user, Role role) {
 		if (user == null || role == null) {

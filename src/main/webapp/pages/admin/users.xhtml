@@ -54,8 +54,15 @@
 								<h:inputText id="last-name" value="#{userBean.user.lastName}" styleClass="form-control" maxlength="255"/>
 							</div>
 						</p:tab>
-						<p:tab title="#{msg['permissions']}">
-							Permissions are managed here!
+						<p:tab title="#{msg['roles']}">
+							<p:dataTable value="#{userRoleBean.roles}" var="userRole" sortBy="#{userRole.role.name}" sortOrder="ascending" tableStyleClass="table table-striped">
+								<p:column headerText="#{msg['name']}" sortBy="#{userRole.role.name}">
+									#{userRole.role.name}
+								</p:column>
+								<p:column headerText="#{msg['site']}" sortBy="#{userRole.site.name}">
+									<h:outputText value="#{userRole.site.name}" rendered="#{!empty userRole.site}"/>
+								</p:column>
+							</p:dataTable>
 						</p:tab>
 					</p:tabView>
 					<p:commandButton value="#{msg.save}" action="#{userBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>

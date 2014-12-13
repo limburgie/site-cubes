@@ -127,6 +127,33 @@ div.ui-panel {
 	margin: 0;
 }
 
+/* Tabs */
+
+.ui-tabs {
+	padding: 0 !important;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+	padding: 0 !important;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li a {
+	color: inherit;
+}
+
+.ui-tabs .ui-tabs-panel {
+	padding: 10px 0 0 0 !important;
+}
+
+.ui-tabs.ui-tabs-top {
+	border: none;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-hover {
+	border-color: #ddd #ddd transparent #ddd !important;
+	color: inherit !important;
+}
+
 /* Code mirror */
 
 div.CodeMirror-scroll {
@@ -179,7 +206,7 @@ h3 {
 }
 
 h4 {
-	font-size: 14px;
+	font-size: 15px;
 }
 
 .btn:focus {

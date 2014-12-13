@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
 	@Cacheable("user_role")
@@ -21,5 +23,9 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
 	@CacheEvict(value = "user_role", allEntries = true)
 	UserRole save(UserRole userRole);
+
+	@Cacheable("user_role")
+	@Query("FROM UserRole WHERE user=?1")
+	List<UserRole> getUserRoles(User user);
 
 }
