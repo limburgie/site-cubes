@@ -18,4 +18,6 @@ public interface SiteService {
 
 	void delete(Site site);
 
+	Site getSite(long id);
+
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @Named @Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
@@ -32,6 +33,14 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional
 	public Role save(Role role) {
 		return roleRepository.save(role);
+	}
+
+	public Role getRole(long id) {
+		return roleRepository.findOne(id);
+	}
+
+	public List<Role> getRoles() {
+		return roleRepository.getRoles();
 	}
 
 }

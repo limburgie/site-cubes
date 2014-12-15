@@ -15,10 +15,26 @@ public class UserRoleBean implements Serializable {
 
 	@Inject private UserRoleService userRoleService;
 
+	private User user;
 	private List<UserRole> roles;
+	private UserRole userRole;
+
+	public void initNewRole() {
+		userRole = new UserRole();
+		userRole.setUser(user);
+	}
+
+	public void reset() {
+		roles = null;
+	}
 
 	public void init(User user) {
+		this.user = user;
 		roles = userRoleService.getRoles(user);
+	}
+
+	public UserRole getUserRole() {
+		return userRole;
 	}
 
 	public List<UserRole> getRoles() {

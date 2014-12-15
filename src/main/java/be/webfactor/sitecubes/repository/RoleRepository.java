@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	@Cacheable("role")
@@ -14,5 +16,12 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	@CacheEvict(value = "role", allEntries = true)
 	Role save(Role role);
+
+	@Cacheable("role")
+	Role findOne(Long id);
+
+	@Cacheable("role")
+	@Query("FROM Role ORDER BY name ASC")
+	List<Role> getRoles();
 
 }

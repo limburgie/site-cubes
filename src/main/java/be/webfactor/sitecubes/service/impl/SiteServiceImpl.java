@@ -116,4 +116,8 @@ public class SiteServiceImpl implements SiteService {
 		repository.delete(site);
 	}
 
+	public Site getSite(long id) {
+		return repository.findOne(id);
+	}
+
 }

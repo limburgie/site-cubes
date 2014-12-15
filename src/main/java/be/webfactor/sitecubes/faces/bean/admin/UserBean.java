@@ -51,6 +51,7 @@ public class UserBean implements Serializable {
 
 	public void cancel() {
 		initData();
+		userRoleBean.reset();
 	}
 
 	public List<User> getUsers() {
