@@ -1,10 +1,13 @@
 package be.webfactor.sitecubes.faces.bean.admin;
 
-import be.webfactor.sitecubes.domain.User;
 import be.webfactor.sitecubes.domain.UserRole;
+import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.UserRoleService;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,31 +17,50 @@ import java.util.List;
 public class UserRoleBean implements Serializable {
 
 	@Inject private UserRoleService userRoleService;
+	@Inject private FacesUtil facesUtil;
 
-	private User user;
-	private List<UserRole> roles;
+	private List<UserRole> userRoles;
 	private UserRole userRole;
 
-	public void initNewRole() {
+	@PostConstruct
+	public void initData() {
+		userRole = null;
+		userRoles = userRoleService.getUserRoles();
+	}
+
+	public void initNewUserRole() {
 		userRole = new UserRole();
-		userRole.setUser(user);
 	}
 
-	public void reset() {
-		roles = null;
+	public void onRowSelect(SelectEvent event) {
+		userRole = SerializationUtils.clone((UserRole) event.getObject());
 	}
 
-	public void init(User user) {
-		this.user = user;
-		roles = userRoleService.getRoles(user);
+	public void save() {
+		userRoleService.save(userRole);
+		facesUtil.info("role-assignment-saved-successfully");
+	}
+
+	public void delete() {
+		userRoleService.delete(userRole);
+		initData();
+		facesUtil.info("role-assignment-deleted-successfully");
+	}
+
+	public void cancel() {
+		initData();
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoles;
 	}
 
 	public UserRole getUserRole() {
 		return userRole;
 	}
 
-	public List<UserRole> getRoles() {
-		return roles;
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 
 }

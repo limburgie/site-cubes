@@ -16,7 +16,6 @@ import java.util.List;
 @Named @Scope("view")
 public class UserBean implements Serializable {
 
-	@Inject private UserRoleBean userRoleBean;
 	@Inject private UserService userService;
 	@Inject private FacesUtil facesUtil;
 
@@ -35,7 +34,6 @@ public class UserBean implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		user = SerializationUtils.clone((User) event.getObject());
-		userRoleBean.init(user);
 	}
 
 	public void save() {
@@ -51,7 +49,6 @@ public class UserBean implements Serializable {
 
 	public void cancel() {
 		initData();
-		userRoleBean.reset();
 	}
 
 	public List<User> getUsers() {

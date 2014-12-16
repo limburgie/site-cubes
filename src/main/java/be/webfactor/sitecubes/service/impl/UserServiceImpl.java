@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUsername(username);
 	}
 
+	public User getUser(long id) {
+		return userRepository.findOne(id);
+	}
+
 	private void validate(User user) {
 		checkForInvalidUsername(user);
 		checkForDuplicateUsername(user);

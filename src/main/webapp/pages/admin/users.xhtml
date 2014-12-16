@@ -9,10 +9,9 @@
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
 				<div class="btn-group">
-					<p:commandButton value="#{msg['add-user']}" action="#{userBean.initNewUser}" update="@form :data-form :detail-form :assign-role-form" styleClass="btn btn-default" rendered="#{empty userBean.user}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
-					<p:commandButton value="#{msg['back-to-overview']}" action="#{userBean.cancel}" update="@form :data-form :detail-form :assign-role-form" styleClass="btn btn-default" rendered="#{!empty userBean.user}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
-					<p:commandButton value="#{msg['assign-new-role']}" action="#{userRoleBean.initNewRole}" update="@form :data-form :detail-form :assign-role-form" styleClass="btn btn-default" rendered="#{!empty userBean.user.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
-					<p:commandButton value="#{msg['delete']}" action="#{userBean.delete}" update="@form :data-form :detail-form :assign-role-form" styleClass="btn btn-default" rendered="#{!empty userBean.user.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['add-user']}" action="#{userBean.initNewUser}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty userBean.user}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{userBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty userBean.user}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{userBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty userBean.user.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 				</div>
 				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 			</h:form>
@@ -31,7 +30,7 @@
 				</h:panelGroup>
 			</h:form>
 			<h:form id="detail-form">
-				<h:panelGroup layout="block" rendered="#{!empty userBean.user and empty userRoleBean.userRole}">
+				<h:panelGroup layout="block" rendered="#{!empty userBean.user}">
 					<h3>
 						<h:outputText value="#{msg['edit-user']}" rendered="#{!empty userBean.user.id}"/>
 						<h:outputText value="#{msg['new-user']}" rendered="#{empty userBean.user.id}"/>
@@ -52,40 +51,9 @@
 						<h:outputLabel for="last-name" value="#{msg['last-name']}" styleClass="control-label"/>
 						<h:inputText id="last-name" value="#{userBean.user.lastName}" styleClass="form-control" maxlength="255"/>
 					</div>
-					<h3>#{msg['roles']}</h3>
-					<p:dataTable value="#{userRoleBean.roles}" var="userRole" sortBy="#{userRole.role.name}" sortOrder="ascending" tableStyleClass="table table-striped">
-						<p:column headerText="#{msg['name']}" sortBy="#{userRole.role.name}">
-							#{userRole.role.name}
-						</p:column>
-						<p:column headerText="#{msg['site']}" sortBy="#{userRole.site.name}">
-							<h:outputText value="#{userRole.site.name}" rendered="#{!empty userRole.site}"/>
-						</p:column>
-					</p:dataTable>
 					<p:commandButton value="#{msg.save}" action="#{userBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<p:commandButton value="#{msg.cancel}" action="#{userBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
 					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
-				</h:panelGroup>
-			</h:form>
-			<h:form id="assign-role-form">
-				<h3>#{msg['new-role-assignment']}</h3>
-				<h:panelGroup layout="block" rendered="#{!empty userRoleBean.userRole}">
-					<div class="form-group">
-						<h:outputLabel for="role" value="#{msg['role']}"/>
-						<h:selectOneMenu id="role" value="#{userRoleBean.userRole.role}" styleClass="form-control">
-							<p:ajax update="site-selector"/>
-							<f:converter binding="#{roleConverter}"/>
-							<f:selectItems value="#{roleBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role}"/>
-						</h:selectOneMenu>
-					</div>
-					<h:panelGroup id="site-selector" layout="block">
-						<h:panelGroup layout="block" styleClass="form-group" rendered="#{userRoleBean.userRole.role.type == 'SITE'}">
-							<h:outputLabel for="site" value="#{msg['site']}"/>
-							<h:selectOneMenu id="site" value="#{userRoleBean.userRole.site}" styleClass="form-control">
-								<f:converter binding="#{siteConverter}"/>
-								<f:selectItems value="#{siteBean.sites}" var="site" itemLabel="#{site.name}" itemValue="#{site}"/>
-							</h:selectOneMenu>
-						</h:panelGroup>
-					</h:panelGroup>
 				</h:panelGroup>
 			</h:form>
 		</ui:define>

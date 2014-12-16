@@ -19,4 +19,10 @@ public interface UserRoleService {
 
 	void setUserSiteRole(User user, Site site, Role role);
 
+	List<UserRole> getUserRoles();
+
+	UserRole save(UserRole userRole);
+
+	void delete(UserRole userRole);
+
 }

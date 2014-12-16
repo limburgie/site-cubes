@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.*;
 import be.webfactor.sitecubes.repository.UserRoleRepository;
 import be.webfactor.sitecubes.service.UserRoleService;
+import be.webfactor.sitecubes.service.exception.DuplicateRoleAssignmentException;
 import be.webfactor.sitecubes.service.exception.InvalidRoleAssignmentException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +60,27 @@ public class UserRoleServiceImpl implements UserRoleService {
 			userRole.setRole(role);
 			userRoleRepository.save(userRole);
 		}
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoleRepository.findAll();
+	}
+
+	@Transactional
+	public UserRole save(UserRole userRole) {
+		User user = userRole.getUser();
+		Role role = userRole.getRole();
+		Site site = userRole.getSite();
+
+		if (hasUserRole(user, role) || hasUserSiteRole(user, site, role)) {
+			throw new DuplicateRoleAssignmentException();
+		}
+		return userRoleRepository.save(userRole);
+	}
+
+	@Transactional
+	public void delete(UserRole userRole) {
+		userRoleRepository.delete(userRole);
 	}
 
 }
