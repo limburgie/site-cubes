@@ -11,8 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Named @Scope("view")
 public class SiteContextBean implements Serializable {
@@ -22,22 +20,15 @@ public class SiteContextBean implements Serializable {
 	@Inject private FacesUtil facesUtil;
 
 	private Site site;
-	private List<Site> otherSites;
 
 	@PostConstruct
 	public void init() {
 		initSite();
-		initOtherSites();
 	}
 
 	public String getContentByTitle(String title) {
 		ContentItem item = contentItemService.getItemByTitle(site, title);
 		return item == null ? "" : item.getContent();
-	}
-
-	private void initOtherSites() {
-		otherSites = new ArrayList<Site>(siteService.getSites());
-		otherSites.remove(site);
 	}
 
 	private void initSite() {
@@ -46,10 +37,6 @@ public class SiteContextBean implements Serializable {
 		if (site == null) {
 			site = siteService.getDefaultSite();
 		}
-	}
-
-	public List<Site> getOtherSites() {
-		return otherSites;
 	}
 
 	public Site getSite() {

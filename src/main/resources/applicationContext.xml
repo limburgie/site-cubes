@@ -43,7 +43,8 @@
 		<sec:intercept-url pattern="/**" access="permitAll"/>
 
 		<sec:form-login login-page="/login" authentication-failure-url="/login?error=1"
-						username-parameter="username" password-parameter="password"/>
+						username-parameter="username" password-parameter="password"
+				default-target-url=""/>
 
 		<sec:logout logout-success-url="/"/>
 		<sec:remember-me remember-me-parameter="remember-me" user-service-ref="userAuthenticationService"/>
@@ -51,7 +52,13 @@
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider user-service-ref="userAuthenticationService"/>
 	</sec:authentication-manager>
-	<sec:global-method-security secured-annotations="enabled"/>
+	<sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+		<sec:expression-handler ref="expressionHandler"/>
+	</sec:global-method-security>
+
+	<bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="customPermissionEvaluator"/>
+	</bean>
 
 	<!-- Data -->
 	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/sitecubes"/>

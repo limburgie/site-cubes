@@ -9,15 +9,9 @@ import java.util.List;
 
 public interface UserRoleService {
 
-	List<UserRole> getRoles(User user);
-
 	boolean hasUserRole(User user, Role role);
 
 	boolean hasUserSiteRole(User user, Site site, Role role);
-
-	void setUserRole(User user, Role role);
-
-	void setUserSiteRole(User user, Site site, Role role);
 
 	List<UserRole> getUserRoles();
 

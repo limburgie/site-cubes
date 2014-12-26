@@ -3,7 +3,7 @@
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:p="http://primefaces.org/ui"
 		xmlns:ui="http://java.sun.com/jsf/facelets">
-	<h:form rendered="#{facesUtil.userLoggedIn}">
+	<h:form rendered="#{permissionBean.siteAdmin}">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -34,18 +34,18 @@
 							</li>
 						</ui:fragment>
 						<ui:fragment rendered="#{facesUtil.adminView}">
-							<ui:fragment rendered="#{empty siteContextBean.otherSites}">
+							<ui:fragment rendered="#{empty permissionBean.myOtherSites}">
 								<li>
 									<a href="#">#{siteContextBean.site.name}</a>
 								</li>
 							</ui:fragment>
-							<ui:fragment rendered="#{!empty siteContextBean.otherSites}">
+							<ui:fragment rendered="#{!empty permissionBean.myOtherSites}">
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										#{msg['manage-other-site']} <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<ui:repeat value="#{siteContextBean.otherSites}" var="site">
+										<ui:repeat value="#{permissionBean.myOtherSites}" var="site">
 											<li>
 												<h:link outcome="#{view.viewId}" value="#{site.name}">
 													<f:param name="s" value="#{site.friendlyUrl}"/>
@@ -68,12 +68,16 @@
 						</div>
 					</h:panelGroup>
 					<ul class="nav navbar-nav navbar-right">
-						<ui:fragment rendered="#{!facesUtil.adminView}">
+						<ui:fragment rendered="#{!facesUtil.adminView and !empty permissionBean.myOtherSites}">
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{msg['go-to']} <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									#{msg['go-to']} <b class="caret"></b>
+								</a>
 								<ul class="dropdown-menu">
-									<ui:repeat value="#{siteBean.sites}" var="site">
-										<li><a href="#{facesUtil.prefixWithContext(site.friendlyUrl)}">#{site.name}</a></li>
+									<ui:repeat value="#{permissionBean.myOtherSites}" var="site">
+										<li>
+											<a href="#{facesUtil.prefixWithContext(site.friendlyUrl)}">#{site.name}</a>
+										</li>
 									</ui:repeat>
 								</ul>
 							</li>

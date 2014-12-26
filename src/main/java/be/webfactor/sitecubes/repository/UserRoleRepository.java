@@ -25,10 +25,6 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	UserRole save(UserRole userRole);
 
 	@Cacheable("user_role")
-	@Query("FROM UserRole WHERE user=?1")
-	List<UserRole> getUserRoles(User user);
-
-	@Cacheable("user_role")
 	List<UserRole> findAll();
 
 	@CacheEvict(value = "user_role", allEntries = true)
