@@ -3,7 +3,6 @@ package be.webfactor.sitecubes.security;
 import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.domain.User;
 import be.webfactor.sitecubes.service.UserAdminService;
-import be.webfactor.sitecubes.service.UserService;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
@@ -14,12 +13,12 @@ import java.io.Serializable;
 @Named
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
-	@Inject private UserService userService;
 	@Inject private UserAdminService userAdminService;
+	@Inject private UserAuthenticationService userAuthenticationService;
 
 	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 		Site site = (targetDomainObject instanceof Site) ? (Site) targetDomainObject : null;
-		User user = userService.getByUsername((String) authentication.getPrincipal());
+		User user = userAuthenticationService.getAuthenticatedUser();
 		return userAdminService.isUserAdmin(user, site);
 	}
 
