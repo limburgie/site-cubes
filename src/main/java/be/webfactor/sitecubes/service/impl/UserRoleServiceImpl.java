@@ -7,7 +7,7 @@ import be.webfactor.sitecubes.domain.UserRole;
 import be.webfactor.sitecubes.repository.UserRoleRepository;
 import be.webfactor.sitecubes.service.UserRoleService;
 import be.webfactor.sitecubes.service.exception.DuplicateRoleAssignmentException;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -38,7 +38,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 		return userRoleRepository.findAll();
 	}
 
-	@Transactional @PreAuthorize("hasPermission(#userRole, 'admin')")
+	@Transactional @Secured("ROLE_ADMIN")
 	public UserRole save(UserRole userRole) {
 		User user = userRole.getUser();
 		Role role = userRole.getRole();
@@ -50,7 +50,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 		return userRoleRepository.save(userRole);
 	}
 
-	@Transactional @PreAuthorize("hasPermission(#userRole, 'admin')")
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(UserRole userRole) {
 		userRoleRepository.delete(userRole);
 	}
