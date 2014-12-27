@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.service.impl;
 import be.webfactor.sitecubes.domain.Role;
 import be.webfactor.sitecubes.repository.RoleRepository;
 import be.webfactor.sitecubes.service.RoleService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -15,13 +16,12 @@ public class RoleServiceImpl implements RoleService {
 
 	@Inject private RoleRepository roleRepository;
 
-	@PostConstruct
-	@Transactional
+	@PostConstruct @Transactional
 	public void createDefaultRoles() {
 		for (Role role : Role.DEFAULT_ROLES) {
 			Role dbRole = getRoleByName(role.getName());
 			if (dbRole == null) {
-				save(role);
+				roleRepository.save(role);
 			}
 		}
 	}
@@ -30,7 +30,7 @@ public class RoleServiceImpl implements RoleService {
 		return roleRepository.findByName(name);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public Role save(Role role) {
 		return roleRepository.save(role);
 	}
