@@ -8,6 +8,7 @@ import be.webfactor.sitecubes.service.ContentLocationService;
 import be.webfactor.sitecubes.service.exception.DuplicateContentTitleException;
 import be.webfactor.sitecubes.service.exception.InvalidContentTitleException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -29,7 +30,7 @@ public class ContentItemServiceImpl implements ContentItemService {
 		return contentItemRepository.getSiteContent(site);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public ContentItem save(ContentItem item) {
 		validate(item);
 		if (item.getId() == null) {
@@ -57,13 +58,13 @@ public class ContentItemServiceImpl implements ContentItemService {
 		}
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(ContentItem item) {
 		contentLocationService.deleteItemLocations(item);
 		contentItemRepository.delete(item);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void deleteSiteContent(Site site) {
 		for (ContentItem item : getItems(site)) {
 			delete(item);

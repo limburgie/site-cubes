@@ -3,6 +3,7 @@ package be.webfactor.sitecubes.faces.helper.exception;
 import be.webfactor.sitecubes.faces.helper.FacesUtil;
 import be.webfactor.sitecubes.service.exception.type.FieldValidationException;
 import be.webfactor.sitecubes.service.exception.type.MessagedException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 
 import javax.faces.FacesException;
@@ -41,6 +42,8 @@ public class FacesExceptionHandler {
 			facesUtil.error(e.getResourceKey(), e);
 		} else if (actual instanceof AccessDeniedException) {
 			facesUtil.permissionError(actual);
+		} else if (actual instanceof DataIntegrityViolationException) {
+			facesUtil.constraintError(actual);
 		} else {
 			facesUtil.unexpectedError(actual);
 		}

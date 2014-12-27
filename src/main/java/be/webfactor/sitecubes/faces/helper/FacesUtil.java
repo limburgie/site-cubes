@@ -66,6 +66,11 @@ public class FacesUtil {
 		LOGGER.error("A user performed an action he was not allowed to", t);
 	}
 
+	public void constraintError(Throwable actual) {
+		error("this-object-is-linked-to-others");
+		LOGGER.error(actual);
+	}
+
 	private void msg(FacesMessage.Severity severity, String key, Object... params) {
 		String message = MessageFormat.format(translate(key), params);
 		fc().addMessage(null, new FacesMessage(severity, message, message));

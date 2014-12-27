@@ -24,7 +24,7 @@ public class UserAuthenticationService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userService.getByUsername(username);
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		if (userAdminService.isUserAdmin(user, null)) {
+		if (!userAdminService.getAdminSites(user).isEmpty()) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
