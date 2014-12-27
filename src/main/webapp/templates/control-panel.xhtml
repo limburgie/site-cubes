@@ -8,7 +8,7 @@
 		</ui:define>
 		<ui:define name="body">
 			<div id="control-panel">
-				<div class="container">
+				<h:panelGroup layout="block" styleClass="container" rendered="#{permissionBean.siteAdmin}">
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
 							<h2>#{siteContextBean.site.name}</h2>
@@ -23,8 +23,11 @@
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
 								</h:link>
 							</div>
-							<div class="list-group">
+							<h:panelGroup layout="block" styleClass="list-group" rendered="#{permissionBean.admin}">
 								<h:link value="#{msg['users']}" outcome="/pages/admin/users" styleClass="list-group-item #{view.viewId == '/pages/admin/users.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['roles']}" outcome="/pages/admin/roles" styleClass="list-group-item #{view.viewId == '/pages/admin/roles.xhtml' ? 'active' : ''}">
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
 								</h:link>
 								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
@@ -36,14 +39,14 @@
 								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}">
 									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
 								</h:link>
-							</div>
+							</h:panelGroup>
 						</div>
 						<div class="col-md-8 col-sm-8">
 							<h2><ui:insert name="subtitle"/></h2>
 							<ui:insert name="main-content"/>
 						</div>
 					</div>
-				</div>
+				</h:panelGroup>
 				<div id="push-footer"></div>
 			</div>
 			<footer>

@@ -13,6 +13,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Cacheable("user")
 	List<User> findAll();
 
+	@Cacheable("user")
+	User findOne(Long id);
+
 	@CacheEvict(value = "user", allEntries = true)
 	void delete(User user);
 

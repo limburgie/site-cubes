@@ -20,14 +20,11 @@
 					<h3>#{msg['user-overview']}</h3>
 					<p:dataTable value="#{userBean.users}" var="user" tableStyleClass="table table-striped" selectionMode="single" selection="#{userBean.user}" rowKey="#{user.id}" sortBy="#{user.username}" sortOrder="ascending">
 						<p:ajax event="rowSelect" listener="#{userBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+						<p:column headerText="#{msg['name']}" sortBy="#{user.fullName}">
+							#{user.fullName}
+						</p:column>
 						<p:column headerText="#{msg['username']}" sortBy="#{user.username}">
 							#{user.username}
-						</p:column>
-						<p:column headerText="#{msg['first-name']}" sortBy="#{user.firstName}">
-							#{user.firstName}
-						</p:column>
-						<p:column headerText="#{msg['last-name']}" sortBy="#{user.lastName}">
-							#{user.lastName}
 						</p:column>
 					</p:dataTable>
 				</h:panelGroup>

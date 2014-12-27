@@ -14,6 +14,9 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 	List<Site> findAll();
 
 	@Cacheable("site")
+	Site findOne(Long id);
+
+	@Cacheable("site")
 	@Query("FROM Site WHERE defaultSite=true")
 	Site getDefaultSite();
 

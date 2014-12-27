@@ -23,12 +23,13 @@ public class SiteServiceImpl implements SiteService {
 	@Inject private ContentItemService contentItemService;
 	@Inject private ThemeService themeService;
 
-	@PostConstruct
+	@PostConstruct @Transactional
 	public void init() {
 		if (getDefaultSite() == null) {
 			Site defaultSite = Site.DEFAULT_SITE;
 			defaultSite.setTheme(themeService.getDefault());
-			save(defaultSite);
+			defaultSite = repository.save(defaultSite);
+			pageService.createRoot(defaultSite);
 		}
 	}
 
@@ -114,6 +115,10 @@ public class SiteServiceImpl implements SiteService {
 		contentItemService.deleteSiteContent(site);
 		pageService.deleteSitePages(site);
 		repository.delete(site);
+	}
+
+	public Site getSite(long id) {
+		return repository.findOne(id);
 	}
 
 }
