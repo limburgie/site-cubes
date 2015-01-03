@@ -21,4 +21,6 @@ public interface ContentItemService {
 	@PreAuthorize("hasPermission(#site, 'admin')")
 	void deleteSiteContent(Site site);
 
+	ContentItem getItem(long itemId);
+
 }

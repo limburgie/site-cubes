@@ -2,6 +2,7 @@ package be.webfactor.sitecubes.domain;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -57,6 +58,10 @@ public class File extends BaseEntity {
 			return "fa-file-text-o";
 		}
 		return "fa-file-o";
+	}
+
+	public String getShortenedFileName(int length) {
+		return StringUtils.abbreviate(fileName, length);
 	}
 
 	public String getFileName() {

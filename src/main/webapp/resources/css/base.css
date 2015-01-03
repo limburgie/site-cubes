@@ -1,0 +1,177 @@
+/* General */
+
+html, body {
+	height: 100%;
+}
+
+h2 {
+	font-size: 24px;
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h4 {
+	font-size: 15px;
+}
+
+/* Buttons */
+
+.ui-button-text-icon-left .ui-button-text {
+	padding: 0 0 0 15px;
+}
+
+.ui-icon.fa {
+	text-indent: 0;
+}
+
+.btn:focus {
+	outline: none !important;
+}
+
+.ui-button {
+	margin-right: 0;
+}
+
+.btn {
+	padding: 4px 9px;
+}
+
+.fa-spin {
+	margin-left: 5px;
+	color: #777;
+}
+
+/* Select */
+
+select.form-control {
+	height: 34px;
+}
+
+/* Editor */
+
+.ui-editor {
+	border: 1px solid #ccc;
+}
+
+.ui-overlay-visible .ui-editor iframe {
+	display: inherit !important;
+}
+
+/* Messages */
+
+.ui-messages > div {
+	border-radius: 3px;
+}
+
+.ui-messages ul {
+	margin: 0 5px;
+}
+
+.ui-messages .ui-messages-error-icon,
+.ui-messages .ui-messages-info-icon {
+	display: none;
+}
+
+.ui-messages .ui-messages-error-summary,
+.ui-messages .ui-messages-info-summary {
+	font-weight: normal;
+	margin: 0;
+}
+
+/* Login */
+
+.login-panel {
+	width: 300px;
+	margin: 50px auto;
+}
+
+/* Dockbar */
+
+.dockbar {
+	z-index: 900 !important;
+}
+
+.dockbar .controls-toggler {
+	margin: 5px;
+	color: #777;
+}
+
+body.dockbar-visible {
+	padding-top: 50px;
+}
+
+/* Datatable */
+
+.ui-datatable table {
+	table-layout: auto;
+}
+
+.ui-datatable table th.ui-state-default,
+.ui-datatable table th.ui-state-hover,
+.ui-datatable table th.ui-state-active {
+	background: none;
+	border: none;
+	border-bottom: 2px solid #ddd;
+}
+
+.ui-datatable table thead th {
+	text-align: left;
+	border-right-width: 0;
+	border-left-width: 0;
+	white-space: nowrap;
+}
+
+.ui-datatable table tbody td {
+	border: none;
+	border-top: 1px solid #ddd;
+	white-space: nowrap;
+}
+
+.ui-datatable table tbody td i {
+	margin-right: 5px;
+}
+
+.ui-datatable table tbody tr.ui-state-hover td,
+.ui-datatable table tbody tr.ui-state-highlight td {
+	background: #eee;
+}
+
+.ui-datatable .ui-icon-triangle-1-s:after,
+.ui-datatable .ui-icon-triangle-1-e:after,
+.ui-datatable .ui-icon-carat-2-n-s:after {
+	text-indent: 0;
+	font-family: "FontAwesome";
+	display: block;
+	font-size: 0.9em;
+}
+
+.ui-datatable .ui-icon-carat-2-n-s:after {
+	content: "\f0dc";
+	margin: 0 0 -2px 8px;
+}
+
+.ui-datatable .ui-icon-triangle-1-s:after {
+	content: "\f0dd";
+	margin: -3px 0 0 8px;
+}
+
+.ui-datatable .ui-icon-triangle-1-n:after {
+	content: "\f0de";
+	margin: 0 0 -4px 8px;
+}
+
+/* Code mirror */
+
+div.CodeMirror-scroll {
+	height: 450px;
+	color: #555;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.has-error div.CodeMirror-scroll {
+	border-color: #a94442;
+}
+

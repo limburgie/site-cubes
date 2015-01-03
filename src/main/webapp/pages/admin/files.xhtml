@@ -3,8 +3,11 @@
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:p="http://primefaces.org/ui">
-	<ui:composition template="../../templates/control-panel.xhtml">
+	<ui:composition template="/templates/control-panel.xhtml">
 		<ui:define name="subtitle">#{msg.files}</ui:define>
+		<ui:define name="cp-head">
+			<script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/js/file-upload.js"></script>
+		</ui:define>
 		<ui:define name="main-content">
 			<p:messages autoUpdate="true" globalOnly="true"/>
 			<h:form id="button-form">
@@ -21,9 +24,12 @@
 					<p:dataTable value="#{fileBean.files}" var="file" tableStyleClass="table table-striped" selectionMode="single" selection="#{fileBean.file}" rowKey="#{file.id}" sortBy="#{file.modifiedDate}" sortOrder="descending">
 						<p:ajax event="rowSelect" listener="#{fileBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
 						<p:column headerText="#{msg['file-name']}" sortBy="#{file.fileName}">
-							<i class="fa #{file.iconClass}"></i> #{file.fileName}
+							<i class="fa #{file.iconClass}"></i>
+							<h:outputText value="#{file.getShortenedFileName(70)}" styleClass="visible-lg-inline"/>
+							<h:outputText value="#{file.getShortenedFileName(50)}" styleClass="visible-md-inline"/>
+							<h:outputText value="#{file.getShortenedFileName(30)}" styleClass="visible-sm-inline visible-xs-inline"/>
 						</p:column>
-						<p:column headerText="#{msg['file-size']}" sortBy="#{file.fileSize}">
+						<p:column headerText="#{msg['file-size']}" sortBy="#{file.fileSize}" styleClass="hidden-xs">
 							#{file.readableFileSize}
 						</p:column>
 						<p:column headerText="#{msg['modified-date']}" sortBy="#{file.modifiedDate}">
@@ -47,7 +53,7 @@
 						<h:outputLabel value="#{msg['file-name']}" styleClass="control-label"/>
 						<p class="form-control-static">#{fileBean.file.fileName}</p>
 					</div>
-					<p:fileUpload fileUploadListener="#{fileBean.uploadExistingFile}" mode="advanced" sizeLimit="1048576" invalidSizeMessage="#{msg['file-is-too-large']}" update="@form"/>
+					<p:fileUpload fileUploadListener="#{fileBean.uploadExistingFile}" mode="advanced" sizeLimit="1048576" invalidSizeMessage="#{msg['file-is-too-large']}" update="@form" auto="true" previewWidth="50"/>
 				</ui:fragment>
 			</h:form>
 		</ui:define>

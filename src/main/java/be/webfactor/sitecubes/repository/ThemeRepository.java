@@ -16,7 +16,7 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
 	@Cacheable("theme")
 	List<Theme> findAll();
 
-	@CacheEvict(value = {"theme", "site"}, allEntries = true)
+	@CacheEvict(value = {"theme", "site", "page"}, allEntries = true)
 	Theme save(Theme theme);
 
 	@CacheEvict(value = "theme", allEntries = true)

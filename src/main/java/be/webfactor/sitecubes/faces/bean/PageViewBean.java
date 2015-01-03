@@ -103,14 +103,8 @@ public class PageViewBean implements Serializable {
 		panel.setWidgetVar(PANEL_PREFIX + location.getId());
 
 		HtmlPanelGroup actionsGroup = new HtmlPanelGroup();
-		CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
-		closeLink.setStyleClass("ui-panel-titlebar-icon panel-close-icon");
-		closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
-		closeLink.setUpdate(":dashboard");
-		HtmlOutputText closeIcon = new HtmlOutputText();
-		closeIcon.setStyleClass("fa fa-times");
-		closeLink.getChildren().add(closeIcon);
-		actionsGroup.getChildren().add(closeLink);
+		actionsGroup.getChildren().add(createCloseLink(location));
+		actionsGroup.getChildren().add(createEditLink(location));
 		panel.getFacets().put("actions", actionsGroup);
 
 		HtmlOutputText panelContent = new HtmlOutputText();
@@ -118,6 +112,29 @@ public class PageViewBean implements Serializable {
 		panelContent.setValue(location.getItem().getContent());
 		panel.getChildren().add(panelContent);
 		return panel;
+	}
+
+	private CommandLink createEditLink(ContentLocation location) {
+		CommandLink editLink = facesUtil.createPrimeComponent(CommandLink.class);
+		editLink.setStyleClass("ui-panel-titlebar-icon panel-close-icon");
+		editLink.setActionExpression(facesUtil.createMethodExpression("#{contentItemBean.selectItem("+location.getItem().getId()+")}", null));
+		editLink.setUpdate(":content-modifier-form");
+		editLink.setOncomplete("PF('contentModifierDialog').show()");
+		HtmlOutputText editIcon = new HtmlOutputText();
+		editIcon.setStyleClass("fa fa-pencil");
+		editLink.getChildren().add(editIcon);
+		return editLink;
+	}
+
+	private CommandLink createCloseLink(ContentLocation location) {
+		CommandLink closeLink = facesUtil.createPrimeComponent(CommandLink.class);
+		closeLink.setStyleClass("ui-panel-titlebar-icon panel-close-icon");
+		closeLink.setActionExpression(facesUtil.createMethodExpression("#{pageViewBean.remove("+location.getId()+")}", null));
+		closeLink.setUpdate(":dashboard");
+		HtmlOutputText closeIcon = new HtmlOutputText();
+		closeIcon.setStyleClass("fa fa-trash");
+		closeLink.getChildren().add(closeIcon);
+		return closeLink;
 	}
 
 	public void remove(long locationId) {

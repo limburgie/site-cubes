@@ -25,4 +25,6 @@ public interface ContentItemRepository extends JpaRepository<ContentItem, Long> 
 	@Query("FROM ContentItem WHERE site=?1 AND title=?2")
 	ContentItem getItemByTitle(Site site, String title);
 
+	@Cacheable("content_item")
+	ContentItem findOne(Long id);
 }

@@ -1,0 +1,108 @@
+/* Portlets */
+
+.portlet {
+	border: 1px solid #ddd;
+	margin-bottom: 15px;
+	padding: 0;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.portlet .ui-panel-titlebar {
+	padding: 0.3em 1em;
+	text-align: center;
+	cursor: pointer;
+	background: #ddd
+}
+
+.ui-portlet .ui-panel-titlebar .ui-panel-title {
+	margin: 0;
+}
+
+.portlet > .ui-panel-content {
+	max-height: 100px;
+	overflow: scroll;
+	margin: 0.5em 1em;
+	padding: 0;
+}
+
+.controls-hidden .portlet > .ui-panel-titlebar {
+	display: none;
+}
+
+.controls-hidden .portlet,
+.controls-hidden .portlet > .ui-panel-content {
+	margin: 0;
+	border: none;
+}
+
+.controls-hidden .portlet .ui-widget-content {
+	max-height: inherit;
+}
+
+.ui-dashboard .ui-dashboard-column {
+	float: none;
+	padding-bottom: 0;
+}
+
+body.dragging .ui-dashboard-column {
+	background: #fcf8e3;
+	padding: 15px;
+	border-radius: 6px;
+	min-height: 100px;
+	margin-bottom: 20px;
+}
+
+body.dragging .portlet-placeholder {
+	background: #eee;
+	border-radius: 4px;
+	height: 35px;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+body.dragging .ui-sortable-helper .panel-close-icon {
+	display: none;
+}
+
+.ui-panel .ui-panel-titlebar-icon,
+.ui-panel .ui-panel-titlebar-icon:hover,
+.ui-panel .ui-panel-titlebar-icon:focus {
+	margin-top: 0;
+}
+
+body.dragging .ui-sortable-helper {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+/* Dialog */
+
+.ui-dialog {
+	background: #fff;
+	border-radius: 5px;
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	display: none;
+}
+
+.ui-dialog h3 {
+	margin: 0;
+	border-bottom: 1px solid #ddd;
+	padding: 15px 20px;
+	background: #eee;
+	color: #555;
+}
+
+.ui-dialog form {
+	padding: 15px 20px;
+}
+
+.ui-widget-overlay {
+	background: rgba(0, 0, 0, 0.5);
+}
