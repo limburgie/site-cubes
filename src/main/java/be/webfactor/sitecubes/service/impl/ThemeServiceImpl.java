@@ -6,7 +6,6 @@ import be.webfactor.sitecubes.service.ThemeService;
 import be.webfactor.sitecubes.service.exception.DefaultThemeCannotBeDeletedException;
 import be.webfactor.sitecubes.service.exception.InvalidThemeNameException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +33,7 @@ public class ThemeServiceImpl implements ThemeService {
 		return themeRepository.findAll();
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public Theme save(Theme theme) {
 		validateName(theme);
 		return themeRepository.save(theme);
@@ -46,7 +45,7 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public void delete(Theme theme) {
 		if (theme.isDefaultTheme()) {
 			throw new DefaultThemeCannotBeDeletedException();

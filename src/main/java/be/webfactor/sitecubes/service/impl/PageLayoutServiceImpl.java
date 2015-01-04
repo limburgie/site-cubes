@@ -7,7 +7,6 @@ import be.webfactor.sitecubes.service.PageService;
 import be.webfactor.sitecubes.service.TemplateParser;
 import be.webfactor.sitecubes.service.exception.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -25,7 +24,7 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		return pageLayoutRepository.findAll();
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public PageLayout save(PageLayout layout) {
 		checkForValidName(layout);
 		checkForDuplicateName(layout);
@@ -66,7 +65,7 @@ public class PageLayoutServiceImpl implements PageLayoutService {
 		}
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public void delete(PageLayout layout) {
 		if (layout.isDefaultLayout()) {
 			throw new DefaultLayoutCannotBeDeletedException();

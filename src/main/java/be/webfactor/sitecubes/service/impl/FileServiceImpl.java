@@ -5,7 +5,6 @@ import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.FileRepository;
 import be.webfactor.sitecubes.service.FileService;
 import be.webfactor.sitecubes.service.exception.DuplicateFileNameException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -25,7 +24,7 @@ public class FileServiceImpl implements FileService {
 		return repository.getFileByName(site, fileName);
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public File save(File file) {
 		validate(file);
 		return repository.save(file);
@@ -42,7 +41,7 @@ public class FileServiceImpl implements FileService {
 		}
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public void delete(File file) {
 		repository.delete(file);
 	}
