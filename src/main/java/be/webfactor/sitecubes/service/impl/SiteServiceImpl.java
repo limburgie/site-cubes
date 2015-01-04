@@ -5,6 +5,7 @@ import be.webfactor.sitecubes.repository.SiteRepository;
 import be.webfactor.sitecubes.service.*;
 import be.webfactor.sitecubes.service.exception.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +41,7 @@ public class SiteServiceImpl implements SiteService {
 		return repository.findAll();
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public Site save(Site site) {
 		validate(site);
 		boolean isNew = site.isNew();
@@ -106,7 +107,7 @@ public class SiteServiceImpl implements SiteService {
 		return repository.findByName(name);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(Site site) {
 		if (site.isDefaultSite()) {
 			throw new DefaultSiteCannotBeDeletedException();

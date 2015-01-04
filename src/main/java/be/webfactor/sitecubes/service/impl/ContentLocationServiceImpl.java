@@ -6,6 +6,7 @@ import be.webfactor.sitecubes.domain.Page;
 import be.webfactor.sitecubes.domain.Site;
 import be.webfactor.sitecubes.repository.ContentLocationRepository;
 import be.webfactor.sitecubes.service.ContentLocationService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -17,7 +18,7 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 
 	@Inject private ContentLocationRepository contentLocationRepository;
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public ContentLocation save(ContentLocation location) {
 		return contentLocationRepository.save(location);
 	}
@@ -26,12 +27,12 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		return contentLocationRepository.findByPage(page);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void deleteItemLocations(ContentItem item) {
 		contentLocationRepository.deleteItemLocations(item);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void moveLocation(long locationId, String toColumnId, int toPosition) {
 		ContentLocation location = contentLocationRepository.findOne(locationId);
 		Page page = location.getPage();
@@ -71,17 +72,17 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		}
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void deletePageLocations(Page page) {
 		contentLocationRepository.deletePageLocations(page);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void deleteSiteLocations(Site site) {
 		contentLocationRepository.deleteSiteLocations(site);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public void delete(ContentLocation location) {
 		Page page = location.getPage();
 		String columnId = location.getColumnId();
@@ -104,7 +105,7 @@ public class ContentLocationServiceImpl implements ContentLocationService {
 		return contentLocationRepository.findOne(id);
 	}
 
-	@Transactional
+	@Transactional @Secured("ROLE_ADMIN")
 	public ContentLocation addItemInFirstColumn(Page page, ContentItem item) {
 		ContentLocation location = new ContentLocation();
 		location.setPage(page);
