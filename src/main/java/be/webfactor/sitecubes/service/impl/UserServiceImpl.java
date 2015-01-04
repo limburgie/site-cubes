@@ -5,7 +5,6 @@ import be.webfactor.sitecubes.repository.UserRepository;
 import be.webfactor.sitecubes.service.UserService;
 import be.webfactor.sitecubes.service.exception.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -21,7 +20,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll();
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public User save(User user) {
 		validate(user);
 		return userRepository.save(user);
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Transactional @Secured("ROLE_ADMIN")
+	@Transactional
 	public void delete(User user) {
 		userRepository.delete(user);
 	}
