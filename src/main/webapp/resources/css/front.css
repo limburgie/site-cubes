@@ -1,30 +1,33 @@
 /* Portlets */
 
 .portlet {
-	border: 1px solid #ddd;
 	margin-bottom: 15px;
 	padding: 0;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 }
 
-.portlet .ui-panel-titlebar {
-	padding: 0.3em 1em;
+.portlet > .ui-panel-titlebar {
+	padding: 0.5em 1em;
 	text-align: center;
 	cursor: pointer;
-	background: #ddd
+	background: #ccc;
+	border-radius: 5px 5px 0 0;
+	color: #fff;
+	font-weight: bold;
 }
 
-.ui-portlet .ui-panel-titlebar .ui-panel-title {
+.portlet > .ui-panel-titlebar > .ui-panel-title {
 	margin: 0;
 }
 
 .portlet > .ui-panel-content {
-	max-height: 100px;
 	overflow: scroll;
-	margin: 0.5em 1em;
-	padding: 0;
+	padding: 0.5em 1em;
+	border: 1px solid #ccc;
+	border-radius: 0 0 5px 5px;
+}
+
+.portlet > .ui-panel-content > .portlet-content {
+	max-height: 300px;
 }
 
 .controls-hidden .portlet > .ui-panel-titlebar {
@@ -33,11 +36,11 @@
 
 .controls-hidden .portlet,
 .controls-hidden .portlet > .ui-panel-content {
-	margin: 0;
+	padding: 0;
 	border: none;
 }
 
-.controls-hidden .portlet .ui-widget-content {
+.controls-hidden .portlet > .ui-panel-content > .portlet-content {
 	max-height: inherit;
 }
 
@@ -46,18 +49,25 @@
 	padding-bottom: 0;
 }
 
+.ui-panel .ui-panel-titlebar-icon,
+.ui-panel .ui-panel-titlebar-icon:hover,
+.ui-panel .ui-panel-titlebar-icon:focus {
+	margin-top: 0;
+	margin-left: 5px;
+}
+
 body.dragging .ui-dashboard-column {
 	background: #fcf8e3;
 	padding: 15px;
 	border-radius: 6px;
-	min-height: 100px;
+	min-height: 200px;
 	margin-bottom: 20px;
 }
 
 body.dragging .portlet-placeholder {
 	background: #eee;
 	border-radius: 4px;
-	height: 35px;
+	height: 50px !important;
 	width: 100%;
 	margin-bottom: 15px;
 }
@@ -66,13 +76,7 @@ body.dragging .ui-sortable-helper .panel-close-icon {
 	display: none;
 }
 
-.ui-panel .ui-panel-titlebar-icon,
-.ui-panel .ui-panel-titlebar-icon:hover,
-.ui-panel .ui-panel-titlebar-icon:focus {
-	margin-top: 0;
-}
-
-body.dragging .ui-sortable-helper {
+body.dragging .portlet.ui-sortable-helper {
 	background: rgba(255, 255, 255, 0.5);
 }
 

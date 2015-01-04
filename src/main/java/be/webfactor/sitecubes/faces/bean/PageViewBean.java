@@ -110,7 +110,14 @@ public class PageViewBean implements Serializable {
 		HtmlOutputText panelContent = new HtmlOutputText();
 		panelContent.setEscape(false);
 		panelContent.setValue(location.getItem().getContent());
-		panel.getChildren().add(panelContent);
+
+		HtmlPanelGroup panelContentGroup = new HtmlPanelGroup();
+		panelContentGroup.setLayout("block");
+		panelContentGroup.setStyleClass("portlet-content");
+		panelContentGroup.getChildren().add(panelContent);
+
+		panel.getChildren().add(panelContentGroup);
+
 		return panel;
 	}
 
