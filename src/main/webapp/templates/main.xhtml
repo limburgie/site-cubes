@@ -4,24 +4,26 @@
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<title><ui:insert name="title"/></title>
+	<f:facet name="first">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<title><ui:insert name="title"/></title>
+	</f:facet>
 
-	<h:outputStylesheet name="webjars/bootstrap/3.3.0/css/bootstrap.min.css"/>
-	<h:outputStylesheet name="webjars/bootstrap/3.3.0/css/bootstrap-theme.min.css"/>
-	<h:outputStylesheet name="webjars/font-awesome/4.2.0/css/font-awesome.css"/>
-	<h:outputStylesheet library="css" name="style.css"/>
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/webjars/bootstrap/3.3.0/css/bootstrap.min.css"/>
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/webjars/bootstrap/3.3.0/css/bootstrap-theme.min.css"/>
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/webjars/font-awesome/4.2.0/css/font-awesome.css"/>
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/base.css"/>
 
-	<h:outputScript name="webjars/bootstrap/3.3.0/js/bootstrap.min.js"/>
-	<h:outputScript name="js/dashboard.js"/>
+	<script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/webjars/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/js/dashboard.js"></script>
 
 	<ui:insert name="head"/>
 </h:head>
 <h:body styleClass="#{!facesUtil.userLoggedIn or (!facesUtil.adminView and !sessionDataBean.controlsActive) ? 'controls-hidden' : ''}
 	#{facesUtil.userLoggedIn ? 'dockbar-visible' : ''}">
-	<f:view>
-		<ui:include src="dockbar.xhtml"/>
+	<f:view contentType="text/html">
+		<ui:include src="/includes/dockbar.xhtml"/>
 		<ui:insert name="body"/>
 	</f:view>
 </h:body>

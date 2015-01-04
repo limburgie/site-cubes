@@ -4,7 +4,7 @@
 		xmlns:p="http://primefaces.org/ui"
 		xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:form rendered="#{permissionBean.siteAdmin}">
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-default navbar-fixed-top dockbar" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -99,7 +99,8 @@
 			</div>
 		</nav>
 	</h:form>
-	<p:dialog modal="true" widgetVar="contentSelectorDialog" header="#{msg['select-content']}" resizable="false" draggable="false" rendered="#{facesUtil.userLoggedIn and !facesUtil.adminView}">
+	<p:dialog modal="true" widgetVar="contentSelectorDialog" resizable="false" draggable="false" closable="true" closeOnEscape="true" rendered="#{facesUtil.userLoggedIn and !facesUtil.adminView}">
+		<h3>#{msg['select-content']}</h3>
 		<h:form id="content-selector-form">
 			<p:dataTable value="#{contentSelectorBean.items}" var="item" tableStyleClass="table table-striped content-selector" selectionMode="single" selection="#{contentSelectorBean.item}" rowKey="#{item.id}" sortBy="#{item.modifiedDate}" sortOrder="descending">
 				<p:ajax event="rowSelect" listener="#{contentSelectorBean.onRowSelect}" update=":dashboard" oncomplete="PF('contentSelectorDialog').hide()"/>
@@ -112,6 +113,25 @@
 					</h:outputText>
 				</p:column>
 			</p:dataTable>
+			<p:commandButton value="#{msg.cancel}" type="button" onclick="PF('contentSelectorDialog').hide()" icon="fa fa-ban" styleClass="btn btn-default"/>
+		</h:form>
+	</p:dialog>
+
+	<p:dialog modal="true" widgetVar="contentModifierDialog" resizable="false" draggable="false" closable="true" closeOnEscape="true" rendered="#{facesUtil.userLoggedIn and !facesUtil.adminView}">
+		<h3>#{msg['edit-content-item']}</h3>
+		<h:form id="content-modifier-form">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<div class="form-group content-title-field">
+				<h:outputLabel for="title" value="#{msg['title']}" styleClass="control-label"/>
+				<h:inputText id="title" value="#{contentItemBean.item.title}" styleClass="form-control" maxlength="255"/>
+			</div>
+			<div class="form-group">
+				<h:outputLabel for="content" value="#{msg['content']}" styleClass="control-label"/>
+				<p:editor id="content" value="#{contentItemBean.item.content}" controls="bold italic underline strikethrough subscript superscript style bullets numbering alignleft center alignright justify rule image link unlink cut copy paste pastetext source outdent indent"/>
+			</div>
+			<p:commandButton value="#{msg.save}" action="#{contentItemBean.save}" update="@form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#content-modifier-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+			<p:commandButton value="#{msg.cancel}" action="#{contentItemBean.cancel}" update="@form" oncomplete="PF('contentModifierDialog').hide()" styleClass="btn btn-link" onclick="$('#content-modifier-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+			<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
 		</h:form>
 	</p:dialog>
 </f:view>

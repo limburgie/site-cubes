@@ -41,10 +41,12 @@ public class FileBean implements Serializable {
 
 	public void initUpload() {
 		upload = true;
+		facesUtil.js("styleUpload();");
 	}
 
 	public void onRowSelect(SelectEvent event) {
 		file = SerializationUtils.clone((File) event.getObject());
+		facesUtil.js("styleUpload();");
 	}
 
 	public boolean isUpload() {

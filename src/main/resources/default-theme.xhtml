@@ -1,12 +1,8 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:p="http://primefaces.org/ui">
-	<ui:composition template="/templates/main.xhtml">
-		<ui:define name="title">
-			#{pageViewBean.page.name} | #{pageViewBean.page.site.name}
-		</ui:define>
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:composition template="/templates/theme-base.xhtml">
 		<ui:define name="body">
 			<div class="container">
 				<ul class="nav nav-pills basic-navigation">
@@ -38,10 +34,7 @@
 				</ul>
 			</div>
 			<div class="container">
-				<h2>#{pageViewBean.page.name}</h2>
-				<p:dashboard id="dashboard" binding="#{pageViewBean.dashboardComponent}">
-					<p:ajax event="reorder" listener="#{pageViewBean.reorder}"/>
-				</p:dashboard>
+				<ui:include src="/includes/portlets.xhtml"/>
 			</div>
 		</ui:define>
 	</ui:composition>

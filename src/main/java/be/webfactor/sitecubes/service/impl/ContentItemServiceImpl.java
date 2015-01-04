@@ -71,4 +71,8 @@ public class ContentItemServiceImpl implements ContentItemService {
 		}
 	}
 
+	public ContentItem getItem(long itemId) {
+		return contentItemRepository.findOne(itemId);
+	}
+
 }

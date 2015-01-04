@@ -42,6 +42,10 @@ public class ContentItemBean implements Serializable {
 		item = SerializationUtils.clone((ContentItem) event.getObject());
 	}
 
+	public void selectItem(long itemId) {
+		item = contentItemService.getItem(itemId);
+	}
+
 	public void save() {
 		contentItemService.save(item);
 		facesUtil.info("content-saved-successfully");
