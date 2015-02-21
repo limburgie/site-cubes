@@ -30,6 +30,10 @@
 	max-height: 300px;
 }
 
+.controls-hidden .portlet > .ui-panel-content {
+	overflow: inherit;
+}
+
 .controls-hidden .portlet > .ui-panel-titlebar {
 	display: none;
 }
