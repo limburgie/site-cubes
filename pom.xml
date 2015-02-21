@@ -270,13 +270,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>internal.releases</id>
+			<id>web-factor</id>
 			<name>internal.releases</name>
 			<url>http://nexus.joren.web-factor.be/nexus/content/repositories/releases</url>
 			<uniqueVersion>true</uniqueVersion>
 		</repository>
 		<snapshotRepository>
-			<id>internal.snapshots</id>
+			<id>web-factor</id>
 			<name>internal.snapshots</name>
 			<url>http://nexus.joren.web-factor.be/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
