@@ -270,9 +270,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:git@github.com:limburgie/site-cubes.git</connection>
-		<url>scm:git:git@github.com:limburgie/site-cubes.git</url>
-		<developerConnection>scm:git:git@github.com:limburgie/site-cubes.git</developerConnection>
+		<connection>scm:git:https://github.com/limburgie/site-cubes.git</connection>
+		<url>https://github.com/limburgie/site-cubes</url>
+		<developerConnection>scm:git:https://github.com/limburgie/site-cubes.git</developerConnection>
 	</scm>
 
 	<distributionManagement>
