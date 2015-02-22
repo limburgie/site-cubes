@@ -1,0 +1,60 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/control-panel.xhtml">
+		<ui:define name="subtitle">#{msg.content}</ui:define>
+		<ui:define name="main-content">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-content']}" action="#{contentItemBean.initNewItem}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty contentItemBean.item}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{contentItemBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{contentItemBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty contentItemBean.item.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+				</div>
+				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+			</h:form>
+			<h:form id="data-form">
+				<h:panelGroup layout="block" rendered="#{empty contentItemBean.item}">
+					<h3>#{msg['content-overview']}</h3>
+					<p:dataTable value="#{contentItemBean.items}" var="item" tableStyleClass="table table-striped" selectionMode="single" selection="#{contentItemBean.item}" rowKey="#{item.id}" sortBy="#{item.modifiedDate}" sortOrder="descending">
+						<p:ajax event="rowSelect" listener="#{contentItemBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+						<p:column headerText="#{msg['title']}" sortBy="#{item.title}">
+							#{item.title}
+						</p:column>
+						<p:column headerText="#{msg['modified-date']}" sortBy="#{item.modifiedDate}">
+							<h:outputText value="#{item.modifiedDate}">
+								<f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{msg['creation-date']}" sortBy="#{item.createDate}">
+							<h:outputText value="#{item.createDate}">
+								<f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+			<h:form id="detail-form">
+				<h:panelGroup layout="block" rendered="#{!empty contentItemBean.item}">
+					<h3>
+						<h:outputText value="#{msg['edit-content-item']}" rendered="#{!empty contentItemBean.item.id}"/>
+						<h:outputText value="#{msg['new-content-item']}" rendered="#{empty contentItemBean.item.id}"/>
+					</h3>
+					<div class="form-group content-title-field">
+						<h:outputLabel for="title" value="#{msg['title']}" styleClass="control-label"/>
+						<h:inputText id="title" value="#{contentItemBean.item.title}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group">
+						<h:outputLabel for="content" value="#{msg['content']}" styleClass="control-label"/>
+						<p:editor id="content" value="#{contentItemBean.item.content}" controls="bold italic underline strikethrough subscript superscript style bullets numbering alignleft center alignright justify rule image link unlink cut copy paste pastetext source outdent indent"/>
+					</div>
+					<p:commandButton value="#{msg.save}" action="#{contentItemBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<p:commandButton value="#{msg.cancel}" action="#{contentItemBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

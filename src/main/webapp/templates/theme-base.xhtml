@@ -1,0 +1,20 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="head">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/front.css"/>
+			<style type="text/css">
+				#{pageViewBean.page.site.theme.css}
+			</style>
+			<ui:insert name="head-ext"/>
+		</ui:define>
+		<ui:define name="title">
+			#{pageViewBean.page.name} | #{pageViewBean.page.site.name}
+		</ui:define>
+		<ui:define name="body">
+			<h2>#{pageViewBean.page.name}</h2>
+			<ui:include src="/includes/portlets.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

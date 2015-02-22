@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project name="site-cubes" basedir=".">
+
+	<property file="build.properties" />
+
+	<property name="war.name" value="${ant.project.name}.war" />
+	<property name="tomcat.webapps" value="${tomcat.dir}/webapps" />
+	<property name="tomcat.deployed.webapp" value="${tomcat.dir}/${war.name}"/>
+	<property name="webapp.dir" value="./src/main/webapp" />
+	<property name="target.dir" value="./target" />
+	<property name="classes.dir" value="${target.dir}/classes" />
+
+	<!-- Public targets (Check "Hide Internal Targets" to view only these) -->
+
+	<target name="deploy" description="Deploy" depends="package,move-war"/>
+	<target name="clean-deploy" description="Clean, install and deploy" depends="remove-war,deploy"/>
+
+	<!-- Private targets -->
+
+	<target name="check-properties" unless="tomcat.dir">
+		<fail message="Create a build.properties next to the root pom.xml first, containing
+a property called tomcat.dir which points to the Tomcat directory."/>
+	</target>
+
+	<target name="install-dependencies" depends="check-properties">
+		<!-- This is an "abstract" target that should be implemented in the super build files -->
+	</target>
+
+	<target name="remove-war" description="Undeploy" depends="check-properties">
+		<delete dir="${tomcat.deployed.webapp}" />
+	</target>
+
+	<target name="package" depends="check-properties">
+		<exec executable="mvn" dir="${basedir}">
+			<arg value="clean" />
+			<arg value="package" />
+		</exec>
+	</target>
+
+	<target name="move-war" depends="check-properties">
+		<copy file="${target.dir}/${ant.project.name}.war" tofile="${tomcat.webapps}/ROOT.war"/>
+	</target>
+</project>

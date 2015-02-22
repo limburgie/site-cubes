@@ -1,0 +1,67 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/control-panel.xhtml">
+		<ui:define name="subtitle">#{msg.pages}</ui:define>
+		<ui:define name="main-content">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-root-page']}" action="#{pagesBean.initRootPage}" update="@form :detail-form" styleClass="btn btn-default" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['add-child-page']}" action="#{pagesBean.initChildPage}" update="@form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page.id}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{pagesBean.delete}" update="@form :tree-form :detail-form" styleClass="btn btn-default" rendered="#{!empty pagesBean.page.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+				</div>
+				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+			</h:form>
+			<div class="row">
+				<div class="col-md-5">
+					<h:form id="tree-form">
+						<h3>#{msg['page-tree']}</h3>
+						<p:tree value="#{pagesBean.root}" var="page" selectionMode="single" draggable="true" droppable="true">
+							<p:ajax event="select" listener="#{pagesBean.onNodeSelect}" update=":detail-form :button-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+							<p:ajax event="dragdrop" listener="#{pagesBean.onDragDrop}" update="@form :button-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+							<p:treeNode>
+								<h:outputText value="#{page.name}"/>
+							</p:treeNode>
+						</p:tree>
+					</h:form>
+				</div>
+				<div class="col-md-7">
+					<h:form id="detail-form">
+						<h:panelGroup layout="block" rendered="#{!empty pagesBean.page}">
+							<h3>
+								<h:outputText value="#{msg['edit-page']}" rendered="#{!empty pagesBean.page.id}"/>
+								<h:outputText value="#{msg['new-page']}" rendered="#{empty pagesBean.page.id}"/>
+							</h3>
+							<div class="form-group page-name-field">
+								<h:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
+								<h:inputText id="name" value="#{pagesBean.page.name}" styleClass="form-control" maxlength="255">
+									<p:ajax event="keyup" listener="#{pagesBean.updateFriendlyUrl}" update="friendly-url"/>
+								</h:inputText>
+							</div>
+							<div class="form-group page-friendly-url-field">
+								<h:outputLabel for="friendly-url" value="#{msg['friendly-url']}" styleClass="control-label"/>
+								<div class="input-group">
+									<span class="input-group-addon">/</span>
+									<h:inputText id="friendly-url" value="#{pagesBean.page.friendlyUrl}" styleClass="form-control" maxlength="255"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<h:outputLabel for="page-layout" value="#{msg['page-layout']}"/>
+								<h:selectOneMenu id="page-layout" value="#{pagesBean.page.layout}" styleClass="form-control">
+									<f:converter binding="#{pageLayoutConverter}"/>
+									<f:selectItems value="#{pageLayoutsBean.layouts}" var="layout" itemLabel="#{layout.name}" itemValue="#{layout}"/>
+								</h:selectOneMenu>
+							</div>
+							<p:commandButton value="#{msg.save}" action="#{pagesBean.save}" update="@form :button-form :tree-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+							<p:commandButton value="#{msg.cancel}" action="#{pagesBean.cancel}" update="@form :button-form :tree-form" styleClass="btn btn-link" onstart="$('.detail-spinner').show()" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+							<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+						</h:panelGroup>
+					</h:form>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

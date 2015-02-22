@@ -1,0 +1,70 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="head">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/control-panel.css"/>
+			<ui:insert name="cp-head"/>
+		</ui:define>
+		<ui:define name="title">
+			<ui:insert name="subtitle"/> | #{siteContextBean.site.name} | #{msg['control-panel']}
+		</ui:define>
+		<ui:define name="body">
+			<div id="control-panel">
+				<h:panelGroup layout="block" styleClass="container" rendered="#{permissionBean.siteAdmin}">
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<h2>#{siteContextBean.site.name}</h2>
+							<div class="list-group">
+								<h:link value="#{msg['pages']}" outcome="/pages/admin/pages" styleClass="list-group-item #{view.viewId == '/pages/admin/pages.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['content']}" outcome="/pages/admin/content" styleClass="list-group-item #{view.viewId == '/pages/admin/content.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['files']}" outcome="/pages/admin/files" styleClass="list-group-item #{view.viewId == '/pages/admin/files.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+							</div>
+							<h:panelGroup layout="block" styleClass="list-group" rendered="#{permissionBean.admin}">
+								<h:link value="#{msg['users']}" outcome="/pages/admin/users" styleClass="list-group-item #{view.viewId == '/pages/admin/users.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['roles']}" outcome="/pages/admin/roles" styleClass="list-group-item #{view.viewId == '/pages/admin/roles.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['sites']}" outcome="/pages/admin/sites" styleClass="list-group-item #{view.viewId == '/pages/admin/sites.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['themes']}" outcome="/pages/admin/themes" styleClass="list-group-item #{view.viewId == '/pages/admin/themes.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+								<h:link value="#{msg['page-layouts']}" outcome="/pages/admin/layouts" styleClass="list-group-item #{view.viewId == '/pages/admin/layouts.xhtml' ? 'active' : ''}">
+									<f:param name="s" value="#{siteContextBean.site.friendlyUrl}"/>
+								</h:link>
+							</h:panelGroup>
+						</div>
+						<div class="col-md-8 col-sm-8">
+							<h2><ui:insert name="subtitle"/></h2>
+							<ui:insert name="main-content"/>
+						</div>
+					</div>
+				</h:panelGroup>
+				<div id="push-footer"></div>
+			</div>
+			<footer>
+				<div class="container">
+					<ul>
+						<li class="version">
+							<span>#{msg['site-cubes']} #{build.version}</span>
+						</li>
+						<li>
+							<span>#{msg['last-update-on']} #{build.date}</span>
+						</li>
+					</ul>
+				</div>
+			</footer>
+		</ui:define>
+	</ui:composition>
+</f:view>

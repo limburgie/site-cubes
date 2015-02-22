@@ -1,0 +1,70 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/control-panel.xhtml">
+		<ui:define name="subtitle">#{msg.sites}</ui:define>
+		<ui:define name="main-content">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-site']}" action="#{siteBean.initNewSite}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty siteBean.site}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{siteBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty siteBean.site}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{siteBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty siteBean.site.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+				</div>
+				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+			</h:form>
+			<h:form id="data-form">
+				<h:panelGroup layout="block" rendered="#{empty siteBean.site}">
+					<h3>#{msg['site-overview']}</h3>
+					<p:dataTable value="#{siteBean.sites}" var="site" tableStyleClass="table table-striped" selectionMode="single" selection="#{siteBean.site}" rowKey="#{site.id}" sortBy="#{site.name}" sortOrder="ascending">
+						<p:ajax event="rowSelect" listener="#{siteBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+						<p:column headerText="#{msg['name']}" sortBy="#{site.name}">
+							#{site.name}
+						</p:column>
+						<p:column headerText="#{msg['friendly-url']}" sortBy="#{site.friendlyUrl}">
+							/#{site.friendlyUrl}
+						</p:column>
+						<p:column headerText="#{msg['virtual-host']}" sortBy="#{site.virtualHost}">
+							#{site.virtualHost}
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+			<h:form id="detail-form">
+				<h:panelGroup layout="block" rendered="#{!empty siteBean.site}">
+					<h3>
+						<h:outputText value="#{msg['edit-site']}" rendered="#{!empty siteBean.site.id}"/>
+						<h:outputText value="#{msg['new-site']}" rendered="#{empty siteBean.site.id}"/>
+					</h3>
+					<div class="form-group site-name-field">
+						<h:outputLabel for="name" value="#{msg['name']}" styleClass="control-label"/>
+						<h:inputText id="name" value="#{siteBean.site.name}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group site-friendly-url-field">
+						<h:outputLabel for="friendly-url" value="#{msg['friendly-url']}" styleClass="control-label"/>
+						<div class="input-group">
+							<span class="input-group-addon">/</span>
+							<h:inputText id="friendly-url" value="#{siteBean.site.friendlyUrl}" styleClass="form-control" maxlength="255"/>
+						</div>
+					</div>
+					<div class="form-group site-virtual-host-field">
+						<h:outputLabel for="virtual-host" value="#{msg['virtual-host']}" styleClass="control-label"/>
+						<h:inputText id="virtual-host" value="#{siteBean.site.virtualHost}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group">
+						<h:outputLabel for="theme" value="#{msg['theme']}"/>
+						<h:selectOneMenu id="theme" value="#{siteBean.site.theme}" styleClass="form-control">
+							<f:converter binding="#{themeConverter}"/>
+							<f:selectItems value="#{themeBean.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+						</h:selectOneMenu>
+					</div>
+					<p:commandButton value="#{msg.save}" action="#{siteBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<p:commandButton value="#{msg.cancel}" action="#{siteBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

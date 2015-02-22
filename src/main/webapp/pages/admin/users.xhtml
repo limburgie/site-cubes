@@ -1,0 +1,61 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/control-panel.xhtml">
+		<ui:define name="subtitle">#{msg['users']}</ui:define>
+		<ui:define name="main-content">
+			<p:messages autoUpdate="true" globalOnly="true"/>
+			<h:form id="button-form">
+				<div class="btn-group">
+					<p:commandButton value="#{msg['add-user']}" action="#{userBean.initNewUser}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{empty userBean.user}" icon="fa fa-plus" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['back-to-overview']}" action="#{userBean.cancel}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty userBean.user}" icon="fa fa-reply" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+					<p:commandButton value="#{msg['delete']}" action="#{userBean.delete}" update="@form :data-form :detail-form" styleClass="btn btn-default" rendered="#{!empty userBean.user.id}" icon="fa fa-trash-o" onclick="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+				</div>
+				<i id="button-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+			</h:form>
+			<h:form id="data-form">
+				<h:panelGroup layout="block" rendered="#{empty userBean.user}">
+					<h3>#{msg['user-overview']}</h3>
+					<p:dataTable value="#{userBean.users}" var="user" tableStyleClass="table table-striped" selectionMode="single" selection="#{userBean.user}" rowKey="#{user.id}" sortBy="#{user.username}" sortOrder="ascending">
+						<p:ajax event="rowSelect" listener="#{userBean.onRowSelect}" update="@form :button-form :detail-form" onstart="$('#button-form button').attr('disabled','disabled');$('#button-spinner').show();"/>
+						<p:column headerText="#{msg['name']}" sortBy="#{user.fullName}">
+							#{user.fullName}
+						</p:column>
+						<p:column headerText="#{msg['username']}" sortBy="#{user.username}">
+							#{user.username}
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+			<h:form id="detail-form">
+				<h:panelGroup layout="block" rendered="#{!empty userBean.user}">
+					<h3>
+						<h:outputText value="#{msg['edit-user']}" rendered="#{!empty userBean.user.id}"/>
+						<h:outputText value="#{msg['new-user']}" rendered="#{empty userBean.user.id}"/>
+					</h3>
+					<div class="form-group user-username-field">
+						<h:outputLabel for="username" value="#{msg['username']}" styleClass="control-label"/>
+						<h:inputText id="username" value="#{userBean.user.username}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group user-password-field">
+						<h:outputLabel for="password" value="#{msg['password']}" styleClass="control-label"/>
+						<h:inputSecret id="password" value="#{userBean.user.password}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group user-first-name-field">
+						<h:outputLabel for="first-name" value="#{msg['first-name']}" styleClass="control-label"/>
+						<h:inputText id="first-name" value="#{userBean.user.firstName}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<div class="form-group user-last-name-field">
+						<h:outputLabel for="last-name" value="#{msg['last-name']}" styleClass="control-label"/>
+						<h:inputText id="last-name" value="#{userBean.user.lastName}" styleClass="form-control" maxlength="255"/>
+					</div>
+					<p:commandButton value="#{msg.save}" action="#{userBean.save}" update="@form :button-form :data-form" styleClass="btn btn-primary" icon="fa fa-floppy-o" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<p:commandButton value="#{msg.cancel}" action="#{userBean.cancel}" update="@form :button-form :data-form" styleClass="btn btn-link" onclick="$('#detail-form button').attr('disabled','disabled');$('#detail-spinner').show();"/>
+					<i id="detail-spinner" class="fa fa-circle-o-notch fa-spin" style="display:none;"></i>
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
