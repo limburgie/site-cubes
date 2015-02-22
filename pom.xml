@@ -9,7 +9,7 @@
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	
+
 	<properties>
 		<version.jsf>2.2.8-02</version.jsf>
 		<version.spring>4.0.8.RELEASE</version.spring>
@@ -268,6 +268,12 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<scm>
+		<connection>scm:git:git@github.com:limburgie/site-cubes.git</connection>
+		<url>scm:git:git@github.com:limburgie/site-cubes.git</url>
+		<developerConnection>scm:git:git@github.com:limburgie/site-cubes.git</developerConnection>
+	</scm>
 
 	<distributionManagement>
 		<repository>
